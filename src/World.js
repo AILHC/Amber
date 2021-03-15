@@ -12,15 +12,37 @@ class Spin extends ApeECS.System {
   }
 
   update(tick) {
-    const entities = this.mainQuery.execute()
+    const entities  = this.mainQuery.execute()
     const frameInfo = this.world.getEntity('frame')
 
     for (const entity of entities) {
       const rotation = entity.getOne('Rotation')
-      const mesh = entity.getOne('HasMesh')
+      const mesh     = entity.getOne('HasMesh')
 
       mesh.mesh.rotation.x += rotation.x * frameInfo.c.time.deltaTime * .0001
       mesh.mesh.rotation.y += rotation.y * frameInfo.c.time.deltaTime * .0001
+
+      mesh.update()
+    }
+  }
+}
+
+class Remesh extends ApeECS.System {
+  init() {
+    this.mainQuery = this.createQuery().fromAll('HasMesh', 'Visibility', 'Shadows')
+  }
+
+  update(tick) {
+    const entities = this.mainQuery.execute()
+
+    for (const entity of entities) {
+      const visibility = entity.getOne('Visibility')
+      const shadows    = entity.getOne('Shadows')
+      const mesh       = entity.getOne('HasMesh')
+
+      mesh.mesh.visible       = visibility.visible
+      mesh.mesh.castShadow    = shadows.cast
+      mesh.mesh.receiveShadow = shadows.receive
 
       mesh.update()
     }
@@ -37,11 +59,34 @@ class Reposition extends ApeECS.System {
 
     for (const entity of entities) {
       const position = entity.getOne('Position')
-      const mesh = entity.getOne('HasMesh')
+      const mesh     = entity.getOne('HasMesh')
 
       mesh.mesh.position.x = position.x
       mesh.mesh.position.y = position.y
       mesh.mesh.position.z = position.z
+
+      mesh.update()
+    }
+  }
+}
+
+class Rematerial extends ApeECS.System {
+  init() {
+    this.mainQuery = this.createQuery().fromAll('HasMesh', 'Material')
+  }
+
+  update(tick) {
+    const entities = this.mainQuery.execute()
+
+    for (const entity of entities) {
+      const material = entity.getOne('Material')
+      const mesh     = entity.getOne('HasMesh')
+
+      mesh.mesh.material.color = {
+        r: material.red,
+        g: material.green,
+        b: material.blue
+      }
 
       mesh.update()
     }
@@ -54,6 +99,17 @@ FrameInfo.properties = {
   deltaFrame: 0,
   time: 0,
   epoch: 0,
+}
+
+class Visibility extends ApeECS.Component {}
+Visibility.properties = {
+  visible: true
+}
+
+class Shadows extends ApeECS.Component {}
+Shadows.properties = {
+  cast: false,
+  receive: false,
 }
 
 class Position extends ApeECS.Component {}
@@ -69,6 +125,14 @@ Rotation.properties = {
   y: 0,
 }
 
+class Material extends ApeECS.Component {}
+Material.properties = {
+  red: 0,
+  green: 1,
+  blue: 0,
+  kind: 'MeshBasicMaterial',
+}
+
 class HasMesh extends ApeECS.Component {}
 HasMesh.properties = {
   mesh: {}
@@ -77,11 +141,18 @@ HasMesh.properties = {
 export const world = new ApeECS.World()
 
 world.registerComponent(FrameInfo)
+
+world.registerComponent(Visibility)
+world.registerComponent(Shadows)
 world.registerComponent(Position)
 world.registerComponent(Rotation)
+world.registerComponent(Material)
 world.registerComponent(HasMesh)
+
 world.registerSystem('frame', Spin)
+world.registerSystem('frame', Remesh)
 world.registerSystem('frame', Reposition)
+world.registerSystem('frame', Rematerial)
 
 const frame = world.createEntity({
   id: 'frame',
@@ -107,6 +178,22 @@ export const box = world.createEntity({
       x: mesh.position.x,
       y: mesh.position.y,
       z: mesh.position.z,
+    },
+    material: {
+      type: 'Material',
+      kind: mesh.material.type,
+      red: mesh.material.color.r,
+      greeg: mesh.material.color.g,
+      blue: mesh.material.color.b,
+    },
+    visibility: {
+      type: 'Visibility',
+      visible: mesh.visible,
+    },
+    shadows: {
+      type: 'Shadows',
+      cast: mesh.castShadow,
+      receive: mesh.receiveShadow,
     },
     mesh: {
       type: 'HasMesh',
