@@ -1,17 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const slice = createSlice({
-  name: 'EntityEditor',
+  name: 'HasMesh',
   initialState: {
-    currentEntity: 'frame',
   },
   reducers: {
-    setCurrentEntity: (state, { payload }) => ({ ...state, currentEntity: payload })
   }
 })
 
 export const {
-  setCurrentEntity
+} = slice.actions
+
+const {
 } = slice.actions
 
 export default slice.reducer

@@ -1,17 +1,25 @@
 import React from 'react'
 
+import Editors from '../Editors'
+
 import {
 } from './EntityEditorStyles'
 
 const Component = ({
-  rotateX,
-  rotateY,
-  setRotateX,
-  setRotateY,
+  options,
+  currentEntity,
+  setCurrentEntity,
+  currentComponents,
 }) =>
   <div>
-    <input type="range" id="rotate-x" min={0} max={100} step={0.000001} value={rotateX} onChange={e => setRotateX(e.target.value)} />
-    <input type="range" id="rotate-y" min={0} max={100} step={0.000001} value={rotateY} onChange={e => setRotateY(e.target.value)} />
+    <select onChange={e => setCurrentEntity(e.target.value)} value={currentEntity.id}>
+      {options.map(o => <option key={o} value={o}>{o}</option>)}
+    </select>
+    {currentComponents.map((c, index) => {
+      const Comp = Editors[c.name]
+
+      return <Comp key={`${c.name}:${index}`} entity={currentEntity.id} />
+    })}
   </div>
 
 export default Component

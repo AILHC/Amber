@@ -27,11 +27,40 @@ class Spin extends ApeECS.System {
   }
 }
 
+class Reposition extends ApeECS.System {
+  init() {
+    this.mainQuery = this.createQuery().fromAll('HasMesh', 'Position')
+  }
+
+  update(tick) {
+    const entities = this.mainQuery.execute()
+
+    for (const entity of entities) {
+      const position = entity.getOne('Position')
+      const mesh = entity.getOne('HasMesh')
+
+      mesh.mesh.position.x = position.x
+      mesh.mesh.position.y = position.y
+      mesh.mesh.position.z = position.z
+
+      mesh.update()
+    }
+  }
+}
+
 class FrameInfo extends ApeECS.Component {}
 FrameInfo.properties = {
   deltaTime: 0,
   deltaFrame: 0,
-  time: 0
+  time: 0,
+  epoch: 0,
+}
+
+class Position extends ApeECS.Component {}
+Position.properties = {
+  x: 0,
+  y: 0,
+  z: 0,
 }
 
 class Rotation extends ApeECS.Component {}
@@ -48,9 +77,11 @@ HasMesh.properties = {
 export const world = new ApeECS.World()
 
 world.registerComponent(FrameInfo)
+world.registerComponent(Position)
 world.registerComponent(Rotation)
 world.registerComponent(HasMesh)
 world.registerSystem('frame', Spin)
+world.registerSystem('frame', Reposition)
 
 const frame = world.createEntity({
   id: 'frame',
@@ -70,6 +101,12 @@ export const box = world.createEntity({
   c: {
     rotation: {
       type: 'Rotation',
+    },
+    position: {
+      type: 'Position',
+      x: mesh.position.x,
+      y: mesh.position.y,
+      z: mesh.position.z,
     },
     mesh: {
       type: 'HasMesh',
@@ -92,6 +129,7 @@ function update(time) {
     epoch = time
 
   frame.c.time.update({
+    epoch,
     time,
     deltaTime: delta,
     deltaFrame: delta / 16.667

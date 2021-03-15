@@ -1,21 +1,27 @@
-import { box } from '../World'
+import { world } from '../World'
 
 import {
-  setRotateX,
-  setRotateY,
+  setCurrentEntity
 } from './EntityEditorSlice'
 
 export const actions = {
-  setRotateX,
-  setRotateY,
+  setCurrentEntity
 }
 
 export const localState = globalState => {
-  box.c.rotation.x = globalState.EntityEditor.rotateX
-  box.c.rotation.y = globalState.EntityEditor.rotateY
+  let options = []
+
+  for (const key of world.entities)
+    options.push(key[0])
+
+  const currentEntity = world.entities.get(globalState.EntityEditor.currentEntity)
+  const keys = Object.keys(currentEntity.types)
+
+  const currentComponents = keys.map(k => ({ name: k, ...currentEntity.types[k].values().next().value }))
 
   return {
-    rotateX: globalState.EntityEditor.rotateX,
-    rotateY: globalState.EntityEditor.rotateY,
+    options,
+    currentEntity,
+    currentComponents,
   }
 }
