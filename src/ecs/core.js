@@ -8,7 +8,7 @@ import {
 import World from './Ape'
 
 import C from './components'
-import S from'./systems'
+import S from './systems'
 
 export const Components = C
 export const Systems    = S
