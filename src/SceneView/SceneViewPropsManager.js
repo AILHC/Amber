@@ -1,4 +1,4 @@
-import { box } from '../World'
+import { box } from '../ecs/core'
 
 // import {
 // } from './SceneViewSlice'
@@ -6,4 +6,4 @@ import { box } from '../World'
 export const actions = {
 }
 
-export const localState = globalState => ({ elements: [box.c.mesh.mesh] })
+export const localState = globalState => ({ elements: [box.mesh] })

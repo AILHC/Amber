@@ -1,19 +1,21 @@
-import Shadows   from './editors/Shadows/ShadowsContainer'
-import HasMesh    from './editors/HasMesh/HasMeshContainer'
-import Rotation   from './editors/Rotation/RotationContainer'
-import Position   from './editors/Position/PositionContainer'
-import Material   from './editors/Material/MaterialContainer'
-import FrameInfo  from './editors/FrameInfo/FrameInfoContainer'
-import Visibility from './editors/Visibility/VisibilityContainer'
+import HasMesh        from './editors/HasMesh/HasMeshComponent'
+import Rotation       from './editors/Rotation/RotationComponent'
+import Position       from './editors/Position/PositionComponent'
+import Visibility     from './editors/Visibility/VisibilityComponent'
+import CastShadows    from './editors/CastShadows/CastShadowsComponent'
+import CurrentFrame   from './editors/CurrentFrame/CurrentFrameComponent'
+import MaterialColor  from './editors/MaterialColor/MaterialColorComponent'
+import ReceiveShadows from './editors/ReceiveShadows/ReceiveShadowsComponent'
 
 const All = {
-  Shadows,
   HasMesh,
   Rotation,
   Position,
-  Material,
-  FrameInfo,
   Visibility,
+  CastShadows,
+  CurrentFrame,
+  MaterialColor,
+  ReceiveShadows,
 }
 
 export default All

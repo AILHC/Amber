@@ -26,7 +26,7 @@ const Component = ({
         max={max}
         step={step}
         value={value}
-        onChange={e => update(e.target.value)}
+        onChange={e => update(parseFloat(e.target.value))}
       />
     </div>
   </div>

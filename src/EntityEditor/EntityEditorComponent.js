@@ -18,7 +18,10 @@ const Component = ({
     {currentComponents.map((c, index) => {
       const Comp = Editors[c.name]
 
-      return <Comp key={`${c.name}:${index}`} entity={currentEntity.id} />
+      console.log(c.name, Comp)
+
+      return Comp ? <Comp key={`${c.name}:${index}`} entity={currentEntity.id} /> : null
+      
     })}
   </div>
 
