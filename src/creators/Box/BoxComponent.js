@@ -33,8 +33,10 @@ const materials = [
 ]
 
 const Component = ({
+  id,
   size,
   color,
+  setId,
   create,
   setSize,
   material,
@@ -44,6 +46,8 @@ const Component = ({
   setPosition,
 }) =>
   <div className="box creator">
+    <h3>ID</h3>
+    <input type="text" value={id} placeholder="Give this Box a name" onChange={e => setId(e.target.value)} />
     <h3>Color</h3>
     <SketchPicker color={color} onChange={val => setColor(val.rgb)} />
     <h3>Size</h3>
@@ -61,7 +65,7 @@ const Component = ({
     <Slider label="x" value={position.x} update={val => setPosition({ ...position, x: val })} {...positionCommon} />
     <Slider label="y" value={position.y} update={val => setPosition({ ...position, y: val })} {...positionCommon} />
     <Slider label="z" value={position.z} update={val => setPosition({ ...position, z: val })} {...positionCommon} />
-    <button onClick={() => create(color, size, material, position)}>Create</button>
+    <button onClick={() => create(id, color, size, material, position)}>Create</button>
   </div>
 
 export default Component

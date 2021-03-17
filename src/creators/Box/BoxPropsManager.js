@@ -1,4 +1,5 @@
 import {
+  setId,
   create,
   setSize,
   setColor,
@@ -7,6 +8,7 @@ import {
 } from './BoxSlice'
 
 export const actions = {
+  setId,
   create,
   setSize,
   setColor,
@@ -15,6 +17,7 @@ export const actions = {
 }
 
 export const localState = globalState => ({
+  id: globalState.Box.id,
   material: globalState.Box.material,
   color: {
     r: globalState.Box.r,

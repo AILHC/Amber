@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 
 import World from '../../ecs/Ape'
 
@@ -13,8 +13,16 @@ const common = {
 const Component = ({ entity }) => {
   const { rotation } = World.getEntity(entity).c
 
-  const [x, setX] = useState(rotation.x)
-  const [y, setY] = useState(rotation.y)
+  let [x, setX] = useState(undefined)
+  let [y, setY] = useState(undefined)
+
+  useMemo(() => {
+    x = rotation.x
+    y = rotation.y
+
+    setX(x)
+    setY(y)
+  }, [entity])
 
   return <div className="rotation editor">
     <h3>Rotation Speed</h3>

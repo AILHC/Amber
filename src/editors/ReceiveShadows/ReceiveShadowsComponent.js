@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 
 import World from '../../ecs/Ape'
 
 import Toggle from '../../ui/Toggle/ToggleComponent'
 
 const updateTarget = (component, value) => {
+  component.value = value
   component.target.receiveShadow = value
 
   component.update()
@@ -13,7 +14,13 @@ const updateTarget = (component, value) => {
 const Component = ({ entity }) => {
   const { receiveShadows } = World.getEntity(entity).c
 
-  const [receive, setReceive] = useState(receiveShadows.value)
+  let [receive, setReceive] = useState(undefined)
+
+  useMemo(() => {
+    receive = receiveShadows.value
+
+    setReceive(receive)
+  }, [entity])
 
   return <div className="shadows editor">
     <Toggle field="Receive Shadows" label="Receive Shadows" checked={receive} toggle={() => { setReceive(!receive); updateTarget(receiveShadows, !receive) }} />

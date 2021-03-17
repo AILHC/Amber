@@ -17,6 +17,7 @@ import { registerEditableEntity } from '../../EntityEditor/EntityEditorSlice'
 const slice = createSlice({
   name: 'Box',
   initialState: {
+    id: '',
     r: 0,
     g: 255,
     b: 0,
@@ -32,11 +33,13 @@ const slice = createSlice({
     setSize:     (state, { payload }) => ({ ...state, ...payload }),
     setColor:    (state, { payload }) => ({ ...state, ...payload }),
     setPosition: (state, { payload }) => ({ ...state, ...payload }),
+    setId:       (state, { payload }) => ({ ...state, id:       payload }),
     setMaterial: (state, { payload }) => ({ ...state, material: payload }),
   }
 })
 
 export const {
+  setId,
   setSize,
   setColor,
   setMaterial,
@@ -45,7 +48,7 @@ export const {
 
 export default slice.reducer
 
-export const create = (color, size, material, position) => dispatch => {
+export const create = (id, color, size, material, position) => dispatch => {
   const geometry = new BoxGeometry(size.width, size.height, size.depth)
   const mat      = new THREE[material]({ color: new Color(color.r / 255, color.g / 255, color.b / 255) })
   const mesh     = new Mesh(geometry, mat)
@@ -53,7 +56,7 @@ export const create = (color, size, material, position) => dispatch => {
   mesh.position.set(position.x, position.y, position.z)
   
   World.createEntity({
-    id: 'box',
+    id,
     c: {
       rotation: {
         type: 'Rotation',
@@ -95,5 +98,5 @@ export const create = (color, size, material, position) => dispatch => {
   
   scene.add(mesh)
 
-  registerEditableEntity('box')(dispatch)
+  registerEditableEntity(id)(dispatch)
 }

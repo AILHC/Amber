@@ -15,25 +15,28 @@ import { registerEditableEntity } from '../../EntityEditor/EntityEditorSlice'
 const slice = createSlice({
   name: 'DirectionalLight',
   initialState: {
+    id: '',
     r: 255,
     g: 255,
     b: 255,
     intensity: 1,
   },
   reducers: {
+    setId:        (state, { payload }) => ({ ...state, id: payload }),
     setColor:     (state, { payload }) => ({ ...state, ...payload.rgb }),
     setIntensity: (state, { payload }) => ({ ...state, intensity: payload }),
   }
 })
 
 export const {
+  setId,
   setColor,
   setIntensity
 } = slice.actions
 
 export default slice.reducer
 
-export const create = (color, intensity) => dispatch => {
+export const create = (id, color, intensity) => dispatch => {
   const light = new DirectionalLight(new Color(color.r / 255, color.g / 255, color.b / 255), intensity)
   const obj = new Object3D()
 
@@ -42,7 +45,7 @@ export const create = (color, intensity) => dispatch => {
   obj.position.set(0, 1, -1)
 
   World.createEntity({
-    id: 'DirectionalLight',
+    id,
     c: {
       intensity: {
         type: 'Intensity',
@@ -72,5 +75,5 @@ export const create = (color, intensity) => dispatch => {
   scene.add(obj)
   scene.add(light)
 
-  registerEditableEntity('DirectionalLight')(dispatch)
+  registerEditableEntity(id)(dispatch)
 }

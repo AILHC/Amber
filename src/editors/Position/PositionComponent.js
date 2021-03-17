@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 
 import World from '../../ecs/Ape'
 
@@ -11,6 +11,7 @@ const common = {
 }
 
 const updateTarget = (component, axis, value) => {
+  component[axis] = value
   component.target[axis] = value
 
   component.update()
@@ -19,9 +20,19 @@ const updateTarget = (component, axis, value) => {
 const Component = ({ entity }) => {
   const { position } = World.getEntity(entity).c
 
-  const [x, setX] = useState(position.x)
-  const [y, setY] = useState(position.y)
-  const [z, setZ] = useState(position.z)
+  let [x, setX] = useState(undefined)
+  let [y, setY] = useState(undefined)
+  let [z, setZ] = useState(undefined)
+
+  useMemo(() => {
+    x = position.x
+    y = position.y
+    z = position.z
+
+    setX(x)
+    setY(y)
+    setZ(z)
+  }, [entity])
 
   return <div className="position editor">
     <h3>Position</h3>

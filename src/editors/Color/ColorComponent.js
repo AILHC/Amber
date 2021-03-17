@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 
 import { SketchPicker } from 'react-color'
 
 import World from '../../ecs'
 
 const updateTarget = (component, value) => {
+  component.r = value.r
+  component.g = value.g
+  component.b = value.b
+
   component.target.r = value.r / 255
   component.target.g = value.g / 255
   component.target.b = value.b / 255
@@ -15,7 +19,13 @@ const updateTarget = (component, value) => {
 const Component = ({ entity }) => {
   const { color } = World.getEntity(entity).c
 
-  const [rgb, setRGB] = useState({ r: color.r, g: color.g, b: color.b })
+  let [rgb, setRGB] = useState(undefined)
+
+  useMemo(() => {
+    rgb = color
+
+    setRGB(rgb)
+  }, [entity])
 
   return <div className="color editor">
     <h3>Color</h3>
