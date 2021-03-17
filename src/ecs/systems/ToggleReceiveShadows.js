@@ -18,6 +18,6 @@ class ToggleReceiveShadows extends System {
   }
 }
 
-World.registerSystem('frame', ToggleReceiveShadows)
+// World.registerSystem('frame', ToggleReceiveShadows)
 
 export default ToggleReceiveShadows

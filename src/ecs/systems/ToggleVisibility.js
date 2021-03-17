@@ -18,6 +18,6 @@ class ToggleVisibility extends System {
   }
 }
 
-World.registerSystem('frame', ToggleVisibility)
+// World.registerSystem('frame', ToggleVisibility)
 
 export default ToggleVisibility

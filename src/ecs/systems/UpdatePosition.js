@@ -22,6 +22,6 @@ class UpdatePosition extends System {
   }
 }
 
-World.registerSystem('frame', UpdatePosition)
+// World.registerSystem('frame', UpdatePosition)
 
 export default UpdatePosition

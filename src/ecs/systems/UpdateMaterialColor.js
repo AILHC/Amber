@@ -20,6 +20,6 @@ class UpdateMaterialColor extends System {
   }
 }
 
-World.registerSystem('frame', UpdateMaterialColor)
+// World.registerSystem('frame', UpdateMaterialColor)
 
 export default UpdateMaterialColor

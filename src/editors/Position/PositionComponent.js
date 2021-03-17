@@ -10,6 +10,12 @@ const common = {
   max:  5,
 }
 
+const updateTarget = (component, axis, value) => {
+  component.target[axis] = value
+
+  component.update()
+}
+
 const Component = ({ entity }) => {
   const { position } = World.getEntity(entity).c
 
@@ -19,9 +25,9 @@ const Component = ({ entity }) => {
 
   return <div className="position editor">
     <h3>Position</h3>
-    <Slider label="X" value={x} update={val => { setX(val); position.update({ x: val, y,      z      }) }} {...common} />
-    <Slider label="Y" value={y} update={val => { setY(val); position.update({ x,      y: val, z      }) }} {...common} />
-    <Slider label="Z" value={z} update={val => { setZ(val); position.update({ x,      y,      z: val }) }} {...common} />
+    <Slider label="X" value={x} update={val => { setX(val); updateTarget(position, 'x', val) }} {...common} />
+    <Slider label="Y" value={y} update={val => { setY(val); updateTarget(position, 'y', val) }} {...common} />
+    <Slider label="Z" value={z} update={val => { setZ(val); updateTarget(position, 'z', val) }} {...common} />
   </div>
 }
 

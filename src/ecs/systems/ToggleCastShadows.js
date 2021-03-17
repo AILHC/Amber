@@ -18,6 +18,6 @@ class ToggleCastShadows extends System {
   }
 }
 
-World.registerSystem('frame', ToggleCastShadows)
+// World.registerSystem('frame', ToggleCastShadows)
 
 export default ToggleCastShadows
