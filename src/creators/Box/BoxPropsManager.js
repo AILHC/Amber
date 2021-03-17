@@ -15,9 +15,13 @@ export const actions = {
 }
 
 export const localState = globalState => ({
-  color:    globalState.Box.color,
   material: globalState.Box.material,
-  size:     {
+  color: {
+    r: globalState.Box.r,
+    g: globalState.Box.g,
+    b: globalState.Box.b,
+  },
+  size: {
     width:  globalState.Box.width,
     height: globalState.Box.height,
     depth:  globalState.Box.depth,

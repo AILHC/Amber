@@ -11,6 +11,10 @@ export const actions = {
 }
 
 export const localState = globalState => ({
-  color:     globalState.DirectionalLight.color,
+  color: {
+    r: globalState.DirectionalLight.r,
+    g: globalState.DirectionalLight.g,
+    b: globalState.DirectionalLight.b,
+  },
   intensity: globalState.DirectionalLight.intensity,
 })

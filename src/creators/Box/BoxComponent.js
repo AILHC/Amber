@@ -45,7 +45,7 @@ const Component = ({
 }) =>
   <div className="box creator">
     <h3>Color</h3>
-    <SketchPicker color={color} onChange={val => setColor(val.hex)} />
+    <SketchPicker color={color} onChange={val => setColor(val.rgb)} />
     <h3>Size</h3>
     <Slider label="width"  value={size.width}  update={val => setSize({ ...size, width:  val })} {...sizeCommon} />
     <Slider label="height" value={size.height} update={val => setSize({ ...size, height: val })} {...sizeCommon} />

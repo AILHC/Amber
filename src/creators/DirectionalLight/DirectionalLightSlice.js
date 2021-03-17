@@ -15,12 +15,14 @@ import { registerEditableEntity } from '../../EntityEditor/EntityEditorSlice'
 const slice = createSlice({
   name: 'DirectionalLight',
   initialState: {
-    color: '#fff',
+    r: 255,
+    g: 255,
+    b: 255,
     intensity: 1,
   },
   reducers: {
-    setColor:     (state, { payload }) => ({ ...state, color:     payload.hex }),
-    setIntensity: (state, { payload }) => ({ ...state, intensity: payload     }),
+    setColor:     (state, { payload }) => ({ ...state, ...payload.rgb }),
+    setIntensity: (state, { payload }) => ({ ...state, intensity: payload }),
   }
 })
 
@@ -32,7 +34,7 @@ export const {
 export default slice.reducer
 
 export const create = (color, intensity) => dispatch => {
-  const light = new DirectionalLight(new Color(color), intensity)
+  const light = new DirectionalLight(new Color(color.r / 255, color.g / 255, color.b / 255), intensity)
   const obj = new Object3D()
 
   light.target = obj
@@ -56,6 +58,13 @@ export const create = (color, intensity) => dispatch => {
         type: 'CastShadows',
         value: light.castShadow,
         target: light,
+      },
+      color: {
+        type: 'Color',
+        r: color.r,
+        g: color.g,
+        b: color.b,
+        target: light.color,
       },
     }
   })
