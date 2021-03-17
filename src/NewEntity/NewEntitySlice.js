@@ -14,6 +14,8 @@ const slice = createSlice({
 
       'Mesh',
 
+      'Box',
+
     ],
     selected: undefined,
   },

@@ -6,7 +6,7 @@ class ToggleReceiveShadows extends System {
   }
 
   update(tick) {
-    const entities = this.mainQuery.execute()
+    const entities = this.mainQuery.refresh().execute()
 
     for (const entity of entities) {
       const component = entity.getOne('ReceiveShadows')

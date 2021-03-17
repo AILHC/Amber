@@ -6,16 +6,14 @@ class UpdateMaterialColor extends System {
   }
 
   update(tick) {
-    const entities = this.mainQuery.execute()
+    const entities = this.mainQuery.refresh().execute()
 
     for (const entity of entities) {
       const component = entity.getOne('MaterialColor')
 
-      component.target.color = {
-        r: component.r,
-        g: component.g,
-        b: component.b,
-      }
+      component.target.r = component.r
+      component.target.g = component.g
+      component.target.b = component.b
 
       component.update()
     }

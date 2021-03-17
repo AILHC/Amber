@@ -10,6 +10,8 @@ import World from '../../ecs/Ape'
 
 import { scene } from '../../Scene'
 
+import { registerEditableEntity } from '../../EntityEditor/EntityEditorSlice'
+
 const slice = createSlice({
   name: 'DirectionalLight',
   initialState: {
@@ -29,7 +31,7 @@ export const {
 
 export default slice.reducer
 
-export const create = (color, intensity) => () => {
+export const create = (color, intensity) => dispatch => {
   const light = new DirectionalLight(new Color(color), intensity)
   const obj = new Object3D()
 
@@ -60,4 +62,6 @@ export const create = (color, intensity) => () => {
   
   scene.add(obj)
   scene.add(light)
+
+  registerEditableEntity('DirectionalLight')(dispatch)
 }

@@ -19,11 +19,6 @@ export const initialize = (width, height) => {
   renderer.setSize(width, height)
 }
 
-export const populate = elements => {
-  for (const e of elements)
-    scene.add(e)
-}
-
 export const render = () => {
   requestAnimationFrame(render)
 

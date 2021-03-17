@@ -6,14 +6,16 @@ class UpdatePosition extends System {
   }
 
   update(tick) {
-    const entities = this.mainQuery.execute()
+    const entities = this.mainQuery.refresh().execute()
 
     for (const entity of entities) {
       const component = entity.getOne('Position')
 
-      component.target.x = component.x
-      component.target.y = component.y
-      component.target.z = component.z
+      component.target.set(
+        component.x,
+        component.y,
+        component.z,
+      )
 
       component.update()
     }

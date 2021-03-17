@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import World from '../../ecs/Ape'
+import World from '../../ecs'
 
 import Slider from '../../ui/Slider/SliderComponent'
 
@@ -9,7 +9,7 @@ const common = {
 }
 
 const Component = ({ entity }) => {
-  const material = World.getEntity(entity).getOne('MaterialColor')
+  const { material } = World.getEntity(entity).c
 
   const [r, setR] = useState(material.r)
   const [g, setG] = useState(material.g)

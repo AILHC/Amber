@@ -2,17 +2,12 @@ import { useRef, useLayoutEffect } from 'react'
 
 import {
   render,
-  populate,
   initialize,
 } from '../Scene'
 
-import {
-  fillParent,
-} from './SceneViewStyles'
+import './SceneViewStyles.css'
 
-const Component = ({
-  elements
-}) => {
+const Component = () => {
   const targetRef = useRef()
 
   useLayoutEffect(() => {
@@ -21,13 +16,11 @@ const Component = ({
 
       initialize(offsetWidth, offsetHeight)
 
-      populate(elements)
-
       render()
     }
   })
 
-  return <canvas style={fillParent()} ref={targetRef} id="scene-view" />
+  return <canvas ref={targetRef} id="scene-view" />
 }
 
 export default Component

@@ -2,14 +2,11 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 
 import {
-} from './SceneViewHOFs'
-
-import {
   actions,
   localState
-} from './SceneViewPropsManager'
+} from './BoxPropsManager'
 
-import Component from './SceneViewComponent'
+import Component from './BoxComponent'
 
 const Container = compose(
   connect(localState, actions),

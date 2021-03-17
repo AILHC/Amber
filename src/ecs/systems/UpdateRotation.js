@@ -6,7 +6,7 @@ class UpdateRotation extends System {
   }
 
   update(tick) {
-    const   entities    = this.mainQuery.execute()
+    const   entities    = this.mainQuery.refresh().execute()
     const { deltaTime } = this.world.getEntity('frame').c.time
 
     for (const entity of entities) {

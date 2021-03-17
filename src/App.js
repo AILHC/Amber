@@ -6,13 +6,13 @@ import { Provider } from 'react-redux'
 
 import store from './store'
 
-import SceneView from './SceneView/SceneViewContainer'
+import SceneView from './SceneView/SceneViewComponent'
 
 import EntityEditor from './EntityEditor/EntityEditorContainer'
 
 import NewEntity from './NewEntity/NewEntityContainer'
 
-import './ecs/core'
+import './ecs'
 
 const App = () =>
   <Provider store={store}>
