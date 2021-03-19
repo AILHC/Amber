@@ -20,6 +20,6 @@ class UpdateRotation extends System {
   }
 }
 
-World.registerSystem('frame', UpdateRotation)
+// World.registerSystem('frame', UpdateRotation)
 
 export default UpdateRotation

@@ -8,5 +8,5 @@ export const actions = {
 
 export const localState = globalState => ({
   options: globalState.NewEntity.options,
-  selected: globalState.NewEntity.selected,
+  selected: globalState.NewEntity.selected || 'DirectionalLight',
 })

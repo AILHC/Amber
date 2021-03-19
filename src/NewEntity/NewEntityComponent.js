@@ -1,21 +1,20 @@
 import React from 'react'
 
-import Creators from '../Creators'
+import Select from '../ui/Select'
 
-// import {
-// } from './NewEntityStyles'
+import Creators from '../Creators'
 
 const Component = ({
   options,
   selected,
   setSelected,
 }) => {
-  const Comp = Creators[selected || 'DirectionalLight']
+  const Comp = Creators[selected]
 
-  return <div>
-    <select value={selected} onChange={e => setSelected(e.target.value)}>
-      {options.map(o => <option key={o} value={o}>{o}</option>)}
-    </select>
+  return <div className="create-entity">
+    <div className="type shadow rounded">
+      <Select scope="Create" name="Entity" value={selected} options={options} update={setSelected} />
+    </div> 
     <Comp />
   </div>
 }

@@ -1,8 +1,11 @@
 import React from 'react'
 
-import { SketchPicker } from 'react-color'
+import Text   from '../../ui/Text'
+import Color  from '../../ui/Color'
 
-import Slider from '../../ui/Slider/SliderComponent'
+import NormalizedSlider from '../../ui/NormalizedSlider'
+
+import Wrapper from '../../helpers/FieldsetWrapper'
 
 const Component = ({
   id,
@@ -12,15 +15,17 @@ const Component = ({
   setColor,
   intensity,
   setIntensity,
-}) =>
-  <div>
-    <h3>ID</h3>
-    <input type="text" value={id} placeholder="Give this Direcitonal Light a name" onChange={e => setId(e.target.value)} />
-    <h3>Color</h3>
-    <SketchPicker color={color} onChange={setColor} />
-    <h3>Intensity</h3>
-    <Slider field="Directional Light" label="intensity" value={intensity} update={setIntensity} />
-    <button onClick={() => create(id, color, intensity)}>Create</button>
-  </div>
+}) => {
+  return <form className="direcitonal-light creator">
+    <Wrapper name="Name"      child={<Text             scope="Directional Light" name="name"      value={id}        update={setId}        />} />
+    <Wrapper name="Intensity" child={<NormalizedSlider scope="Direcitonal Light" name="intensity" value={intensity} update={setIntensity} />} />
+    <Color scope="Directional Light" value={color} update={setColor} />
+
+    <button
+      className="btn btn-primary"
+      onClick={e => { create(id, color, intensity); e.preventDefault() }}
+    >Create</button>
+  </form>
+}
 
 export default Component

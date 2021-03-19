@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import {
   Mesh,
   Color,
-  BoxGeometry,
+  PlaneGeometry,
 } from 'three'
 
 import * as THREE from 'three'
@@ -21,15 +21,14 @@ const initialState = {
   b: 0,
   width:  1,
   height: 1,
-  depth:  1,
-  material: 'Lambert',
+  material: 'MeshLambertMaterial',
   x: 0,
   y: 0,
   z: 0,
 }
 
 const slice = createSlice({
-  name: 'Box',
+  name: 'Plane',
   initialState,
   reducers: {
     setSize:     (state, { payload }) => ({ ...state, ...payload }),
@@ -56,8 +55,8 @@ const {
 export default slice.reducer
 
 export const create = (id, color, size, material, position) => dispatch => {
-  const geometry = new BoxGeometry(size.width, size.height, size.depth)
-  const mat      = new THREE[`Mesh${material}Material`]({ color: new Color(color.r / 255, color.g / 255, color.b / 255) })
+  const geometry = new PlaneGeometry(size.width, size.height)
+  const mat      = new THREE[material]({ color: new Color(color.r / 255, color.g / 255, color.b / 255) })
   const mesh     = new Mesh(geometry, mat)
 
   mesh.position.set(position.x, position.y, position.z)
@@ -65,15 +64,10 @@ export const create = (id, color, size, material, position) => dispatch => {
   World.createEntity({
     id,
     c: {
-      editor: {
-        type: 'Editor',
-        value: 'Box',
-      },
       rotation: {
         type: 'Rotation',
         x: mesh.rotation.x,
         y: mesh.rotation.y,
-        z: mesh.rotation.z,
         target: mesh.rotation,
       },
       position: {

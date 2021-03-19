@@ -12,19 +12,22 @@ import { scene } from '../../Scene'
 
 import { registerEditableEntity } from '../../EntityEditor/EntityEditorSlice'
 
+const initialState = {
+  id: '',
+  r: 255,
+  g: 255,
+  b: 255,
+  intensity: 1,
+}
+
 const slice = createSlice({
   name: 'DirectionalLight',
-  initialState: {
-    id: '',
-    r: 255,
-    g: 255,
-    b: 255,
-    intensity: 1,
-  },
+  initialState,
   reducers: {
     setId:        (state, { payload }) => ({ ...state, id: payload }),
-    setColor:     (state, { payload }) => ({ ...state, ...payload.rgb }),
+    setColor:     (state, { payload }) => ({ ...state, ...payload }),
     setIntensity: (state, { payload }) => ({ ...state, intensity: payload }),
+    clear:        () => initialState,
   }
 })
 
@@ -32,6 +35,10 @@ export const {
   setId,
   setColor,
   setIntensity
+} = slice.actions
+
+const {
+  clear
 } = slice.actions
 
 export default slice.reducer
@@ -47,6 +54,10 @@ export const create = (id, color, intensity) => dispatch => {
   World.createEntity({
     id,
     c: {
+      editor: {
+        type: 'Editor',
+        value: 'DirectionalLight',
+      },
       intensity: {
         type: 'Intensity',
         value: light.intensity,
@@ -76,4 +87,6 @@ export const create = (id, color, intensity) => dispatch => {
   scene.add(light)
 
   registerEditableEntity(id)(dispatch)
+
+  dispatch(clear())
 }

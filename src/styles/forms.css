@@ -1,0 +1,283 @@
+/* Below input styles taken from: https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input,
+select,
+textarea {
+  outline: none;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+::selection {
+  background: #bec2cb;
+}
+
+.create-entity .type,
+.edit-entity .type {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+form .btn.btn-primary {
+  margin-left: 32.5%;
+  margin-right: 32.5%;
+  width: 35%;
+  background-color: #a0583c;
+  border: none;
+}
+
+form .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+form .row > label:not(.visually-hidden) {
+  text-align: center;
+  font-style: italic;
+  color: #212123;
+}
+
+form .row .form-control {
+  border-radius: 0;
+  border: none;
+  color: #424246;
+  background-color: transparent;
+}
+
+form .row .form-control.form-control-sm {
+  padding: .125rem;
+}
+
+form .row input.form-control.form-control-sm[type='text'],
+form .row select.form-control.form-control-sm {
+  padding-top: 0;
+  padding-bottom: 0;
+  min-height: 1rem;
+}
+
+form .row .normalized-slider,
+form .row .normalized-slider > div {
+  height: 1.75rem;
+  min-height: 1.75rem;
+  padding-left: 0;
+}
+
+form .row .normalized-slider > div .form-range {
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 1.75rem;
+  min-height: 1.75rem;
+}
+
+form .row .value-range {
+  display: flex;
+  height: 1.5rem;
+  flex-direction: column;
+  justify-self: center;
+  align-self: center;
+}
+
+form .row .value-range input[type=range],
+form .row .value-range > div.row {
+  height: .5rem;
+  min-height: .5rem;
+}
+
+form .row .value-range .min-max {
+  justify-content: space-between;
+}
+
+form .row .label-and-value {
+  padding-right: 0;
+}
+
+form .row .value-range .row,
+form .row .label-and-value > label,
+form .row .label-and-value > div {
+  height: 1.25rem;
+}
+
+form .row .label-and-value > label {
+  width: 100%;
+  text-align: center;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+form .row .label-and-value > div > input[type=number] {
+  height: 1rem;
+  min-height: 1.25rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  text-align: center;
+  text-overflow: ellipsis;
+}
+
+form .row .value-range .min-max input[type=number] {
+  font-size: .675rem;
+}
+
+form .row .value-range .min-max input.min[type=number] {
+  text-align: left;
+}
+
+form .row .value-range .min-max input.max[type=number] {
+  text-align: right;
+}
+
+form fieldset fieldset {
+  background-color: #bec2cb;
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+}
+
+form fieldset fieldset label {
+  font-weight: 900;
+}
+
+form fieldset.expanded h3 {
+  border-bottom-right-radius: 4px;
+}
+
+form fieldset legend.container {
+  padding-left: 0;
+  padding-right: 0;
+  margin-bottom: 0;
+  background-color: #bec2cb;
+}
+
+form fieldset legend.container:hover {
+  cursor: pointer;
+}
+
+form fieldset legend.container .row {
+  align-items: center;
+  justify-items: center;
+}
+
+form fieldset legend h3,
+form fieldset legend p {
+  margin-bottom: 0;
+}
+
+form fieldset legend h3 {
+  font-size: 1rem;
+  margin-right: 1rem;
+  background-color: rgb(97,96,99);
+  padding: .25rem .5rem !important;
+  color: rgb(222,160,133);
+}
+
+form fieldset legend p {
+  font-size: .75rem;
+}
+
+form fieldset legend p .property .name {
+  font-style: italic;
+  margin-right: .05rem;
+}
+
+form fieldset legend p .property .value {
+  margin-left: .25rem;
+}
+
+form fieldset legend p .property:not(:last-child) {
+  margin-right: .5rem;
+}
+
+form fieldset .toggle {
+  height: 1rem;
+  display: flex;
+  flex: 1;
+}
+
+form fieldset .form-select.form-select-sm {
+  padding-top: .125rem;
+  padding-bottom: .125rem;
+  background-color: transparent;
+  border: none;
+}
+
+form fieldset .toggle .form-check-input[type=checkbox] {
+  margin-top: -.25rem;
+}
+
+form > fieldset,
+form > .row {
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+form fieldset.slider .row .form-control.min,
+form fieldset.slider .row .form-control.max {
+  text-align: center;
+  color: #616063;
+  text-overflow: ellipsis;
+}
+
+form fieldset.slider .row .form-control.min:hover,
+form fieldset.slider .row .form-control.max:hover {
+  cursor: pointer;
+}
+
+form > fieldset.color {
+  overflow: visible;
+}
+
+form fieldset.color legend h3 {
+  border-top-left-radius: .25rem;
+}
+
+form fieldset.color.collapsed h3 {
+  border-bottom-left-radius: .25rem;
+}
+
+form fieldset.color .swatch span {
+  display: flex;
+  line-height: 1rem;
+  border: 1px solid #212123;
+  overflow: hidden;
+  margin-right: 1rem;
+}
+
+form fieldset.color .react-colorful {
+  width: 100%;
+}
+
+form fieldset.color .react-colorful .react-colorful__saturation {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+form fieldset.color .react-colorful .react-colorful__hue {
+  border-bottom-left-radius: .25rem;
+  border-bottom-right-radius: .25rem;
+}
+
+.form-range {
+  opacity: .7;
+}
+
+.form-range:hover {
+  opacity: 1;
+}
+
+.form-range::-webkit-slider-thumb {
+  background: #a0583c;
+}
+
+.form-range::-moz-range-thumb {
+  background: #a0583c;
+}

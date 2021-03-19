@@ -1,6 +1,7 @@
 import React from 'react'
 
-import './App.css'
+import './styles/app.css'
+import './styles/forms.css'
 
 import { Provider } from 'react-redux'
 
@@ -21,7 +22,7 @@ const App = () =>
         <div className="left pane col-2">
           <EntityEditor />
         </div>
-        <div className="center pane col-8">
+        <div className="center pane col-8 g-0">
           <SceneView />
         </div>
         <div className="right pane col-2">

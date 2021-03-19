@@ -1,0 +1,31 @@
+/* Taken from: https://www.arungudelli.com/tutorial/css/disable-text-selection-in-html-using-user-select-css-property/ */
+.disable-select {
+  user-select: none; /* supported by Chrome and Opera */
+ -webkit-user-select: none; /* Safari */
+ -khtml-user-select: none; /* Konqueror HTML */
+ -moz-user-select: none; /* Firefox */
+ -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+@media (prefers-color-scheme: light) {
+  body {
+    color: #212123;
+    background: #ccb9b1;
+  }
+
+  body a {
+    color: #809fff;
+  }
+}
+
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #ccb9b1;
+    background: #212123;
+  }
+
+  body a {
+    color: #809fff;
+  }
+}
