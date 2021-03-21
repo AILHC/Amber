@@ -41,21 +41,21 @@ const Component = ({ entity }) => {
 
   const rotationFields = [{
     type: 'NormalizedSlider',
-    label: 'X',
+    label: 'x',
     value: x,
     displayValue: convert(x),
     update: val => { setX(val); updateTarget(rotation, 'x', val) },
     ...common,
   }, {
     type: 'NormalizedSlider',
-    label: 'Y',
+    label: 'y',
     value: y,
     displayValue: convert(y),
     update: val => { setY(val); updateTarget(rotation, 'y', val) },
     ...common,
   }, {
     type: 'NormalizedSlider',
-    label: 'Z',
+    label: 'z',
     value: z,
     displayValue: convert(z),
     update: val => { setZ(val); updateTarget(rotation, 'z', val) },

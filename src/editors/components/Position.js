@@ -36,19 +36,19 @@ const Component = ({ entity }) => {
 
   const positionFields = [{
     type: 'Slider',
-    label: 'X',
+    label: 'x',
     value: x,
     update: val => { setX(val); updateTarget(position, 'x', val) },
     ...common,
   }, {
     type: 'Slider',
-    label: 'Y',
+    label: 'y',
     value: y,
     update: val => { setY(val); updateTarget(position, 'y', val) },
     ...common,
   }, {
     type: 'Slider',
-    label: 'Z',
+    label: 'z',
     value: z,
     update: val => { setZ(val); updateTarget(position, 'z', val) },
     ...common,

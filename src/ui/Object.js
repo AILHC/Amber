@@ -26,7 +26,7 @@ const Component = ({
           <p className="col-auto g-0 disable-select">
             {fields.map(f =>
               <span className="property">
-                <span className="name">{f.label}</span>:
+                <span className="name">{f.label[0].toUpperCase()}</span>:
                 <span className="value">
                   {generateSummary(f.value, summaryConverter)}
                 </span>
