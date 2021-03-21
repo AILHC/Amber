@@ -12,9 +12,9 @@ const Component = () => {
 
   useLayoutEffect(() => {
     if (targetRef.current) {
-      const { offsetWidth, offsetHeight } = targetRef.current
+      const { offsetWidth } = targetRef.current
 
-      initialize(offsetWidth, offsetHeight)
+      initialize(offsetWidth, window.innerHeight - 11)
 
       render()
     }

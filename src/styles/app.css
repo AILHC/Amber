@@ -9,6 +9,7 @@
 
 body {
   color: #212123;
+  overflow: hidden;
 }
 
 @media (prefers-color-scheme: light) {

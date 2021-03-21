@@ -18,7 +18,7 @@ import './ecs'
 const App = () =>
   <Provider store={store}>
     <div className="container-fluid">
-      <div className="row">
+      <div className="row flex-grow-1">
         <div className="left pane col-2">
           <EntityEditor />
         </div>
