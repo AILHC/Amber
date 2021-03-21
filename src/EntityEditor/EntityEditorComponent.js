@@ -23,12 +23,15 @@ const Component = ({
     }
   }
 
-  return <div className="edit-entity">
-    <div className="type shadow rounded">
-      <Select scope="Edit" name="Entity" value={currentEntity} options={options} update={setCurrentEntity} />
+  return options.length > 0 ?
+    <div className="edit-entity">
+      <div className="type shadow rounded">
+        <Select scope="Edit" name="Entity" value={currentEntity} options={options} update={setCurrentEntity} />
+      </div>
+      {Editor ? <Editor entity={currentEntity} /> : null}
     </div>
-    {Editor ? <Editor entity={currentEntity} /> : null}
-  </div>
+    :
+    null
 }
 
 export default Component

@@ -63,19 +63,19 @@ const Component = ({
 
   const positionFields = [{
     type: 'Slider',
-    label: 'X',
+    label: 'x',
     value: position.x,
     update: val => setPosition({ ...position, x: val }),
     ...positionCommon,
   }, {
     type: 'Slider',
-    label: 'Y',
+    label: 'y',
     value: position.y,
     update: val => setPosition({ ...position, y: val }),
     ...positionCommon,
   }, {
     type: 'Slider',
-    label: 'Z',
+    label: 'z',
     value: position.z,
     update: val => setPosition({ ...position, z: val }),
     ...positionCommon,
