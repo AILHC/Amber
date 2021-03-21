@@ -12,7 +12,7 @@ const common = {
 }
 
 const updateTarget = (component, axis, value) => {
-  const denormalized = ((value - .5) * 2) * Math.PI
+  const denormalized = ((value - 50) * .02) * Math.PI
 
   component[axis]        = denormalized
   component.target[axis] = denormalized
@@ -20,19 +20,19 @@ const updateTarget = (component, axis, value) => {
   component.update()
 }
 
-const convert = val => `${Math.round(((val - .5) * 2) * 180)}°`
+const convert = val => `${Math.round(((val - 50) * 2) * 1.8)}°`
 
 const Component = ({ entity }) => {
   const { rotation } = World.getEntity(entity).c
 
-  let [x, setX] = useState(0.5)
-  let [y, setY] = useState(0.5)
-  let [z, setZ] = useState(0.5)
+  let [x, setX] = useState(50)
+  let [y, setY] = useState(50)
+  let [z, setZ] = useState(50)
 
   useMemo(() => {
-    x = ((rotation.x / Math.PI) * .5) + .5
-    y = ((rotation.y / Math.PI) * .5) + .5
-    z = ((rotation.z / Math.PI) * .5) + .5
+    x = (((rotation.x / Math.PI) * .5) + .5) * 100
+    y = (((rotation.y / Math.PI) * .5) + .5) * 100
+    z = (((rotation.z / Math.PI) * .5) + .5) * 100
 
     setX(x)
     setY(y)

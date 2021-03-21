@@ -22,8 +22,8 @@ const Component = ({
           className="form-control form-control-sm form-range"
           type="range"
           min={0}
-          max={1}
-          step={0.000001}
+          max={100}
+          step={.000001}
           value={value}
           onChange={e => update(e.target.value)}
         />

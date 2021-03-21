@@ -14,6 +14,8 @@ const Component = () => {
     if (targetRef.current) {
       const { offsetWidth } = targetRef.current
 
+      console.log(offsetWidth)
+
       initialize(offsetWidth, window.innerHeight - 11)
 
       render()

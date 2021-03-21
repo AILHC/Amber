@@ -1,17 +1,27 @@
 :root {
-  --selection-background-color: #bec2cb;
+  --selection-background-color: #f0f4fd;
   --primary-button-background-color: #a0583c;
   --form-label-text-color: #212123;
   --form-input-field-text-color: #424246;
-  --form-section-background-color: #bec2cb;
+  --form-section-background-color: #f0f4fd;
   --form-legend-text-background-color: #616063;
-  --form-legend-text-color: #dea085;
+  --form-legend-text-color: #e5dee5;
 }
 
-@media (prefers-color-scheme: light) {
-}
+/* @media (prefers-color-scheme: light) {
+  :root {
+    --selection-background-color: #f0f4fd;
+    --form-section-background-color: #f0f4fd;
+  }
+} */
 
 @media (prefers-color-scheme: dark) {
+  :root {
+    --form-legend-text-background-color: #48474a;
+    --form-legend-text-color: #b3acb3;
+    --selection-background-color: #bec2cb;
+    --form-section-background-color: #bec2cb;
+  }
 }
 
 input::-webkit-outer-spin-button,
