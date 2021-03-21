@@ -1,13 +1,25 @@
-/* Below input styles taken from: https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp */
+:root {
+  --selection-background-color: #bec2cb;
+  --primary-button-background-color: #a0583c;
+  --form-label-text-color: #212123;
+  --form-input-field-text-color: #424246;
+  --form-section-background-color: #bec2cb;
+  --form-legend-text-background-color: #616063;
+  --form-legend-text-color: #dea085;
+}
 
-/* Chrome, Safari, Edge, Opera */
+@media (prefers-color-scheme: light) {
+}
+
+@media (prefers-color-scheme: dark) {
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
 }
@@ -21,7 +33,7 @@ textarea {
 }
 
 ::selection {
-  background: #bec2cb;
+  background: var(--selection-background-color);
 }
 
 .create-entity .type,
@@ -34,7 +46,7 @@ form .btn.btn-primary {
   margin-left: 32.5%;
   margin-right: 32.5%;
   width: 35%;
-  background-color: #a0583c;
+  background-color: var(--primary-button-background-color);
   border: none;
 }
 
@@ -43,16 +55,17 @@ form .row {
   margin-right: 0;
 }
 
-form .row > label:not(.visually-hidden) {
+form .row label:not(.visually-hidden) {
   text-align: center;
   font-style: italic;
-  color: #212123;
+  color: var(--form-label-text-color);
+  font-weight: 900;
 }
 
 form .row .form-control {
   border-radius: 0;
   border: none;
-  color: #424246;
+  color: var(--form-input-field-text-color);
   background-color: transparent;
 }
 
@@ -67,18 +80,55 @@ form .row select.form-control.form-control-sm {
   min-height: 1rem;
 }
 
-form .row .normalized-slider,
-form .row .normalized-slider > div {
-  height: 1.75rem;
-  min-height: 1.75rem;
+form .inline-normalized-slider,
+form .inline-normalized-slider > div {
+  height: 1.7rem;
+  min-height: 1.7rem;
   padding-left: 0;
 }
 
-form .row .normalized-slider > div .form-range {
+form .inline-normalized-slider .form-control.form-range {
   padding-top: 0;
   padding-bottom: 0;
+  height: 1.7rem;
+  min-height: 1.7rem;
+}
+
+form .normalized-slider label:not(.visually-hidden) span {
+  display: inline-block;
+  line-height: 1.75rem;
+}
+
+form .normalized-slider label:not(.visually-hidden) .name {
+  width: 25%;
+  text-align: left;
+}
+
+form .normalized-slider label:not(.visually-hidden) .value {
+  width: 75%;
+  text-align: right;
+  font-weight: 300;
+  font-style: normal;
+}
+
+form .normalized-slider label {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+form .normalized-slider label,
+form .normalized-slider .col,
+form .normalized-slider input {
   height: 1.75rem;
   min-height: 1.75rem;
+}
+
+form .rotation .normalized-slider:first-of-type {
+  padding-top: .5rem;
+}
+
+form .rotation .normalized-slider:last-of-type {
+  padding-bottom: .5rem;
 }
 
 form .row .value-range {
@@ -123,6 +173,7 @@ form .row .label-and-value > div > input[type=number] {
   padding-bottom: 0;
   text-align: center;
   text-overflow: ellipsis;
+  font-weight: 300;
 }
 
 form .row .value-range .min-max input[type=number] {
@@ -137,14 +188,11 @@ form .row .value-range .min-max input.max[type=number] {
   text-align: right;
 }
 
-form fieldset fieldset {
-  background-color: #bec2cb;
+form fieldset fieldset,
+form fieldset > div {
+  background-color: var(--form-section-background-color);
   padding-top: .25rem;
   padding-bottom: .25rem;
-}
-
-form fieldset fieldset label {
-  font-weight: 900;
 }
 
 form fieldset.expanded h3 {
@@ -155,7 +203,10 @@ form fieldset legend.container {
   padding-left: 0;
   padding-right: 0;
   margin-bottom: 0;
-  background-color: #bec2cb;
+  background-color: var(--form-section-background-color);
+  border-top-left-radius: .25rem;
+  border-top-right-radius: .25rem;
+  overflow: hidden;
 }
 
 form fieldset legend.container:hover {
@@ -175,9 +226,9 @@ form fieldset legend p {
 form fieldset legend h3 {
   font-size: 1rem;
   margin-right: 1rem;
-  background-color: rgb(97,96,99);
+  background-color: var(--form-legend-text-background-color);
   padding: .25rem .5rem !important;
-  color: rgb(222,160,133);
+  color: var(--form-legend-text-color);
 }
 
 form fieldset legend p {
@@ -223,7 +274,7 @@ form > .row {
 form fieldset.slider .row .form-control.min,
 form fieldset.slider .row .form-control.max {
   text-align: center;
-  color: #616063;
+  color: var(--form-legend-text-background-color);
   text-overflow: ellipsis;
 }
 
@@ -240,20 +291,26 @@ form fieldset.color legend h3 {
   border-top-left-radius: .25rem;
 }
 
-form fieldset.color.collapsed h3 {
+form fieldset.color.collapsed {
   border-bottom-left-radius: .25rem;
+  border-bottom-right-radius: .25rem;
+  overflow: hidden;
 }
 
 form fieldset.color .swatch span {
   display: flex;
   line-height: 1rem;
-  border: 1px solid #212123;
+  border: 1px solid var(--form-label-text-color);
   overflow: hidden;
   margin-right: 1rem;
 }
 
 form fieldset.color .react-colorful {
+  padding-top: 0;
+  padding-bottom: 0;
   width: 100%;
+  border-bottom-left-radius: .25rem;
+  border-bottom-right-radius: .25rem;
 }
 
 form fieldset.color .react-colorful .react-colorful__saturation {
@@ -275,9 +332,9 @@ form fieldset.color .react-colorful .react-colorful__hue {
 }
 
 .form-range::-webkit-slider-thumb {
-  background: #a0583c;
+  background: var(--primary-button-background-color);
 }
 
 .form-range::-moz-range-thumb {
-  background: #a0583c;
+  background: var(--primary-button-background-color);
 }

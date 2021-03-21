@@ -8,6 +8,7 @@ const Component = ({
   update,
 }) => {
   const [expanded, setExpanded] = useState(true)
+  const id = `${scope.toLowerCase().replace(/\s+/g, '_')}-color`
 
   return <fieldset
     className={`color ${expanded ? 'expanded' : 'collapsed'} shadow-sm rounded`}
@@ -22,7 +23,7 @@ const Component = ({
         }
       </div>
     </legend>
-    {expanded && <RgbColorPicker id={`${scope}-color`} color={value} onChange={update} />}
+    {expanded && <RgbColorPicker id={id} color={value} onChange={update} />}
   </fieldset>
 }
 

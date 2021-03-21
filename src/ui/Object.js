@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 
-import Slider from './Slider'
-import Toggle from './Toggle'
+import Components from './index'
 
-const components = {
-  Slider,
-  Toggle,
+const generateSummary = (value, converter) => {
+  if (converter)
+    return converter(value)
+  else
+    return`${value % 1 > 0 ? '~' : ''}${Math.round(value)}`
 }
 
 const Component = ({
   name,
   fields,
+  summaryConverter,
 }) => {
   const [expanded, setExpanded] = useState(true)
   const clazz = name.toLowerCase().replace(/\s+/g, '_')
@@ -22,24 +24,20 @@ const Component = ({
         <h3 className="col-auto g-0 disable-select">{name}</h3>
         {!expanded &&
           <p className="col-auto g-0 disable-select">
-            {fields.map(f => {
-              const remainder = f.value % 1
-              return <span className="property">
+            {fields.map(f =>
+              <span className="property">
                 <span className="name">{f.label}</span>:
                 <span className="value">
-                  {remainder > 0 ? '~' : ''}
-                  {Math.round(f.value)}
+                  {generateSummary(f.value, summaryConverter)}
                 </span>
               </span>
-            })}
+            )}
           </p>
         }
       </div>
     </legend>
     {expanded && fields.map(f => {
-      const Comp = components[f.type]
-
-      console.log(f)
+      const Comp = Components[f.type]
 
       return <Comp key={f.label} {...f} />
     })}

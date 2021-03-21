@@ -7,25 +7,19 @@
  -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
+body {
+  color: #212123;
+}
+
 @media (prefers-color-scheme: light) {
   body {
-    color: #212123;
     background: #ccb9b1;
-  }
-
-  body a {
-    color: #809fff;
   }
 }
 
 
 @media (prefers-color-scheme: dark) {
   body {
-    color: #ccb9b1;
     background: #212123;
-  }
-
-  body a {
-    color: #809fff;
   }
 }

@@ -17,7 +17,7 @@ const Component = ({
         className="form-control form-control-sm"
         type="text"
         value={value}
-        placeholder="Give this entity a name"
+        placeholder="Something descriptive"
         onChange={e => update(e.target.value)}
       />
     </div>

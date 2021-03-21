@@ -3,7 +3,7 @@ import React from 'react'
 import Text   from '../../ui/Text'
 import Color  from '../../ui/Color'
 
-import NormalizedSlider from '../../ui/NormalizedSlider'
+import InlineNormalizedSlider from '../../ui/InlineNormalizedSlider'
 
 import Wrapper from '../../helpers/FieldsetWrapper'
 
@@ -17,8 +17,8 @@ const Component = ({
   setIntensity,
 }) => {
   return <form className="direcitonal-light creator">
-    <Wrapper name="Name"      child={<Text             scope="Directional Light" name="name"      value={id}        update={setId}        />} />
-    <Wrapper name="Intensity" child={<NormalizedSlider scope="Direcitonal Light" name="intensity" value={intensity} update={setIntensity} />} />
+    <Wrapper name="Name"      child={<Text                   scope="Directional Light" name="name"      value={id}        update={setId}        />} />
+    <Wrapper name="Intensity" child={<InlineNormalizedSlider scope="Direcitonal Light" name="intensity" value={intensity} update={setIntensity} />} />
     <Color scope="Directional Light" value={color} update={setColor} />
 
     <button

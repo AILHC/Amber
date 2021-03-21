@@ -2,26 +2,32 @@ import React from 'react'
 
 const Component = ({
   scope,
-  name,
+  label,
   value,
   update,
+  displayValue,
 }) =>
-  <div className="normalized-slider col">
-    <label
-      htmlFor={`${scope}-id`}
-      className="form-label visually-hidden"
-    >{name}</label>
-    <div>
-      <input
-        id={`${scope}-id`}
-        className="form-control form-control-sm form-range"
-        type="range"
-        min={0}
-        max={1}
-        step={0.000001}
-        value={value}
-        onChange={e => update(e.target.value)}
-      />
+  <div className="normalized-slider container g-0">
+    <div className="row">
+      <label
+        htmlFor={`${scope}-${label}-id`}
+        className="col-form-label col-4 col-form-label-sm"
+      >
+        <span className="name">{label}</span>
+        <span className="value">{displayValue}</span>
+      </label>
+      <div className="col">
+        <input
+          id={`${scope}-${label}-id`}
+          className="form-control form-control-sm form-range"
+          type="range"
+          min={0}
+          max={1}
+          step={0.000001}
+          value={value}
+          onChange={e => update(e.target.value)}
+        />
+      </div>
     </div>
   </div>
 
