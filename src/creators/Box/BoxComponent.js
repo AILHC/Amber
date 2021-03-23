@@ -85,7 +85,7 @@ const Component = ({
     <Wrapper name="Name"     child={<Text   scope="Box" name="name"     value={id}       update={setId}                           />} />
     <Wrapper name="Material" child={<Select scope="Box" name="material" value={material} update={setMaterial} options={materials} />} />
 
-    <Color  scope="Box" value={color} update={setColor} />
+    <Color scope="Box" value={color} update={setColor} />
 
     <Object scope="Box" name="Size"     fields={sizeFields}     />
     <Object scope="Box" name="Position" fields={positionFields} />

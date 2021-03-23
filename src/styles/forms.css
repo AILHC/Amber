@@ -1,3 +1,4 @@
+/* Default color scheme is Light Mode */
 :root {
   --selection-background-color: #f0f4fd;
   --primary-button-background-color: #a0583c;
@@ -7,13 +8,6 @@
   --form-legend-text-background-color: #616063;
   --form-legend-text-color: #e5dee5;
 }
-
-/* @media (prefers-color-scheme: light) {
-  :root {
-    --selection-background-color: #f0f4fd;
-    --form-section-background-color: #f0f4fd;
-  }
-} */
 
 @media (prefers-color-scheme: dark) {
   :root {

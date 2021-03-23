@@ -1,4 +1,5 @@
 import Color          from './Color'
+import Helper         from './Helper'
 import Editor         from './Editor'
 import Rotation       from './Rotation'
 import Position       from './Position'
@@ -10,6 +11,7 @@ import ReceiveShadows from './ReceiveShadows'
 
 export default {
   Color,
+  Helper,
   Editor,
   Rotation,
   Position,

@@ -4,6 +4,7 @@ import {
   Color,
   Object3D,
   DirectionalLight,
+  DirectionalLightHelper,
 } from 'three'
 
 import World from '../../ecs/Ape'
@@ -17,6 +18,12 @@ const initialState = {
   r: 255,
   g: 255,
   b: 255,
+  x: 50,
+  y: 50,
+  z: 50,
+  lookAtX: 0,
+  lookAtY: -1,
+  lookAtZ: 0,
   intensity: 1,
 }
 
@@ -24,17 +31,23 @@ const slice = createSlice({
   name: 'DirectionalLight',
   initialState,
   reducers: {
-    setId:        (state, { payload }) => ({ ...state, id: payload }),
-    setColor:     (state, { payload }) => ({ ...state, ...payload }),
+    setId:        (state, { payload }) => ({ ...state, id:        payload }),
     setIntensity: (state, { payload }) => ({ ...state, intensity: payload }),
-    clear:        () => initialState,
+
+    setColor:          (state, { payload }) => ({ ...state, ...payload }),
+    setRotation:       (state, { payload }) => ({ ...state, ...payload }),
+    setLookAtPosition: (state, { payload }) => ({ ...state, ...payload }),
+
+    clear: () => initialState,
   }
 })
 
 export const {
   setId,
   setColor,
-  setIntensity
+  setRotation,
+  setIntensity,
+  setLookAtPosition,
 } = slice.actions
 
 const {
@@ -43,13 +56,16 @@ const {
 
 export default slice.reducer
 
-export const create = (id, color, intensity) => dispatch => {
-  const light = new DirectionalLight(new Color(color.r / 255, color.g / 255, color.b / 255), intensity)
-  const obj = new Object3D()
+export const create = (id, color, rotation, lookAt, intensity) => dispatch => {
+  const light  = new DirectionalLight(new Color(color.r / 255, color.g / 255, color.b / 255), intensity)
+  const obj    = new Object3D()
+  const helper = new DirectionalLightHelper(light)
+
+  light.position.set(0, 0, 0)
 
   light.target = obj
   
-  obj.position.set(0, 1, -1)
+  obj.position.set(lookAt.x, lookAt.y, lookAt.z)
 
   World.createEntity({
     id,
@@ -80,11 +96,23 @@ export const create = (id, color, intensity) => dispatch => {
         b: color.b,
         target: light.color,
       },
+      rotation: {
+        type: 'Rotation',
+        x: -50 + rotation.x,
+        y: rotation.y,
+        z: rotation.z,
+        target: obj,
+      },
+      helper: {
+        type: 'Helper',
+        value: helper,
+      }
     }
   })
   
   scene.add(obj)
   scene.add(light)
+  scene.add(helper)
 
   registerEditableEntity(id)(dispatch)
 
