@@ -66,6 +66,7 @@ export const create = (id, color, size, material, position, receiveShadows) => d
   const mesh     = new Mesh(geometry, mat)
 
   mesh.position.set(position.x, position.y, position.z)
+  mesh.rotation.set(-(Math.PI / 2), 0, 0)
   mesh.receiveShadow = receiveShadows
   
   World.createEntity({
@@ -79,6 +80,7 @@ export const create = (id, color, size, material, position, receiveShadows) => d
         type: 'Rotation',
         x: mesh.rotation.x,
         y: mesh.rotation.y,
+        z: mesh.rotation.z,
         target: mesh.rotation,
       },
       position: {

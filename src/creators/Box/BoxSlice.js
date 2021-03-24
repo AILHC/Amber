@@ -79,7 +79,7 @@ export const create = (id, color, size, material, position, shadows) => dispatch
       },
       rotation: {
         type: 'Rotation',
-        x: mesh.rotation.x + (Math.PI / 2),
+        x: mesh.rotation.x,
         y: mesh.rotation.y,
         z: mesh.rotation.z,
         target: mesh.rotation,

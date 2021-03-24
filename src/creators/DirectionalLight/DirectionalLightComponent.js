@@ -81,7 +81,7 @@ const Component = ({
 
     <Color scope="Directional Light" value={color} update={setColor} />
 
-    <Object scope="Directional Light" label="Rotation" fields={rotationFields} />
+    <Object scope="Directional Light" label="Rotation" fields={rotationFields} summaryConverter={convert} />
 
     <button
       className="btn btn-primary"
