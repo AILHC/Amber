@@ -8,15 +8,23 @@ import Select from '../../ui/Select'
 import Wrapper from '../../helpers/FieldsetWrapper'
 
 const sizeCommon = {
+  type: 'Slider',
   scope: 'Box',
   min: 0.1,
   max: 5,
 }
 
 const positionCommon = {
+  type: 'Slider',
   scope: 'Box',
   min: -5,
   max: 5,
+}
+
+const shadowsCommon = {
+  type: 'Toggle',
+  scope: 'Box',
+  showLabel: true,
 }
 
 const materials = [
@@ -27,6 +35,8 @@ const materials = [
   'Physical',
   'Standard',
 ]
+
+const convertShadowFieldsSummary = value => value ? 'yes' : 'no'
 
 const Component = ({
   id,
@@ -40,21 +50,40 @@ const Component = ({
   setColor,
   setMaterial,
   setPosition,
+  castShadows,
+  receiveShadows,
+  setCastShadows,
+  setReceiveShadows,
 }) => {
+  let shadows = {
+    cast:    castShadows,
+    receive: receiveShadows
+  }
+
+  const doCreate = e => {
+    create(
+      id,
+      color,
+      size,
+      material,
+      position,
+      shadows
+    )
+
+    e.preventDefault()
+  }
+
   const sizeFields = [{
-    type: 'Slider',
     label: 'width',
     value: size.width,
     update: val => setSize({ ...size, width: val }),
     ...sizeCommon,
   }, {
-    type: 'Slider',
     label: 'height',
     value: size.height,
     update: val => setSize({ ...size, height: val }),
     ...sizeCommon,
   }, {
-    type: 'Slider',
     label: 'depth',
     value: size.depth,
     update: val => setSize({ ...size, depth: val }),
@@ -62,38 +91,46 @@ const Component = ({
   }]
 
   const positionFields = [{
-    type: 'Slider',
     label: 'x',
     value: position.x,
     update: val => setPosition({ ...position, x: val }),
     ...positionCommon,
   }, {
-    type: 'Slider',
     label: 'y',
     value: position.y,
     update: val => setPosition({ ...position, y: val }),
     ...positionCommon,
   }, {
-    type: 'Slider',
     label: 'z',
     value: position.z,
     update: val => setPosition({ ...position, z: val }),
     ...positionCommon,
   }]
 
+  const shadowFields = [{
+    label: 'cast',
+    value: castShadows,
+    update: () => setCastShadows(!castShadows),
+    ...shadowsCommon,
+  }, {
+    label: 'receive',
+    value: receiveShadows,
+    update: () => setReceiveShadows(!receiveShadows),
+    ...shadowsCommon,
+  }]
+
   return <form className="box creator">
     <Wrapper name="Name"     child={<Text   scope="Box" name="name"     value={id}       update={setId}                           />} />
     <Wrapper name="Material" child={<Select scope="Box" name="material" value={material} update={setMaterial} options={materials} />} />
+
+    <Object fullLabels scope="Box" name="Shadows" fields={shadowFields} summaryConverter={convertShadowFieldsSummary} />
 
     <Color scope="Box" value={color} update={setColor} />
 
     <Object scope="Box" name="Size"     fields={sizeFields}     />
     <Object scope="Box" name="Position" fields={positionFields} />
 
-    <button
-      className="btn btn-primary"
-      onClick={e => { create(id, color, size, material, position); e.preventDefault() }}
-    >Create</button>
+    <button className="btn btn-primary" onClick={doCreate}>Create</button>
   </form>
 }
 

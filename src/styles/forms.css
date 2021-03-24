@@ -1,11 +1,14 @@
 /* Default color scheme is Light Mode */
 :root {
   --selection-background-color: #f0f4fd;
+  --selection-background-color-rgb: 240, 244, 253;
   --primary-button-background-color: #a0583c;
+  --primary-button-background-color-rgb: 160, 88, 60;
   --form-label-text-color: #212123;
   --form-input-field-text-color: #424246;
   --form-section-background-color: #f0f4fd;
   --form-legend-text-background-color: #616063;
+  --form-legend-text-background-color-rgb: 97, 96, 99;
   --form-legend-text-color: #e5dee5;
 }
 
@@ -52,6 +55,7 @@ form .btn.btn-primary {
   width: 35%;
   background-color: var(--primary-button-background-color);
   border: none;
+  font-weight: 900;
 }
 
 form .row {
@@ -341,5 +345,74 @@ form fieldset.color .react-colorful .react-colorful__hue {
 }
 
 .form-range::-moz-range-thumb {
+  background: var(--primary-button-background-color);
+}
+
+form fieldset.shadows .row label.form-label {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+form fieldset.shadows .row > div {
+  align-self: center;
+}
+
+form fieldset.shadows .toggle input[type=checkbox] {
+  margin-top: 0;
+}
+
+/* Toggle switch */
+
+.toggle-switch input[type="checkbox"] { 
+  position: absolute;
+  opacity: 0;
+}
+
+form label.toggle-switch {
+  clear: both;
+  width: 100%;
+  margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: .7;
+}
+
+form label.toggle-switch:hover {
+  opacity: 1;
+}
+
+/*
+  Off
+*/
+.toggle-switch input[type="checkbox"] + .track {
+  vertical-align: middle;
+  width: 100%;
+  height: .75rem;
+  border-radius: .25rem;
+  background-color: rgba(var(--form-legend-text-background-color-rgb), .15);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: flex-start;
+}
+
+.toggle-switch input[type="checkbox"] + .track > .knob {
+  left: .125rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: inherit;
+  background: rgba(var(--primary-button-background-color-rgb), 0.5);
+}
+
+/*
+  On
+*/
+.toggle-switch input[type="checkbox"]:checked + .track {
+  align-items: flex-end;
+}
+
+.toggle-switch input[type="checkbox"]:checked + .track .knob {
   background: var(--primary-button-background-color);
 }

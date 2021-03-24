@@ -25,6 +25,7 @@ const initialState = {
   lookAtY: -1,
   lookAtZ: 0,
   intensity: 1,
+  castShadows: false,
 }
 
 const slice = createSlice({
@@ -38,6 +39,8 @@ const slice = createSlice({
     setRotation:       (state, { payload }) => ({ ...state, ...payload }),
     setLookAtPosition: (state, { payload }) => ({ ...state, ...payload }),
 
+    toggleCastShadows: state => ({ ...state, castShadows: !state.castShadows }),
+
     clear: () => initialState,
   }
 })
@@ -47,6 +50,7 @@ export const {
   setColor,
   setRotation,
   setIntensity,
+  toggleCastShadows,
   setLookAtPosition,
 } = slice.actions
 
@@ -56,12 +60,13 @@ const {
 
 export default slice.reducer
 
-export const create = (id, color, rotation, lookAt, intensity) => dispatch => {
+export const create = (id, color, rotation, lookAt, intensity, castShadows) => dispatch => {
   const light  = new DirectionalLight(new Color(color.r / 255, color.g / 255, color.b / 255), intensity)
   const obj    = new Object3D()
   const helper = new DirectionalLightHelper(light)
 
   light.position.set(0, 0, 0)
+  light.castShadow = castShadows
 
   light.target = obj
   
@@ -84,9 +89,9 @@ export const create = (id, color, rotation, lookAt, intensity) => dispatch => {
         value: light.visible,
         target: light,
       },
-      castShadows: {
-        type: 'CastShadows',
-        value: light.castShadow,
+      shadows: {
+        type: 'Shadows',
+        cast: light.castShadow,
         target: light,
       },
       color: {

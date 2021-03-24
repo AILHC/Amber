@@ -26,6 +26,8 @@ const initialState = {
   x: 0,
   y: 0,
   z: 0,
+  castShadows:    false,
+  receiveShadows: false,
 }
 
 const slice = createSlice({
@@ -37,6 +39,8 @@ const slice = createSlice({
     setPosition: (state, { payload }) => ({ ...state, ...payload }),
     setId:       (state, { payload }) => ({ ...state, id:       payload }),
     setMaterial: (state, { payload }) => ({ ...state, material: payload }),
+    setCastShadows:    (state, { payload }) => ({ ...state, castShadows:    payload }),
+    setReceiveShadows: (state, { payload }) => ({ ...state, receiveShadows: payload }),
     clear:       () => initialState
   }
 })
@@ -47,6 +51,8 @@ export const {
   setColor,
   setMaterial,
   setPosition,
+  setCastShadows,
+  setReceiveShadows,
 } = slice.actions
 
 const {
@@ -55,12 +61,14 @@ const {
 
 export default slice.reducer
 
-export const create = (id, color, size, material, position) => dispatch => {
+export const create = (id, color, size, material, position, shadows) => dispatch => {
   const geometry = new BoxGeometry(size.width, size.height, size.depth)
   const mat      = new THREE[`Mesh${material}Material`]({ color: new Color(color.r / 255, color.g / 255, color.b / 255) })
   const mesh     = new Mesh(geometry, mat)
 
   mesh.position.set(position.x, position.y, position.z)
+  mesh.castShadow    = shadows.cast
+  mesh.receiveShadow = shadows.receive
   
   World.createEntity({
     id,
@@ -95,14 +103,10 @@ export const create = (id, color, size, material, position) => dispatch => {
         visible: mesh.visible,
         target: mesh,
       },
-      castShadows: {
-        type: 'CastShadows',
-        value: mesh.castShadow,
-        target: mesh,
-      },
-      receiveShadows: {
-        type: 'ReceiveShadows',
-        value: mesh.receiveShadow,
+      shadows: {
+        type: 'Shadows',
+        cast:    mesh.castShadow,
+        receive: mesh.receiveShadow,
         target: mesh,
       },
     }

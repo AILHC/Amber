@@ -3,13 +3,15 @@ import React from 'react'
 import Text   from '../../ui/Text'
 import Color  from '../../ui/Color'
 import Object from '../../ui/Object'
+import Toggle from '../../ui/Toggle'
 
 import InlineNormalizedSlider from '../../ui/InlineNormalizedSlider'
 
 import Wrapper from '../../helpers/FieldsetWrapper'
 
 const rotationCommon = {
-  scope: 'Directional Light'
+  type: 'NormalizedSlider',
+  scope: 'Directional Light',
 }
 
 const convert = val => `${Math.round(((val - 50) * 2) * 1.8)}°`
@@ -23,12 +25,26 @@ const Component = ({
   rotation,
   setColor,
   intensity,
+  castShadows,
   setRotation,
   setIntensity,
+  toggleCastShadows,
   setLookAtPosition,
 }) => {
+  const doCreate = e => {
+    create(
+      id,
+      color,
+      rotation,
+      lookAt,
+      intensity,
+      castShadows
+    )
+
+    e.preventDefault()
+  }
+
   const rotationFields = [{
-    type: 'NormalizedSlider',
     label: 'x',
     value: rotation.x,
     displayValue: convert(rotation.x),
@@ -38,7 +54,6 @@ const Component = ({
     },
     ...rotationCommon,
   }, {
-    type: 'NormalizedSlider',
     label: 'y',
     value: rotation.y,
     displayValue: convert(rotation.y),
@@ -60,8 +75,9 @@ const Component = ({
   }]
 
   return <form className="direcitonal-light creator">
-    <Wrapper name="Name"      child={<Text                   scope="Directional Light" name="name"      value={id}        update={setId}        />} />
-    <Wrapper name="Intensity" child={<InlineNormalizedSlider scope="Direcitonal Light" name="intensity" value={intensity} update={setIntensity} />} />
+    <Wrapper name="Name"         child={<Text                   scope="Directional Light" name="name"      value={id}          update={setId}             />} />
+    <Wrapper name="Intensity"    child={<InlineNormalizedSlider scope="Direcitonal Light" name="intensity" value={intensity}   update={setIntensity}      />} />
+    <Wrapper name="Cast Shadows" child={<Toggle                 scope="Direcitonal Light" label="cast"     value={castShadows} update={toggleCastShadows} />} />
 
     <Color scope="Directional Light" value={color} update={setColor} />
 
@@ -69,7 +85,7 @@ const Component = ({
 
     <button
       className="btn btn-primary"
-      onClick={e => { create(id, color, rotation, lookAt, intensity); e.preventDefault() }}
+      onClick={doCreate}
     >Create</button>
   </form>
 }

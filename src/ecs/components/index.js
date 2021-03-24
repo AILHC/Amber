@@ -1,6 +1,7 @@
 import Color          from './Color'
 import Helper         from './Helper'
 import Editor         from './Editor'
+import Shadows         from './Shadows'
 import Rotation       from './Rotation'
 import Position       from './Position'
 import Intensity      from './Intensity'
@@ -13,6 +14,7 @@ export default {
   Color,
   Helper,
   Editor,
+  Shadows,
   Rotation,
   Position,
   Intensity,

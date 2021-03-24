@@ -4,6 +4,7 @@ import {
   setColor,
   setRotation,
   setIntensity,
+  toggleCastShadows,
   setLookAtPosition,
 } from './DirectionalLightSlice'
 
@@ -13,6 +14,7 @@ export const actions = {
   setColor,
   setRotation,
   setIntensity,
+  toggleCastShadows,
   setLookAtPosition,
 }
 
@@ -33,5 +35,6 @@ export const localState = globalState => ({
     y: globalState.DirectionalLight.lookAtY,
     z: globalState.DirectionalLight.lookAtZ,
   },
-  intensity: globalState.DirectionalLight.intensity,
+  intensity:   globalState.DirectionalLight.intensity,
+  castShadows: globalState.DirectionalLight.castShadows,
 })

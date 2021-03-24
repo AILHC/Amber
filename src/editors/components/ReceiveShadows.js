@@ -5,27 +5,29 @@ import World from '../../ecs'
 import Toggle from '../../ui/Toggle'
 
 const updateTarget = (component, value) => {
-  component.value = value
+  component.receive = value
   component.target.receiveShadow = value
 
   component.update()
 }
 
-const Component = ({ entity }) => {
-  const { receiveShadows } = World.getEntity(entity).c
+const Component = ({ entity, showLabel = true }) => {
+  const { shadows } = World.getEntity(entity).c
 
   let [receive, setReceive] = useState(undefined)
 
   useMemo(() => {
-    receive = receiveShadows.value
+    receive = shadows.receive
 
     setReceive(receive)
   }, [entity, receive])
 
   return <Toggle
-    scope="Receive Shadows"
-    name="value"
-    checked={receive} toggle={() => { setReceive(!receive); updateTarget(receiveShadows, !receive) }}
+    showLabel={showLabel}
+    scope="Shadows"
+    label="receive"
+    value={receive}
+    update={() => { setReceive(!receive); updateTarget(shadows, !receive) }}
   />
 }
 

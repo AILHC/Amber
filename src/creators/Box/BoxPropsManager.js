@@ -5,6 +5,8 @@ import {
   setColor,
   setMaterial,
   setPosition,
+  setCastShadows,
+  setReceiveShadows,
 } from './BoxSlice'
 
 export const actions = {
@@ -14,6 +16,8 @@ export const actions = {
   setColor,
   setMaterial,
   setPosition,
+  setCastShadows,
+  setReceiveShadows,
 }
 
 export const localState = globalState => ({
@@ -34,4 +38,6 @@ export const localState = globalState => ({
     y: globalState.Box.y,
     z: globalState.Box.z,
   },
+  castShadows:    globalState.Box.castShadows,
+  receiveShadows: globalState.Box.receiveShadows,
 })

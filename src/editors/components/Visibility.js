@@ -24,9 +24,9 @@ const Component = ({ entity }) => {
 
   return <Toggle
     scope="Visibility"
-    name="value"
-    checked={visible}
-    toggle={() => { setVisible(!visible); updateTarget(visibility, !visible) }}
+    label="value"
+    value={visible}
+    update={() => { setVisible(!visible); updateTarget(visibility, !visible) }}
   />
 }
 

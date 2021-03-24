@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 
 import Components from './index'
 
+import { classes } from './helpers'
+
 const generateSummary = (value, converter) => {
   if (converter)
     return converter(value)
@@ -13,12 +15,11 @@ const Component = ({
   name,
   fields,
   summaryConverter,
+  fullLabels = false,
 }) => {
   const [expanded, setExpanded] = useState(true)
-  const clazz = name.toLowerCase().replace(/\s+/g, '_')
 
-  return <fieldset
-    className={`${clazz} ${expanded ? 'expanded' : 'collapsed'} shadow-sm rounded`}>
+  return <fieldset className={classes({ name, expanded })}>
     <legend className="container" onClick={() => setExpanded(!expanded)}>
       <div className="row">
         <h3 className="col-auto g-0 disable-select">{name}</h3>
@@ -26,7 +27,7 @@ const Component = ({
           <p className="col-auto g-0 disable-select">
             {fields.map(f =>
               <span className="property">
-                <span className="name">{f.label[0]}</span>:
+                <span className="name">{fullLabels ? f.label : f.label[0]}</span>:
                 <span className="value">
                   {generateSummary(f.value, summaryConverter)}
                 </span>

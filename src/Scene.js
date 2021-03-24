@@ -14,6 +14,8 @@ export const initialize = (width, height) => {
   camera   = new PerspectiveCamera(75, width / height, 0.1, 1000)
   renderer = new WebGLRenderer({ canvas })
 
+  renderer.shadowMap.enabled = true
+
   camera.position.z = 5
 
   renderer.setSize(width, height)

@@ -1,26 +1,34 @@
 import React from 'react'
 
+import {
+  idFor,
+  defaultLabelClasses,
+} from './helpers'
+
 const Component = ({
   scope,
-  name,
-  checked,
-  toggle,
+  label,
+  update,
+  value,
+  showLabel,
 }) => {
-  const id = `${scope.toLowerCase().replace(/\s+/g, '_')}-${name.toLowerCase().replace(/\s+/g, '_')}`
+  const id = idFor({ scope, label })
 
-  return <div className="col-auto g-0">
-    <label
-      htmlFor={id}
-      className="form-label col-auto g-0 col-form-label col-form-label-sm visually-hidden"
-    >{name}</label>
-    <div className="col-auto g-0 toggle">
-      <input
-        className="form-check-input"
-        type="checkbox"
-        id={id}
-        checked={checked}
-        onChange={() => toggle()}
-      />
+  return <div className={showLabel === true ? 'row' : 'col g-0'}>
+    <label htmlFor={id} className={defaultLabelClasses(showLabel)}>{label}</label>
+    <div className="col g-0 toggle">
+      <label htmlFor={id} className="toggle-switch">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          id={id}
+          checked={value}
+          onChange={() => update()}
+        />
+        <div class="track">
+          <div class="knob"></div>
+        </div>
+      </label>
     </div>
   </div>
 }
