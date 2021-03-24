@@ -74,10 +74,10 @@ const Component = ({
     ...rotationCommon,
   }]
 
-  return <form className="direcitonal-light creator">
+  return <form className="directional-light creator">
     <Wrapper label="Name"         child={<Text                   scope="Directional Light" label="name"      value={id}          update={setId}             />} />
-    <Wrapper label="Intensity"    child={<InlineNormalizedSlider scope="Direcitonal Light" label="intensity" value={intensity}   update={setIntensity}      />} />
-    <Wrapper label="Cast Shadows" child={<Toggle                 scope="Direcitonal Light" label="cast"      value={castShadows} update={toggleCastShadows} />} />
+    <Wrapper label="Intensity"    child={<InlineNormalizedSlider scope="Directional Light" label="intensity" value={intensity}   update={setIntensity}      />} />
+    <Wrapper label="Cast Shadows" child={<Toggle                 scope="Directional Light" label="cast"      value={castShadows} update={toggleCastShadows} />} />
 
     <Color scope="Directional Light" value={color} update={setColor} />
 

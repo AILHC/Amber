@@ -9,7 +9,7 @@ import CastShadows   from '../components/CastShadows'
 import LightRotation from '../components/LightRotation'
 
 const Component = ({ entity }) =>
-  <form className="directional-light editor" id={`${entity}-component-editor`}>
+  <form className="point-light editor" id={`${entity}-component-editor`}>
     <Wrapper label="Visibility"   child={<Visibility entity={entity}  />} />
     <Wrapper label="Cast Shadows" child={<CastShadows entity={entity} />} />
     <Intensity entity={entity} />
