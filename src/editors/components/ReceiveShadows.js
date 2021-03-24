@@ -5,19 +5,19 @@ import World from '../../ecs'
 import Toggle from '../../ui/Toggle'
 
 const updateTarget = (component, value) => {
-  component.receive = value
+  component.value = value
   component.target.receiveShadow = value
 
   component.update()
 }
 
 const Component = ({ entity, showLabel = true }) => {
-  const { shadows } = World.getEntity(entity).c
+  const { receiveShadows } = World.getEntity(entity).c
 
   let [receive, setReceive] = useState(undefined)
 
   useMemo(() => {
-    receive = shadows.receive
+    receive = receiveShadows.value
 
     setReceive(receive)
   }, [entity, receive])
@@ -27,7 +27,7 @@ const Component = ({ entity, showLabel = true }) => {
     scope="Shadows"
     label="receive"
     value={receive}
-    update={() => { setReceive(!receive); updateTarget(shadows, !receive) }}
+    update={() => { setReceive(!receive); updateTarget(receiveShadows, !receive) }}
   />
 }
 

@@ -54,7 +54,7 @@ const Component = ({ entity }) => {
     ...common,
   }]
 
-  return <Object name="Position" fields={positionFields} />
+  return <Object label="Position" fields={positionFields} />
 }
 
 export default Component

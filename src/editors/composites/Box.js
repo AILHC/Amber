@@ -10,7 +10,7 @@ import Visibility from '../components/Visibility'
 
 const Component = ({ entity }) =>
   <form className="box editor" id={`${entity}-component-editor`}>
-    <Wrapper name="Visibility" child={<Visibility entity={entity} />} />
+    <Wrapper label="Visibility" child={<Visibility entity={entity} />} />
     <Shadows  entity={entity} />
     <Position entity={entity} />
     <Rotation entity={entity} />

@@ -5,19 +5,19 @@ import World from '../../ecs'
 import Toggle from '../../ui/Toggle'
 
 const updateTarget = (component, value) => {
-  component.cast = value
+  component.value = value
   component.target.castShadow = value
 
   component.update()
 }
 
 const Component = ({ entity, showLabel = false }) => {
-  const { shadows } = World.getEntity(entity).c
+  const { castShadows } = World.getEntity(entity).c
 
   let [cast, setCast] = useState(undefined)
 
   useMemo(() => {
-    cast = shadows.cast
+    cast = castShadows.value
 
     setCast(cast)
   }, [entity, cast])
@@ -27,7 +27,7 @@ const Component = ({ entity, showLabel = false }) => {
     scope="Shadows"
     label="cast"
     value={cast}
-    update={() => { setCast(!cast); updateTarget(shadows, !cast) }}
+    update={() => { setCast(!cast); updateTarget(castShadows, !cast) }}
   />
 }
 

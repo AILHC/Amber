@@ -13,7 +13,7 @@ const Component = ({
 
   return <div className="create-entity">
     <div className="type shadow rounded">
-      <Select scope="Create" name="Entity" value={selected} options={options} update={setSelected} />
+      <Select scope="Create" label="Entity" value={selected} options={options} update={setSelected} />
     </div> 
     <Comp />
   </div>

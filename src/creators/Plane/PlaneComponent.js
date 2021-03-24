@@ -1,36 +1,28 @@
 import React from 'react'
 
-import { SketchPicker } from 'react-color'
+import Text   from '../../ui/Text'
+import Color  from '../../ui/Color'
+import Object from '../../ui/Object'
+import Toggle from '../../ui/Toggle'
+import Select from '../../ui/Select'
 
-import Slider from '../../ui/Slider'
+import Wrapper from '../../helpers/FieldsetWrapper'
+
+import { materials } from '../helpers'
 
 const sizeCommon = {
-  field: 'Plane',
+  type: 'Slider',
+  scope: 'Plane',
   min: 0.1,
   max: 5,
 }
 
 const positionCommon = {
-  field: 'Plane',
+  type: 'Slider',
+  scope: 'Plane',
   min: -5,
   max: 5,
 }
-
-const materials = [
-  'LineBasicMaterial',
-  'LineDashedMaterial',
-  'MeshBasicMaterial',
-  'MeshDepthMaterial',
-  'MeshDistanceMaterial',
-  'MeshLambertMaterial',
-  'MeshMatcapMaterial',
-  'MeshNormalMaterial',
-  'MeshPhongMaterial',
-  'MeshPhysicalMaterial',
-  'MeshStandardMaterial',
-  'MeshToonMaterial',
-  'PointsMaterial',
-]
 
 const Component = ({
   id,
@@ -44,24 +36,63 @@ const Component = ({
   setColor,
   setMaterial,
   setPosition,
-}) =>
-  <div className="plane creator">
-    <h3>Name</h3>
-    <input type="text" value={id} placeholder="Give this Plane a name" onChange={e => setId(e.target.value)} />
-    <h3>Color</h3>
-    <SketchPicker color={color} onChange={val => setColor(val.rgb)} />
-    <h3>Size</h3>
-    <Slider label="width"  value={size.width}  update={val => setSize({ ...size, width:  val })} {...sizeCommon} />
-    <Slider label="height" value={size.height} update={val => setSize({ ...size, height: val })} {...sizeCommon} />
-    <h3>Material</h3>
-    <select value={material} onChange={e => setMaterial(e.target.value)}>
-      {materials.map(m => <option key={m} value={m}>{m}</option>)}
-    </select>
-    <h3>Position</h3>
-    <Slider label="x" value={position.x} update={val => setPosition({ ...position, x: val })} {...positionCommon} />
-    <Slider label="y" value={position.y} update={val => setPosition({ ...position, y: val })} {...positionCommon} />
-    <Slider label="z" value={position.z} update={val => setPosition({ ...position, z: val })} {...positionCommon} />
-    <button onClick={() => create(id, color, size, material, position)}>Create</button>
-  </div>
+  receiveShadows,
+  toggleReceiveShadows,
+}) => {
+  const doCreate = e => {
+    create(
+      id,
+      color,
+      size,
+      material,
+      position,
+      receiveShadows
+    )
+
+    e.preventDefault()
+  }
+
+  const sizeFields = [{
+    label: 'width',
+    value: size.width,
+    update: val => setSize({ ...size, width: val }),
+    ...sizeCommon,
+  }, {
+    label: 'depth',
+    value: size.depth,
+    update: val => setSize({ ...size, depth: val }),
+    ...sizeCommon,
+  }]
+
+  const positionFields = [{
+    label: 'x',
+    value: position.x,
+    update: val => setPosition({ ...position, x: val }),
+    ...positionCommon,
+  }, {
+    label: 'y',
+    value: position.y,
+    update: val => setPosition({ ...position, y: val }),
+    ...positionCommon,
+  }, {
+    label: 'z',
+    value: position.z,
+    update: val => setPosition({ ...position, z: val }),
+    ...positionCommon,
+  }]
+
+  return <form className="plane creator">
+    <Wrapper label="Name"            child={<Text   scope="Plane" label="name"     value={id}             update={setId}                           />} />
+    <Wrapper label="Receive Shadows" child={<Toggle scope="Plane" label="receive"  value={receiveShadows} update={toggleReceiveShadows}            />} />
+    <Wrapper label="Material"        child={<Select scope="Plane" label="material" value={material}       update={setMaterial} options={materials} />} />
+
+    <Color scope="Plane" value={color} update={setColor} />
+
+    <Object scope="Plane" label="Size"     fields={sizeFields}     />
+    <Object scope="Plane" label="Position" fields={positionFields} />
+
+    <button className="btn btn-primary" onClick={doCreate}>Create</button>
+  </form>
+}
 
 export default Component

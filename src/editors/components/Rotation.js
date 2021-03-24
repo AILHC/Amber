@@ -62,7 +62,7 @@ const Component = ({ entity }) => {
     ...common,
   }]
 
-  return <Object name="Rotation" fields={rotationFields} summaryConverter={convert} />
+  return <Object label="Rotation" fields={rotationFields} summaryConverter={convert} />
 }
 
 export default Component

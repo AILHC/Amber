@@ -7,6 +7,8 @@ import Select from '../../ui/Select'
 
 import Wrapper from '../../helpers/FieldsetWrapper'
 
+import { materials } from '../helpers'
+
 const sizeCommon = {
   type: 'Slider',
   scope: 'Box',
@@ -26,15 +28,6 @@ const shadowsCommon = {
   scope: 'Box',
   showLabel: true,
 }
-
-const materials = [
-  'Basic',
-  'Lambert',
-  'Normal',
-  'Phong',
-  'Physical',
-  'Standard',
-]
 
 const convertShadowFieldsSummary = value => value ? 'yes' : 'no'
 
@@ -120,15 +113,15 @@ const Component = ({
   }]
 
   return <form className="box creator">
-    <Wrapper name="Name"     child={<Text   scope="Box" name="name"     value={id}       update={setId}                           />} />
-    <Wrapper name="Material" child={<Select scope="Box" name="material" value={material} update={setMaterial} options={materials} />} />
+    <Wrapper label="Name"     child={<Text   scope="Box" label="name"     value={id}       update={setId}                           />} />
+    <Wrapper label="Material" child={<Select scope="Box" label="material" value={material} update={setMaterial} options={materials} />} />
 
-    <Object fullLabels scope="Box" name="Shadows" fields={shadowFields} summaryConverter={convertShadowFieldsSummary} />
+    <Object fullLabels scope="Box" label="Shadows" fields={shadowFields} summaryConverter={convertShadowFieldsSummary} />
 
     <Color scope="Box" value={color} update={setColor} />
 
-    <Object scope="Box" name="Size"     fields={sizeFields}     />
-    <Object scope="Box" name="Position" fields={positionFields} />
+    <Object scope="Box" label="Size"     fields={sizeFields}     />
+    <Object scope="Box" label="Position" fields={positionFields} />
 
     <button className="btn btn-primary" onClick={doCreate}>Create</button>
   </form>

@@ -13,11 +13,14 @@ const fields = [
 ]
 
 const Component = ({ entity }) => {
-  const { shadows } = World.getEntity(entity).c
+  const {
+    castShadows,
+    receiveShadows,
+  } = World.getEntity(entity).c
 
   const [expanded, setExpanded] = useState(true)
 
-  return <fieldset className={classes({ name: 'Shadows', expanded })}>
+  return <fieldset className={classes({ label: 'Shadows', expanded })}>
     <legend className="container" onClick={() => setExpanded(!expanded)}>
       <div className="row">
         <h3 className="col-auto g-0 disable-select">Shadows</h3>
@@ -26,13 +29,13 @@ const Component = ({ entity }) => {
             <span className="property">
               <span className="name">cast</span>:
               <span className="value">
-                {shadows.cast ? 'yes' : 'no'}
+                {castShadows.value ? 'yes' : 'no'}
               </span>
             </span>
             <span className="property">
               <span className="name">receive</span>:
               <span className="value">
-                {shadows.receive ? 'yes' : 'no'}
+                {receiveShadows.value ? 'yes' : 'no'}
               </span>
             </span>
           </p>

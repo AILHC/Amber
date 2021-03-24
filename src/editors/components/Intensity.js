@@ -27,10 +27,10 @@ const Component = ({ entity }) => {
   }, [entity, strength])
 
   return <Wrapper
-    name="Intensity"
+    label="Intensity"
     child={<InlineNormalizedSlider
       scope={clazz}
-      name="intensity"
+      label="intensity"
       value={strength}
       update={val => { setStrength(val); updateTarget(intensity, val) }}
     />}

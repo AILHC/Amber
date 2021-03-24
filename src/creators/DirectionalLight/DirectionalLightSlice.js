@@ -89,9 +89,9 @@ export const create = (id, color, rotation, lookAt, intensity, castShadows) => d
         value: light.visible,
         target: light,
       },
-      shadows: {
-        type: 'Shadows',
-        cast: light.castShadow,
+      castShadows: {
+        type: 'CastShadows',
+        value: light.castShadow,
         target: light,
       },
       color: {

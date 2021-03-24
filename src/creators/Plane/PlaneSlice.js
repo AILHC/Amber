@@ -19,12 +19,13 @@ const initialState = {
   r: 0,
   g: 255,
   b: 0,
-  width:  1,
-  height: 1,
-  material: 'MeshLambertMaterial',
+  width: 1,
+  depth: 1,
+  material: 'Lambert',
   x: 0,
   y: 0,
   z: 0,
+  receiveShadows: false,
 }
 
 const slice = createSlice({
@@ -34,8 +35,12 @@ const slice = createSlice({
     setSize:     (state, { payload }) => ({ ...state, ...payload }),
     setColor:    (state, { payload }) => ({ ...state, ...payload }),
     setPosition: (state, { payload }) => ({ ...state, ...payload }),
+
     setId:       (state, { payload }) => ({ ...state, id:       payload }),
     setMaterial: (state, { payload }) => ({ ...state, material: payload }),
+
+    toggleReceiveShadows: state => ({ ...state, receiveShadows: !state.receiveShadows }),
+
     clear:       () => initialState
   }
 })
@@ -46,6 +51,7 @@ export const {
   setColor,
   setMaterial,
   setPosition,
+  toggleReceiveShadows,
 } = slice.actions
 
 const {
@@ -54,16 +60,21 @@ const {
 
 export default slice.reducer
 
-export const create = (id, color, size, material, position) => dispatch => {
-  const geometry = new PlaneGeometry(size.width, size.height)
-  const mat      = new THREE[material]({ color: new Color(color.r / 255, color.g / 255, color.b / 255) })
+export const create = (id, color, size, material, position, receiveShadows) => dispatch => {
+  const geometry = new PlaneGeometry(size.width, size.depth)
+  const mat      = new THREE[`Mesh${material}Material`]({ color: new Color(color.r / 255, color.g / 255, color.b / 255) })
   const mesh     = new Mesh(geometry, mat)
 
   mesh.position.set(position.x, position.y, position.z)
+  mesh.receiveShadow = receiveShadows
   
   World.createEntity({
     id,
     c: {
+      editor: {
+        type: 'Editor',
+        value: 'Plane',
+      },
       rotation: {
         type: 'Rotation',
         x: mesh.rotation.x,
@@ -89,11 +100,6 @@ export const create = (id, color, size, material, position) => dispatch => {
         visible: mesh.visible,
         target: mesh,
       },
-      castShadows: {
-        type: 'CastShadows',
-        value: mesh.castShadow,
-        target: mesh,
-      },
       receiveShadows: {
         type: 'ReceiveShadows',
         value: mesh.receiveShadow,
@@ -103,6 +109,8 @@ export const create = (id, color, size, material, position) => dispatch => {
   })
   
   scene.add(mesh)
+
+  console.log('hello?', id, mesh)
 
   registerEditableEntity(id)(dispatch)
 

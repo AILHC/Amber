@@ -25,8 +25,8 @@ const Component = ({
           checked={value}
           onChange={() => update()}
         />
-        <div class="track">
-          <div class="knob"></div>
+        <div className="track">
+          <div className="knob"></div>
         </div>
       </label>
     </div>

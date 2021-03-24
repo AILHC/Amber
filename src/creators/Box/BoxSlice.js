@@ -74,12 +74,12 @@ export const create = (id, color, size, material, position, shadows) => dispatch
     id,
     c: {
       editor: {
-        type: 'Editor',
+        type:  'Editor',
         value: 'Box',
       },
       rotation: {
         type: 'Rotation',
-        x: mesh.rotation.x,
+        x: mesh.rotation.x + (Math.PI / 2),
         y: mesh.rotation.y,
         z: mesh.rotation.z,
         target: mesh.rotation,
@@ -99,14 +99,18 @@ export const create = (id, color, size, material, position, shadows) => dispatch
         target: mesh.material.color,
       },
       visibility: {
-        type: 'Visibility',
+        type:   'Visibility',
         visible: mesh.visible,
+        target:  mesh,
+      },
+      receiveShadows: {
+        type:  'ReceiveShadows',
+        value:  mesh.receive,
         target: mesh,
       },
-      shadows: {
-        type: 'Shadows',
-        cast:    mesh.castShadow,
-        receive: mesh.receiveShadow,
+      castShadows: {
+        type:  'CastShadows',
+        value:  mesh.castShadow,
         target: mesh,
       },
     }

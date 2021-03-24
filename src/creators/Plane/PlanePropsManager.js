@@ -5,6 +5,7 @@ import {
   setColor,
   setMaterial,
   setPosition,
+  toggleReceiveShadows,
 } from './PlaneSlice'
 
 export const actions = {
@@ -14,6 +15,7 @@ export const actions = {
   setColor,
   setMaterial,
   setPosition,
+  toggleReceiveShadows,
 }
 
 export const localState = globalState => ({
@@ -25,12 +27,13 @@ export const localState = globalState => ({
     b: globalState.Plane.b,
   },
   size: {
-    width:  globalState.Plane.width,
-    height: globalState.Plane.height,
+    width: globalState.Plane.width,
+    depth: globalState.Plane.depth,
   },
   position: {
     x: globalState.Plane.x,
     y: globalState.Plane.y,
     z: globalState.Plane.z,
   },
+  receiveShadows: globalState.Plane.receiveShadows,
 })

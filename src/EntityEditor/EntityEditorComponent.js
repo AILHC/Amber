@@ -26,7 +26,7 @@ const Component = ({
   return options.length > 0 ?
     <div className="edit-entity">
       <div className="type shadow rounded">
-        <Select scope="Edit" name="Entity" value={currentEntity} options={options} update={setCurrentEntity} />
+        <Select scope="Edit" label="Entity" value={currentEntity} options={options} update={setCurrentEntity} />
       </div>
       {Editor ? <Editor entity={currentEntity} /> : null}
     </div>

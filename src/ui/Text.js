@@ -4,13 +4,13 @@ import { defaultLabelClasses } from './helpers'
 
 const Component = ({
   scope,
-  name,
+  label,
   value,
   update,
   showLabel,
 }) =>
   <div className="col g-0">
-    <label htmlFor={`${scope}-id`} className={defaultLabelClasses(showLabel)}>{name}</label>
+    <label htmlFor={`${scope}-id`} className={defaultLabelClasses(showLabel)}>{label}</label>
     <div className="col-auto g-0">
       <input
         id={`${scope}-id`}

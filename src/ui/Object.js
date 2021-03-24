@@ -12,17 +12,17 @@ const generateSummary = (value, converter) => {
 }
 
 const Component = ({
-  name,
+  label,
   fields,
   summaryConverter,
   fullLabels = false,
 }) => {
   const [expanded, setExpanded] = useState(true)
 
-  return <fieldset className={classes({ name, expanded })}>
+  return <fieldset className={classes({ label, expanded })}>
     <legend className="container" onClick={() => setExpanded(!expanded)}>
       <div className="row">
-        <h3 className="col-auto g-0 disable-select">{name}</h3>
+        <h3 className="col-auto g-0 disable-select">{label}</h3>
         {!expanded &&
           <p className="col-auto g-0 disable-select">
             {fields.map(f =>

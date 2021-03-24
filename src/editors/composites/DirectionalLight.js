@@ -10,8 +10,8 @@ import LightRotation from '../components/LightRotation'
 
 const Component = ({ entity }) =>
   <form className="box editor" id={`${entity}-component-editor`}>
-    <Wrapper name="Visibility"   child={<Visibility entity={entity}  />} />
-    <Wrapper name="Cast Shadows" child={<CastShadows entity={entity} />} />
+    <Wrapper label="Visibility"   child={<Visibility entity={entity}  />} />
+    <Wrapper label="Cast Shadows" child={<CastShadows entity={entity} />} />
     <Intensity entity={entity} />
     <LightRotation entity={entity} />
     <Color entity={entity} />
