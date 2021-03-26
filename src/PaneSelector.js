@@ -51,7 +51,7 @@ const Tab = ({ pane, active, children }) =>
 const Component = () => {
   const [mode, setMode] = useState('creator')
 
-  return <div className="right pane col-2">
+  return <div className="right pane col-2 g-0">
     <ul className="nav flex-column flex-sm-row nav-pills" role="tablist">
       <Item>
         <Button
@@ -78,7 +78,7 @@ const Component = () => {
         />
       </Item>
     </ul>
-    <div className="tab-content" id="pills-tabContent">
+    <div className="tab-content" id="nav-tab-content">
       <Tab pane="creator" active={mode === 'creator'}>
         <EntityCreator />
       </Tab>

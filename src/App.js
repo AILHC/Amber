@@ -10,7 +10,7 @@ import './ecs'
 
 const App = () =>
   <div className="container-fluid">
-    <div className="row flex-grow-1">
+    <div className="row">
       <PrimaryWindow />
       <PaneSelector />
     </div>

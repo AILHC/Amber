@@ -1,11 +1,5 @@
 import React, { useState } from 'react'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faSave,
-  faTrashUndoAlt,
-} from '@fortawesome/pro-duotone-svg-icons'
-
 import {
   Color,
   Object3D,
@@ -25,6 +19,8 @@ import UIObject from '../../ui/Object'
 import UIToggle from '../../ui/Toggle'
 
 import UIInlineNormalizedSlider from '../../ui/InlineNormalizedSlider'
+
+import ActionToolbar from '../ActionToolbar'
 
 const create = (id, color, rotation, lookAt, intensity, castShadows) => {
   const light = new DirectionalLight(new Color(color.r / 255, color.g / 255, color.b / 255), intensity)
@@ -97,13 +93,6 @@ const axis = (label, context, fn) => ({
 
 const convert = val => `${Math.round(((val - 50) * 2) * 1.8)}°`
 
-const style = {
-  '--fa-primary-color':     'var(--primary-button-background-color)',
-  '--fa-secondary-color':   'var(--form-section-background-color)',
-  '--fa-primary-opacity':   'var(--primary-button-primary-opacity)',
-  '--fa-secondary-opacity': 'var(--primary-button-secondary-opacity)'
-}
-
 const Component = () => {
   const [id,          setId         ] = useState('')
   const [color,       setColor      ] = useState({ r: 255, g: 255, b: 255 })
@@ -118,20 +107,7 @@ const Component = () => {
     setLookAt     ({ x:   0, y:  -1, z:   0 })
     setRotation   ({ x:  50, y:  50, z:  50 })
     setIntensity  (1)
-    setCastShadows(false)
-  }
-
-  const doCreate = e => {
-    create(
-      id,
-      color,
-      rotation,
-      lookAt,
-      intensity,
-      castShadows
-    )
-
-    e.preventDefault()
+    setCastShadows(true)
   }
 
   const rotationFields = [
@@ -149,18 +125,7 @@ const Component = () => {
 
     <UIObject scope="Directional Light" label="Rotation" fields={rotationFields} summaryConverter={convert} />
 
-    <div className="btn-toolbar d-flex justify-content-center" role="toolbar" aria-label="Actions available for this Direcitonal Light">
-      <div className="btn-group me-2" role="group" aria-label="Undo">
-        <button className="btn btn-primary" onClick={reset}>
-          <FontAwesomeIcon icon={faTrashUndoAlt} size="3x" style={style} />
-        </button>
-      </div>
-      <div className="btn-group" role="group" aria-label="Save">
-        <button className="btn btn-primary" onClick={doCreate} disabled={id.length <= 1}>
-          <FontAwesomeIcon icon={faSave} size="3x" style={style} />
-        </button>
-      </div>
-    </div>
+    <ActionToolbar reset={reset} create={() => create(id, color, rotation, lookAt, intensity, castShadows)} createDisabled={id.length <= 1} />
   </form>
 }
 

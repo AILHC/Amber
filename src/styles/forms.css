@@ -14,6 +14,7 @@
   --primary-button-secondary-hover-opacity:    .75;
   --primary-button-secondary-disabled-opacity: .25;
 
+  --form-creator-background-color: #a49189;
   --form-label-text-color: #212123;
   --form-input-field-text-color: #424246;
   --form-section-background-color: #f0f4fd;
@@ -55,8 +56,14 @@ textarea {
 
 .create-entity .type,
 .edit-entity .type {
-  margin-top: 1rem;
+  margin-top:    1rem;
   margin-bottom: 1.5rem;
+  margin-right:   .75rem;
+  margin-left:    .75rem;
+}
+
+form.creator {
+  background-color: var(--form-creator-background-color);
 }
 
 form .btn.btn-primary {

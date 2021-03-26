@@ -14,13 +14,13 @@ const Component = () => {
 
       console.log(offsetWidth)
 
-      initialize(offsetWidth, window.innerHeight - 11)
+      initialize(offsetWidth, window.innerHeight)
 
       render()
     }
   })
 
-  return <div className="center pane col-10">
+  return <div className="center pane col-10 g-0">
     <canvas ref={targetRef} id="primary-window" />
   </div>
 }

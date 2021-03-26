@@ -22,6 +22,8 @@ import UIWrapper from '../../helpers/FieldsetWrapper'
 
 import { materials } from '../helpers'
 
+import ActionToolbar from '../ActionToolbar'
+
 const create = (id, color, size, material, position, receiveShadows) => {
   const geometry = new PlaneGeometry(size.width, size.depth)
   const mat      = new THREE[`Mesh${material}Material`]({ color: new Color(color.r / 255, color.g / 255, color.b / 255) })
@@ -95,17 +97,13 @@ const Component = () => {
   const [position,       setPosition      ] = useState({ x: 0, y: -2, z: 0 })
   const [receiveShadows, setReceiveShadows] = useState(true)
 
-  const doCreate = e => {
-    create(
-      id,
-      color,
-      size,
-      material,
-      position,
-      receiveShadows
-    )
-
-    e.preventDefault()
+  const reset = () => {
+    setId            ('')
+    setSize          ({ width: 1, height: 1, depth: 1 })
+    setColor         ({ r: 0, g: 255, b: 0 })
+    setPosition      ({ x: 0, y:   0, z: 0 })
+    setMaterial      ('Standard')
+    setReceiveShadows(false)
   }
 
   const sizeFields = [
@@ -129,7 +127,7 @@ const Component = () => {
     <UIObject scope="Plane" label="Size"     fields={sizeFields}     />
     <UIObject scope="Plane" label="Position" fields={positionFields} />
 
-    <button className="btn btn-primary" onClick={doCreate}>Create</button>
+    <ActionToolbar reset={reset} create={() => create(id, color, size, material, position, receiveShadows)} createDisabled={id.length <= 1} />
   </form>
 }
 

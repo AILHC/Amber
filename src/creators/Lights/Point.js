@@ -18,6 +18,8 @@ import UIInlineNormalizedSlider from '../../ui/InlineNormalizedSlider'
 
 import UIWrapper from '../../helpers/FieldsetWrapper'
 
+import ActionToolbar from '../ActionToolbar'
+
 const create = (id, color, intensity, castShadows) => {
   const light  = new PointLight(new Color(color.r / 255, color.g / 255, color.b / 255), intensity)
   const helper = new PointLightHelper(light)
@@ -73,15 +75,11 @@ const Component = () => {
   const [intensity, setIntensity] = useState(1)
   const [castShadows, setCastShadows] = useState(true)
 
-  const doCreate = e => {
-    create(
-      id,
-      color,
-      intensity,
-      castShadows
-    )
-
-    e.preventDefault()
+  const reset = () => {
+    setId         ('')
+    setColor      ({ r: 255, g: 255, b: 255 })
+    setIntensity  (1)
+    setCastShadows(true)
   }
 
   return <form className="point-light creator">
@@ -91,10 +89,7 @@ const Component = () => {
 
     <UIColor scope="Point Light" value={color} update={setColor} />
 
-    <button
-      className="btn btn-primary"
-      onClick={doCreate}
-    >Create</button>
+    <ActionToolbar reset={reset} create={() => create(id, color, intensity, castShadows)} createDisabled={id.length <= 1} />
   </form>
 }
 

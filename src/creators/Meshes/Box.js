@@ -21,6 +21,8 @@ import UIWrapper from '../../helpers/FieldsetWrapper'
 
 import { materials } from '../helpers'
 
+import ActionToolbar from '../ActionToolbar'
+
 const create = (id, color, size, material, position, shadows) => {
   const geometry = new BoxGeometry(size.width, size.height, size.depth)
   const mat      = new THREE[`Mesh${material}Material`]({ color: new Color(color.r / 255, color.g / 255, color.b / 255) })
@@ -98,24 +100,21 @@ const Component = () => {
   const [material,       setMaterial      ] = useState('Standard')
   const [position,       setPosition      ] = useState({ x: 0, y: 0, z: 0 })
   const [castShadows,    setCastShadows   ] = useState(true)
-  const [receiveShadows, setReceiveShadows] = useState(true)
+  const [receiveShadows, setReceiveShadows] = useState(false)
 
   const shadows = {
     cast:    castShadows,
     receive: receiveShadows
   }
 
-  const doCreate = e => {
-    create(
-      id,
-      color,
-      size,
-      material,
-      position,
-      shadows
-    )
-
-    e.preventDefault()
+  const reset = () => {
+    setId            ('')
+    setSize          ({ width: 1, height: 1, depth: 1 })
+    setColor         ({ r: 0, g: 255, b: 0 })
+    setPosition      ({ x: 0, y:   0, z: 0 })
+    setMaterial      ('Standard')
+    setCastShadows   (true)
+    setReceiveShadows(false)
   }
 
   const sizeFields = [
@@ -146,7 +145,7 @@ const Component = () => {
     <UIObject scope="Box" label="Size"     fields={sizeFields}     />
     <UIObject scope="Box" label="Position" fields={positionFields} />
 
-    <button className="btn btn-primary" onClick={doCreate}>Create</button>
+    <ActionToolbar reset={reset} create={() => create(id, color, size, material, position, shadows)} createDisabled={id.length <= 1} />
   </form>
 }
 
