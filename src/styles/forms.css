@@ -2,8 +2,18 @@
 :root {
   --selection-background-color: #f0f4fd;
   --selection-background-color-rgb: 240, 244, 253;
+
   --primary-button-background-color: #a0583c;
   --primary-button-background-color-rgb: 160, 88, 60;
+
+  --primary-button-primary-opacity:            .75;
+  --primary-button-primary-hover-opacity:     1;
+  --primary-button-primary-disabled-opacity:   .5;
+
+  --primary-button-secondary-opacity:          .5;
+  --primary-button-secondary-hover-opacity:    .75;
+  --primary-button-secondary-disabled-opacity: .25;
+
   --form-label-text-color: #212123;
   --form-input-field-text-color: #424246;
   --form-section-background-color: #f0f4fd;
@@ -50,12 +60,22 @@ textarea {
 }
 
 form .btn.btn-primary {
-  margin-left: 32.5%;
-  margin-right: 32.5%;
-  width: 35%;
-  background-color: var(--primary-button-background-color);
+  background-color: transparent;
   border: none;
-  font-weight: 900;
+}
+
+form .btn.btn-primary:hover .fa-save,
+form .btn.btn-primary:hover .fa-trash-undo-alt {
+  --fa-primary-opacity:   var(--primary-button-primary-hover-opacity)   !important;
+  --fa-secondary-opacity: var(--primary-button-secondary-hover-opacity) !important;
+}
+
+form .btn.btn-primary:disabled .fa-save,
+form .btn.btn-primary:disabled .fa-trash-undo-alt {
+  --fa-primary-color:     var(--selection-background-color)                !important;
+  --fa-secondary-color:   var(--selection-background-color)                !important;
+  --fa-primary-opacity:   var(--primary-button-primary-disabled-opacity)   !important;
+  --fa-secondary-opacity: var(--primary-button-secondary-disabled-opacity) !important;
 }
 
 form .row {

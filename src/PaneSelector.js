@@ -16,10 +16,10 @@ const Item = ({ children }) =>
   </li>
 
 const style = active => ({
-  '--fa-primary-color': '#372214',
-  '--fa-secondary-color': '#b8733a',
-  '--fa-primary-opacity': active ? 1 : .5,
-  '--fa-secondary-opacity': active ? 1 : .5
+  '--fa-primary-color':     'var(--pane-selector-primary-color)',
+  '--fa-secondary-color':   'var(--pane-selector-secondary-color)',
+  '--fa-primary-opacity':   `var(--pane-selector-primary-${active ? 'active' : 'inactive'}-opacity)`,
+  '--fa-secondary-opacity': `var(--pane-selector-secondary-${active ? 'active' : 'inactive'}-opacity)`,
 })
 
 const Button = ({ pane, icon, active, handleClick }) => {
@@ -43,7 +43,7 @@ const Tab = ({ pane, active, children }) =>
     role="tabpanel"
     id={`${pane}-pane`}
     aria-labelledby={`nav-${pane}-tab`}
-    className={`tab-pane fade${active ? ' show active' : ''}`}
+    className={`tab-pane${active ? ' show active' : ''}`}
   >
     {children}
   </div>

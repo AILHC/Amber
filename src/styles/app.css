@@ -1,3 +1,13 @@
+:root {
+  --pane-selector-primary-color:   #372214;
+  --pane-selector-secondary-color: #b8733a;
+
+  --pane-selector-primary-active-opacity:    1;
+  --pane-selector-primary-inactive-opacity:   .5;
+  --pane-selector-secondary-active-opacity:   .75;
+  --pane-selector-secondary-inactive-opacity: .25;
+}
+
 /* Taken from: https://www.arungudelli.com/tutorial/css/disable-text-selection-in-html-using-user-select-css-property/ */
 .disable-select {
   user-select: none; /* supported by Chrome and Opera */
