@@ -3,9 +3,7 @@ import { useRef, useLayoutEffect } from 'react'
 import {
   render,
   initialize,
-} from '../Scene'
-
-import './SceneViewStyles.css'
+} from './Scene'
 
 const Component = () => {
   const targetRef = useRef()
@@ -22,7 +20,9 @@ const Component = () => {
     }
   })
 
-  return <canvas ref={targetRef} id="scene-view" />
+  return <div className="center pane col-10">
+    <canvas ref={targetRef} id="primary-window" />
+  </div>
 }
 
 export default Component

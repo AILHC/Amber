@@ -12,6 +12,34 @@ body {
   overflow: hidden;
 }
 
+#primary-window {
+  width: 100%;
+  border-radius: .25rem;
+  margin-top: 5px;
+}
+
+.right.pane {
+  margin-top: 1rem;
+}
+
+.nav-pills .nav-link.active {
+  color: inherit;
+  background-color: transparent;
+}
+
+.nav-pills .nav-link.active .fa-plus-square,
+.nav-pills .nav-link.active .fa-books,
+.nav-pills .nav-link.active .fa-cog {
+  filter: drop-shadow(0 2px 3px rgba(52, 48, 44, .5));
+}
+
+.nav-pills .nav-link:not(.active):hover .fa-plus-square,
+.nav-pills .nav-link:not(.active):hover .fa-books,
+.nav-pills .nav-link:not(.active):hover .fa-cog {
+  --fa-primary-opacity:   .75 !important;
+  --fa-secondary-opacity: .75 !important;
+}
+
 @media (prefers-color-scheme: light) {
   body {
     background: #ccb9b1;
