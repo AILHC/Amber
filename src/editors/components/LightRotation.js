@@ -10,7 +10,8 @@ import World from '../../ecs'
 import Object from '../../ui/Object'
 
 const common = {
-  scope: 'Rotation',
+  type:        'NormalizedSlider',
+  scope:       'Rotation',
   displayLabel: true,
 }
 
@@ -38,13 +39,29 @@ const updateTarget = (component, axis, value) => {
   component.update()
 }
 
-const convert = val => `${Math.round(toDegrees(val))}°`
-
-const Component = ({ entity }) => {
+const doUpdate = (entity, fn, axis) => val => {
   const {
     helper,
     rotation,
   } = World.getEntity(entity).c
+
+  fn(val)
+  updateTarget(rotation, axis, val)
+  helper.value.forEach(h => h.update())
+}
+
+const axis = (entity, label, value, fn) => ({
+  ...common,
+  label,
+  value,
+  displayValue: convert(value),
+  update: doUpdate(entity, fn, label),
+})
+
+const convert = val => `${Math.round(toDegrees(val))}°`
+
+const Component = ({ entity }) => {
+  const { rotation } = World.getEntity(entity).c
 
   let [x, setX] = useState(50)
   let [y, setY] = useState(50)
@@ -60,40 +77,11 @@ const Component = ({ entity }) => {
     setZ(z)
   }, [entity, x, y, z])
 
-  const rotationFields = [{
-    type: 'NormalizedSlider',
-    label: 'x',
-    value: x,
-    displayValue: convert(x),
-    update: val => {
-      setX(val)
-      updateTarget(rotation, 'x', val)
-      helper.value.update()
-    },
-    ...common,
-  }, {
-    type: 'NormalizedSlider',
-    label: 'y',
-    value: y,
-    displayValue: convert(y),
-    update: val => {
-      setY(val)
-      updateTarget(rotation, 'y', val)
-      helper.value.update()
-    },
-    ...common,
-  }, {
-    type: 'NormalizedSlider',
-    label: 'z',
-    value: z,
-    displayValue: convert(z),
-    update: val => {
-      setZ(val)
-      updateTarget(rotation, 'z', val)
-      helper.value.update()
-    },
-    ...common,
-  }]
+  const rotationFields = [
+    axis(entity, 'x', x, setX),
+    axis(entity, 'y', y, setY),
+    axis(entity, 'z', z, setZ)
+  ]
 
   return <Object label="Rotation" fields={rotationFields} summaryConverter={convert} />
 }

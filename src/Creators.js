@@ -3,7 +3,7 @@ import Plane from './creators/Plane/PlaneContainer'
 
 import SpotLight        from './creators/SpotLight/SpotLightContainer'
 import PointLight       from './creators/PointLight/PointLightContainer'
-import DirectionalLight from './creators/DirectionalLight/DirectionalLightContainer'
+import DirectionalLight from './creators/Lights/Directional'
 
 const Creators = {
   Box,

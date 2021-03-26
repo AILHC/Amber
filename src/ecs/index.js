@@ -8,6 +8,19 @@ export default World
 export const Components = C
 export const Systems    = S
 
+const EditableEntities = []
+
+const entityUpdateCallbacks = []
+
+export const EditableEntitiesUpdated = cb => entityUpdateCallbacks.push(cb)
+export const RegisterEditableEntity = id => {
+  EditableEntities.push(id)
+
+  for (const cb of entityUpdateCallbacks)
+    cb(EditableEntities)
+}
+
+
 const frame = World.createEntity({
   id: 'frame',
   c: {

@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import Select from '../ui/Select'
 
-import Creators from '../Creators'
+import Creators from './index'
 
-const Component = ({
-  options,
-  selected,
-  setSelected,
-}) => {
+const options = Object.keys(Creators)
+
+const Component = () => {
+  const [selected, setSelected] = useState('DirectionalLight')
+
   const Comp = Creators[selected]
 
   return <div className="create-entity">
