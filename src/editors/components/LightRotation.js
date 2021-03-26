@@ -40,14 +40,10 @@ const updateTarget = (component, axis, value) => {
 }
 
 const doUpdate = (entity, fn, axis) => val => {
-  const {
-    helper,
-    rotation,
-  } = World.getEntity(entity).c
+  const { rotation } = World.getEntity(entity).c
 
   fn(val)
   updateTarget(rotation, axis, val)
-  helper.value.forEach(h => h.update())
 }
 
 const axis = (entity, label, value, fn) => ({

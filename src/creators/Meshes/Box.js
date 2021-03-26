@@ -81,35 +81,23 @@ const create = (id, color, size, material, position, shadows) => {
   RegisterEditableEntity(id)
 }
 
-const sizeCommon = {
-  type: 'Slider',
+const axis = (label, context, fn, type) => ({
+  type,
+  label,
   scope: 'Box',
-  min: 0.1,
-  max: 5,
-}
+  value: context[label],
+  update: val => fn({ ...context, [label]: val }),
+})
 
-const positionCommon = {
-  type: 'Slider',
-  scope: 'Box',
-  min: -5,
-  max: 5,
-}
-
-const shadowsCommon = {
-  type: 'Toggle',
-  scope: 'Box',
-  showLabel: true,
-}
-
-const convertShadowFieldsSummary = value => value ? 'yes' : 'no'
+const convert = value => value ? 'yes' : 'no'
 
 const Component = () => {
-  const [id, setId] = useState('')
-  const [size, setSize] = useState({ width: 1, height: 1, depth: 1 })
-  const [color, setColor] = useState({ r: 0, g: 255, b: 0 })
-  const [material, setMaterial] = useState('Standard')
-  const [position, setPosition] = useState({ x: 0, y: 0, z: 0 })
-  const [castShadows, setCastShadows] = useState(true)
+  const [id,             setId            ] = useState('')
+  const [size,           setSize          ] = useState({ width: 1, height: 1, depth: 1 })
+  const [color,          setColor         ] = useState({ r: 0, g: 255, b: 0 })
+  const [material,       setMaterial      ] = useState('Standard')
+  const [position,       setPosition      ] = useState({ x: 0, y: 0, z: 0 })
+  const [castShadows,    setCastShadows   ] = useState(true)
   const [receiveShadows, setReceiveShadows] = useState(true)
 
   const shadows = {
@@ -130,57 +118,28 @@ const Component = () => {
     e.preventDefault()
   }
 
-  const sizeFields = [{
-    label: 'width',
-    value: size.width,
-    update: val => setSize({ ...size, width: val }),
-    ...sizeCommon,
-  }, {
-    label: 'height',
-    value: size.height,
-    update: val => setSize({ ...size, height: val }),
-    ...sizeCommon,
-  }, {
-    label: 'depth',
-    value: size.depth,
-    update: val => setSize({ ...size, depth: val }),
-    ...sizeCommon,
-  }]
+  const sizeFields = [
+    { ...axis('width',  size, setSize, 'Slider'), min: .1, max: 5 },
+    { ...axis('height', size, setSize, 'Slider'), min: .1, max: 5 },
+    { ...axis('depth',  size, setSize, 'Slider'), min: .1, max: 5 },
+  ]
 
-  const positionFields = [{
-    label: 'x',
-    value: position.x,
-    update: val => setPosition({ ...position, x: val }),
-    ...positionCommon,
-  }, {
-    label: 'y',
-    value: position.y,
-    update: val => setPosition({ ...position, y: val }),
-    ...positionCommon,
-  }, {
-    label: 'z',
-    value: position.z,
-    update: val => setPosition({ ...position, z: val }),
-    ...positionCommon,
-  }]
+  const positionFields = [
+    { ...axis('x', position, setPosition, 'Slider'), min: -5, max: 5 },
+    { ...axis('y', position, setPosition, 'Slider'), min: -5, max: 5 },
+    { ...axis('z', position, setPosition, 'Slider'), min: -5, max: 5 },
+  ]
 
-  const shadowFields = [{
-    label: 'cast',
-    value: castShadows,
-    update: () => setCastShadows(!castShadows),
-    ...shadowsCommon,
-  }, {
-    label: 'receive',
-    value: receiveShadows,
-    update: () => setReceiveShadows(!receiveShadows),
-    ...shadowsCommon,
-  }]
+  const shadowFields = [
+    { ...axis('cast',    shadows, () => setCastShadows(!shadows.cast),       'Toggle'), displayValue: convert(shadows.cast   ), showLabel: true },
+    { ...axis('receive', shadows, () => setReceiveShadows(!shadows.receive), 'Toggle'), displayValue: convert(shadows.receive), showLabel: true },
+  ]
 
   return <form className="box creator">
     <UIWrapper label="Name"     child={<UIText   scope="Box" label="name"     value={id}       update={setId}                           />} />
     <UIWrapper label="Material" child={<UISelect scope="Box" label="material" value={material} update={setMaterial} options={materials} />} />
 
-    <UIObject fullLabels scope="Box" label="Shadows" fields={shadowFields} summaryConverter={convertShadowFieldsSummary} />
+    <UIObject fullLabels scope="Box" label="Shadows" fields={shadowFields} summaryConverter={convert} />
 
     <UIColor scope="Box" value={color} update={setColor} />
 

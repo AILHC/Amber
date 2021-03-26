@@ -77,26 +77,22 @@ const create = (id, color, size, material, position, receiveShadows) => {
   RegisterEditableEntity(id)
 }
 
-const sizeCommon = {
-  type: 'Slider',
+const axis = (label, context, fn, min, max) => ({
+  min,
+  max,
+  label,
+  type:  'Slider',
   scope: 'Plane',
-  min: 0.1,
-  max: 5,
-}
-
-const positionCommon = {
-  type: 'Slider',
-  scope: 'Plane',
-  min: -5,
-  max: 5,
-}
+  value: context[label],
+  update: val => fn({ ...context, [label]: val }),
+})
 
 const Component = () => {
-  const [id, setId] = useState('')
-  const [size, setSize] = useState({ width: 5, depth: 5 })
-  const [color, setColor] = useState({ r: 0, g: 255, b: 0 })
-  const [material, setMaterial] = useState('Standard')
-  const [position, setPosition] = useState({ x: 0, y: -2, z: 0 })
+  const [id,             setId            ] = useState('')
+  const [size,           setSize          ] = useState({ width: 5, depth: 5 })
+  const [color,          setColor         ] = useState({ r: 0, g: 255, b: 0 })
+  const [material,       setMaterial      ] = useState('Standard')
+  const [position,       setPosition      ] = useState({ x: 0, y: -2, z: 0 })
   const [receiveShadows, setReceiveShadows] = useState(true)
 
   const doCreate = e => {
@@ -112,34 +108,16 @@ const Component = () => {
     e.preventDefault()
   }
 
-  const sizeFields = [{
-    label: 'width',
-    value: size.width,
-    update: val => setSize({ ...size, width: val }),
-    ...sizeCommon,
-  }, {
-    label: 'depth',
-    value: size.depth,
-    update: val => setSize({ ...size, depth: val }),
-    ...sizeCommon,
-  }]
+  const sizeFields = [
+    axis('width', size, setSize, 1, 50),
+    axis('depth', size, setSize, 1, 50),
+  ]
 
-  const positionFields = [{
-    label: 'x',
-    value: position.x,
-    update: val => setPosition({ ...position, x: val }),
-    ...positionCommon,
-  }, {
-    label: 'y',
-    value: position.y,
-    update: val => setPosition({ ...position, y: val }),
-    ...positionCommon,
-  }, {
-    label: 'z',
-    value: position.z,
-    update: val => setPosition({ ...position, z: val }),
-    ...positionCommon,
-  }]
+  const positionFields = [
+    axis('x', position, setPosition, -5, 5),
+    axis('y', position, setPosition, -5, 5),
+    axis('z', position, setPosition, -5, 5),
+  ]
 
   return <form className="plane creator">
     <UIWrapper label="Name"            child={<UIText   scope="Plane" label="name"     value={id}             update={setId}                                    />} />

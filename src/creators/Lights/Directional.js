@@ -32,7 +32,6 @@ const create = (id, color, rotation, lookAt, intensity, castShadows) => {
   
   obj.position.set(lookAt.x, lookAt.y, lookAt.z)
 
-  const lightHelper  = new DirectionalLightHelper(light)
   const cameraHelper = new CameraHelper(light.shadow.camera)
 
   World.createEntity({
@@ -66,14 +65,10 @@ const create = (id, color, rotation, lookAt, intensity, castShadows) => {
       },
       rotation: {
         type: 'Rotation',
-        x: -50 + rotation.x,
+        x: 47 + rotation.x,
         y: rotation.y,
         z: rotation.z,
         target: obj,
-      },
-      helper: {
-        type: 'Helpers',
-        value: [lightHelper],
       }
     }
   })
@@ -81,16 +76,19 @@ const create = (id, color, rotation, lookAt, intensity, castShadows) => {
   scene.add(obj)
   scene.add(light)
 
-  scene.add(lightHelper)
   scene.add(cameraHelper)
 
   RegisterEditableEntity(id)
 }
 
-const rotationCommon = {
-  type: 'NormalizedSlider',
+const axis = (label, context, fn) => ({
+  type:  'NormalizedSlider',
   scope: 'Directional Light',
-}
+  label,
+  value: context[label],
+  displayValue: convert(context[label]),
+  update: val => fn({ ...context, [label]: val }),
+})
 
 const convert = val => `${Math.round(((val - 50) * 2) * 1.8)}°`
 
@@ -98,7 +96,7 @@ const Component = () => {
   const [id,          setId         ] = useState('')
   const [color,       setColor      ] = useState({ r: 255, g: 255, b: 255 })
   const [lookAt,      setLookAt     ] = useState({ x:   0, y:  -1, z:   0 })
-  const [rotation,    setRotation   ] = useState({ x:   0, y:   0, z:   0 })
+  const [rotation,    setRotation   ] = useState({ x:  50, y:  50, z:  50 })
   const [intensity,   setIntensity  ] = useState(1)
   const [castShadows, setCastShadows] = useState(false)
 
@@ -116,35 +114,11 @@ const Component = () => {
     e.preventDefault()
   }
 
-  const rotationFields = [{
-    label: 'x',
-    value: rotation.x,
-    displayValue: convert(rotation.x),
-    update: val => {
-      setLookAt(/* Somthing */)
-      setRotation({ ...rotation, x: val })
-    },
-    ...rotationCommon,
-  }, {
-    label: 'y',
-    value: rotation.y,
-    displayValue: convert(rotation.y),
-    update: val => {
-      setLookAt(/* Somthing */)
-      setRotation({ ...rotation, y: val })
-    },
-    ...rotationCommon,
-  }, {
-    type: 'NormalizedSlider',
-    label: 'z',
-    value: rotation.z,
-    displayValue: convert(rotation.z),
-    update: val => {
-      setLookAt(/* Somthing */)
-      setRotation({ ...rotation, z: val })
-    },
-    ...rotationCommon,
-  }]
+  const rotationFields = [
+    axis('x', rotation, setRotation),
+    axis('y', rotation, setRotation),
+    axis('z', rotation, setRotation),
+  ]
 
   return <form className="directional-light creator">
     <UIWrapper label="Name"         child={<UIText                   scope="Directional Light" label="name"      value={id}          update={setId}                              />} />

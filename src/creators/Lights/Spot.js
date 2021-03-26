@@ -82,19 +82,23 @@ const create = (id, color, rotation, lookAt, intensity, castShadows) => {
   RegisterEditableEntity(id)
 }
 
-const rotationCommon = {
+const axis = (label, context, fn) => ({
   type: 'NormalizedSlider',
   scope: 'Spot Light',
-}
+  label,
+  value: context[label],
+  displayValue: convert(context[label]),
+  update: val => fn({ ...context, [label]: val }),
+})
 
 const convert = val => `${Math.round(((val - 50) * 2) * 1.8)}°`
 
 const Component = () => {
-  const [id, setId] = useState('')
-  const [color, setColor] = useState({ r: 255, g: 255, b: 255 })
-  const [lookAt, setLookAt] = useState({x: 0, y: -1, z: 0 })
-  const [rotation, setRotation] = useState({ x: 50, y: 50, z: 50 })
-  const [intensity, setIntensity] = useState(1)
+  const [id,          setId         ] = useState('')
+  const [color,       setColor      ] = useState({ r: 255, g: 255, b: 255 })
+  const [lookAt,      setLookAt     ] = useState({ x:   0, y:  -1, z:   0 })
+  const [rotation,    setRotation   ] = useState({ x: 50,  y:  50, z:  50 })
+  const [intensity,   setIntensity  ] = useState(1)
   const [castShadows, setCastShadows] = useState(true)
 
   const doCreate = e => {
@@ -110,35 +114,11 @@ const Component = () => {
     e.preventDefault()
   }
 
-  const rotationFields = [{
-    label: 'x',
-    value: rotation.x,
-    displayValue: convert(rotation.x),
-    update: val => {
-      setLookAt(/* Somthing */)
-      setRotation({ ...rotation, x: val })
-    },
-    ...rotationCommon,
-  }, {
-    label: 'y',
-    value: rotation.y,
-    displayValue: convert(rotation.y),
-    update: val => {
-      setLookAt(/* Somthing */)
-      setRotation({ ...rotation, y: val })
-    },
-    ...rotationCommon,
-  }, {
-    type: 'NormalizedSlider',
-    label: 'z',
-    value: rotation.z,
-    displayValue: convert(rotation.z),
-    update: val => {
-      setLookAt(/* Somthing */)
-      setRotation({ ...rotation, z: val })
-    },
-    ...rotationCommon,
-  }]
+  const rotationFields = [
+    axis('x', rotation, setRotation),
+    axis('y', rotation, setRotation),
+    axis('z', rotation, setRotation),
+  ]
 
   return <form className="spot-light creator">
     <UIWrapper label="Name"         child={<UIText                   scope="Spot Light" label="name"      value={id}          update={setId}                              />} />
