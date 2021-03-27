@@ -54,15 +54,15 @@ textarea {
   background: var(--selection-background-color);
 }
 
-.create-entity .type,
-.edit-entity .type {
+.library {
   margin-top:    1rem;
   margin-bottom: 1.5rem;
   margin-right:   .75rem;
   margin-left:    .75rem;
 }
 
-form.creator {
+form.creator,
+form.editor {
   background-color: var(--form-creator-background-color);
 }
 

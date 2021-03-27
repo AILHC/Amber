@@ -4,14 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faCog,
   faBooks,
-  faPlusSquare,
 } from '@fortawesome/pro-duotone-svg-icons'
 
-import EntityCreator from './creators/Entity'
-import EntityEditor  from './editors/Entity'
+import Library from './Library'
 
 const Item = ({ children }) =>
-  <li className="flex-sm-fill text-sm-center nav-item" role="presentation">
+  <li className="nav-item" role="presentation">
     {children}
   </li>
 
@@ -49,24 +47,16 @@ const Tab = ({ pane, active, children }) =>
   </div>
 
 const Component = () => {
-  const [mode, setMode] = useState('creator')
+  const [mode, setMode] = useState('library')
 
   return <div className="right pane col-2 g-0">
-    <ul className="nav flex-column flex-sm-row nav-pills" role="tablist">
+    <ul className="nav flex-sm-row justify-content-center nav-pills" role="tablist">
       <Item>
         <Button
-          pane="creator"
-          icon={faPlusSquare}
-          active={mode === 'creator'}
-          handleClick={() => setMode('creator')}
-        />
-      </Item>
-      <Item>
-        <Button
-          pane="editor"
+          pane="library"
           icon={faBooks}
-          active={mode === 'editor'}
-          handleClick={() => setMode('editor')}
+          active={mode === 'library'}
+          handleClick={() => setMode('library')}
         />
       </Item>
       <Item>
@@ -79,11 +69,8 @@ const Component = () => {
       </Item>
     </ul>
     <div className="tab-content" id="nav-tab-content">
-      <Tab pane="creator" active={mode === 'creator'}>
-        <EntityCreator />
-      </Tab>
-      <Tab pane="editor" active={mode === 'editor'}>
-        <EntityEditor />
+      <Tab pane="library" active={mode === 'library'}>
+        <Library />
       </Tab>
       <Tab pane="settings" active={mode === 'settings'}>
         <h3>Settings</h3>

@@ -10,14 +10,13 @@ export const Systems    = S
 
 const EditableEntities = []
 
-const entityUpdateCallbacks = []
+let entityUpdateCallback
 
-export const EditableEntitiesUpdated = cb => entityUpdateCallbacks.push(cb)
+export const EditableEntitiesUpdated = cb => entityUpdateCallback = cb
 export const RegisterEditableEntity = id => {
   EditableEntities.push(id)
 
-  for (const cb of entityUpdateCallbacks)
-    cb(EditableEntities)
+  entityUpdateCallback(id)
 }
 
 

@@ -54,7 +54,8 @@ body {
   --fa-secondary-opacity: .75 !important;
 }
 
-.right.pane #nav-tab-content form.creator {
+.right.pane #nav-tab-content form.creator,
+.right.pane #nav-tab-content form.editor {
   overflow-y: auto;
   overflow-x: hidden;
   padding-right:   .75rem;
@@ -63,6 +64,8 @@ body {
   padding-top:    1rem;
   position: absolute;
   bottom:   0;
+  right:    0;
+  left:     calc(100vw - 16.6666666667%);
   top:      9.25rem;
   box-shadow: inset 0 .125rem .25rem rgba(var(--pane-selector-primary-color-rgb), .25);
 }
