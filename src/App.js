@@ -11,8 +11,8 @@ import './ecs'
 const App = () =>
   <div className="container-fluid">
     <div className="row">
-      <PrimaryWindow />
       <PaneSelector />
+      <PrimaryWindow />
     </div>
   </div>
 
