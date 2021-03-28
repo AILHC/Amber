@@ -2,7 +2,10 @@ import React, { useState, useReducer } from 'react'
 
 import Select from 'react-select'
 
-import World, { EditableEntitiesUpdated } from './ecs'
+import World, {
+  EntityAdded,
+  EntityRenamed,
+} from './ecs'
 
 import Creators, { options } from './creators'
 import Editors from './editors/composites'
@@ -10,8 +13,20 @@ import Editors from './editors/composites'
 import Welcome from './Welcome'
 
 const reducer = (state, action) => {
+  const {
+    EcsId,
+    EditorId,
+  } = action.payload
+
   switch(action.type) {
-    case 'EditableAdded': return [...state, `Editor:${action.payload}`]
+    case 'EntityAdded': return [
+      ...state,
+      { ecs: EcsId, editor: `Editor:${EditorId}` }
+    ]
+    case 'EntityRenamed': return [
+      ...state.filter(s => s.ecs !== EcsId),
+      { ecs: EcsId, editor: `Editor:${EditorId.current}` }
+    ]
   }
 }
 
@@ -21,9 +36,21 @@ const Component = () => {
 
   let allOptions = [...options]
 
-  EditableEntitiesUpdated(entity =>
-    dispatch({ type: 'EditableAdded', payload: entity })
+  EntityAdded(({ EcsId, EditorId }) =>
+    dispatch({
+      type: 'EntityAdded',
+      payload: { EcsId, EditorId }
+    })
   )
+
+  EntityRenamed(({ EcsId, EditorId }) => {
+    dispatch({
+      type: 'EntityRenamed',
+      payload: { EcsId, EditorId },
+    })
+
+    setSelected(`Editor:${EditorId.current}`)
+  })
 
   let entity, Comp = Welcome, entities = {
     label: 'Entities',
@@ -31,11 +58,11 @@ const Component = () => {
   }
 
   for (const e of editable) {
-    const tokens = e.split(':')
+    const tokens = e.editor.split(':')
 
     entities.options.push({
       label: tokens[1],
-      value: e
+      value: e.editor,
     })
   }
   
@@ -49,13 +76,13 @@ const Component = () => {
     
     if (t[0] === 'Editor') {
       for (const e of editable) {
-        const tokens = e.split(':')
+        const tokens = e.editor.split(':')
   
         if (tokens[1] === current) {
-          const matched = World.getEntity(current)
+          const matched = World.getEntity(e.ecs)
     
           Comp   = Editors[matched.types.Editor.values().next().value.value]
-          entity = tokens[1]
+          entity = e.ecs
         }
       }
     }
@@ -71,8 +98,17 @@ const Component = () => {
         isSearchable
         options={allOptions}
         onChange={(sel, meta) => {
-          if (meta.action === 'select-option')
-            setSelected(sel.value)
+          if (meta.action === 'select-option') {
+            const tokens = sel.value.split(':')
+
+            if (selected === undefined || tokens[0] === 'Creator') {
+              Creators[tokens[1]]()
+
+              setSelected('Editor::placeholder:')
+            }
+            else
+              setSelected(sel.value)
+          }
           else if (meta.action === 'clear')
             setSelected(undefined)
         }}

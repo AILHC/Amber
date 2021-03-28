@@ -1,44 +1,40 @@
-import React, { useState } from 'react'
-
 import {
   Mesh,
-  Color,
+  LineSegments,
   PlaneGeometry,
+  WireframeGeometry,
+  LineBasicMaterial,
+  MeshStandardMaterial,
 } from 'three'
 
-import * as THREE from 'three'
-
-import World, { RegisterEditableEntity }  from '../../ecs'
+import World, { RegisterEntity }  from '../../ecs'
 
 import { scene } from '../../Scene'
 
-import UIText   from '../../ui/Text'
-import UIColor  from '../../ui/Color'
-import UIObject from '../../ui/Object'
-import UIToggle from '../../ui/Toggle'
-import UISelect from '../../ui/Select'
-
-import UIWrapper from '../../helpers/FieldsetWrapper'
-
-import { materials } from '../helpers'
-
-import ActionToolbar from '../ActionToolbar'
-
-const create = (id, color, size, material, position, receiveShadows) => {
-  const geometry = new PlaneGeometry(size.width, size.depth)
-  const mat      = new THREE[`Mesh${material}Material`]({ color: new Color(color.r / 255, color.g / 255, color.b / 255) })
+const create = () => {
+  const geometry = new PlaneGeometry(50, 50)
+  const mat      = new MeshStandardMaterial({ color: 0x00ff00 })
   const mesh     = new Mesh(geometry, mat)
 
-  mesh.position.set(position.x, position.y, position.z)
+  const wireframeGeometry = new WireframeGeometry(geometry)
+  const wirefameMaterial  = new LineBasicMaterial({ color: 0xffffff })
+  const wireframe         = new LineSegments(wireframeGeometry, wirefameMaterial)
+
+  mesh.add(wireframe)
+
+  mesh.position.set(0, -2, 0)
   mesh.rotation.set(-(Math.PI / 2), 0, 0)
-  mesh.receiveShadow = receiveShadows
+  mesh.receiveShadow = true
   
-  World.createEntity({
-    id,
+  const entity = World.createEntity({
     c: {
       editor: {
         type: 'Editor',
         value: 'Plane',
+      },
+      wireframe: {
+        type:  'Wireframe',
+        target: wireframe,
       },
       rotation: {
         type: 'Rotation',
@@ -56,9 +52,9 @@ const create = (id, color, size, material, position, receiveShadows) => {
       },
       color: {
         type: 'Color',
-        r: color.r,
-        g: color.g,
-        b: color.b,
+        r:   0,
+        g: 255,
+        b:   0,
         target: mesh.material.color,
       },
       visibility: {
@@ -76,59 +72,7 @@ const create = (id, color, size, material, position, receiveShadows) => {
   
   scene.add(mesh)
 
-  RegisterEditableEntity(id)
+  RegisterEntity({ EcsId: entity.id, EditorId: ':placeholder:' })
 }
 
-const axis = (label, context, fn, min, max) => ({
-  min,
-  max,
-  label,
-  type:  'Slider',
-  scope: 'Plane',
-  value: context[label],
-  update: val => fn({ ...context, [label]: val }),
-})
-
-const Component = () => {
-  const [id,             setId            ] = useState('')
-  const [size,           setSize          ] = useState({ width: 5, depth: 5 })
-  const [color,          setColor         ] = useState({ r: 0, g: 255, b: 0 })
-  const [material,       setMaterial      ] = useState('Standard')
-  const [position,       setPosition      ] = useState({ x: 0, y: -2, z: 0 })
-  const [receiveShadows, setReceiveShadows] = useState(true)
-
-  const reset = () => {
-    setId            ('')
-    setSize          ({ width: 1, height: 1, depth: 1 })
-    setColor         ({ r: 0, g: 255, b: 0 })
-    setPosition      ({ x: 0, y:   0, z: 0 })
-    setMaterial      ('Standard')
-    setReceiveShadows(false)
-  }
-
-  const sizeFields = [
-    axis('width', size, setSize, 1, 50),
-    axis('depth', size, setSize, 1, 50),
-  ]
-
-  const positionFields = [
-    axis('x', position, setPosition, -5, 5),
-    axis('y', position, setPosition, -5, 5),
-    axis('z', position, setPosition, -5, 5),
-  ]
-
-  return <form className="plane creator">
-    <UIWrapper label="Name"            child={<UIText   scope="Plane" label="name"     value={id}             update={setId}                                    />} />
-    <UIWrapper label="Receive Shadows" child={<UIToggle scope="Plane" label="receive"  value={receiveShadows} update={() => setReceiveShadows(!receiveShadows)} />} />
-    <UIWrapper label="Material"        child={<UISelect scope="Plane" label="material" value={material}       update={setMaterial} options={materials}          />} />
-
-    <UIColor scope="Plane" value={color} update={setColor} />
-
-    <UIObject scope="Plane" label="Size"     fields={sizeFields}     />
-    <UIObject scope="Plane" label="Position" fields={positionFields} />
-
-    <ActionToolbar reset={reset} create={() => create(id, color, size, material, position, receiveShadows)} createDisabled={id.length <= 1} />
-  </form>
-}
-
-export default Component
+export default create

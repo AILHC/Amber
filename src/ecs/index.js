@@ -8,15 +8,63 @@ export default World
 export const Components = C
 export const Systems    = S
 
-const EditableEntities = []
+export const EntitiesByEcsId = {
+  // Key: Ecs Id
+  // Value: Editor Id
+}
 
-let entityUpdateCallback
+export const EntitiesByEditorId = {
+  // Key: Editor Id
+  // Value: Ecs Id
+}
 
-export const EditableEntitiesUpdated = cb => entityUpdateCallback = cb
-export const RegisterEditableEntity = id => {
-  EditableEntities.push(id)
+let entityAddedCallback
+let entityRemovedCallback
+let entityRenamedCallback
 
-  entityUpdateCallback(id)
+export const EntityAdded   = cb => entityAddedCallback   = cb
+export const EntityRemoved = cb => entityRemovedCallback = cb
+export const EntityRenamed = cb => entityRenamedCallback = cb
+
+export const RegisterEntity = ({ EcsId, EditorId }) => {
+  EntitiesByEcsId[EcsId]       = EditorId
+  EntitiesByEditorId[EditorId] = EcsId
+
+  entityAddedCallback({ EcsId, EditorId })
+}
+
+export const RenameEntity = ({ EcsId, EditorId }) => {
+  const oldEditorId = EntitiesByEcsId[EcsId]
+
+  EntitiesByEditorId[oldEditorId] = undefined
+
+  EntitiesByEcsId[EcsId]       = EditorId
+  EntitiesByEditorId[EditorId] = EcsId
+
+  entityRenamedCallback({ EcsId, EditorId: { old: oldEditorId, current: EditorId }})
+}
+
+export const RemoveEntity = ({ EcsId, EditorId }) => {
+  if (EcsId) {
+    const eid = EntitiesByEcsId[EcsId]
+
+    EntitiesByEcsId[EcsId]   = undefined
+    EntitiesByEditorId[eid]  = undefined
+
+    World.getEntity(EcsId).destroy()
+
+    entityRemovedCallback({ EcsId, EditorId: eid })
+  }
+  else if (EditorId) {
+    const eid = EntitiesByEditorId[EditorId]
+
+    EntitiesByEcsId[eid]         = undefined
+    EntitiesByEditorId[EditorId] = undefined
+
+    World.getEntity(eid).destroy()
+
+    entityRemovedCallback({ EcsId: eid, EditorId })
+  }
 }
 
 

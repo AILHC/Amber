@@ -7,9 +7,10 @@ const Component = ({
   label,
   value,
   update,
+  columns,
   showLabel,
 }) =>
-  <div className="col g-0">
+  <div className={`${columns ? `col-${columns}` : 'col'} g-0`}>
     <label htmlFor={`${scope}-id`} className={defaultLabelClasses(showLabel)}>{label}</label>
     <div className="col-auto g-0">
       <input

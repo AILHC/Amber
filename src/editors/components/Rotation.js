@@ -4,23 +4,33 @@ import World from '../../ecs'
 
 import Object from '../../ui/Object'
 
-const common = {
-  max:  Math.PI,
-  min: -Math.PI,
-  scope: 'Rotation',
-  displayLabel: true,
-}
+const updateTarget = (entity, axis, value) => {
+  const { rotation } = World.getEntity(entity).c
 
-const updateTarget = (component, axis, value) => {
   const denormalized = ((value - 50) * .02) * Math.PI
 
-  component[axis]        = denormalized
-  component.target[axis] = denormalized
+  rotation[axis]        = denormalized
+  rotation.target[axis] = denormalized
 
-  component.update()
+  rotation.update()
 }
 
 const convert = val => `${Math.round(((val - 50) * 2) * 1.8)}°`
+
+const axis = (entity, label, value, fn) => ({
+  label,
+  value,
+  max:  Math.PI,
+  min: -Math.PI,
+  type: 'NormalizedSlider',
+  scope: 'Rotation',
+  displayLabel: true,
+  displayValue: convert(value),
+  update: val => {
+    fn(val)
+    updateTarget(entity, label, val)
+  },
+})
 
 const Component = ({ entity }) => {
   const { rotation } = World.getEntity(entity).c
@@ -39,28 +49,11 @@ const Component = ({ entity }) => {
     setZ(z)
   }, [entity, x, y, z])
 
-  const rotationFields = [{
-    type: 'NormalizedSlider',
-    label: 'x',
-    value: x,
-    displayValue: convert(x),
-    update: val => { setX(val); updateTarget(rotation, 'x', val) },
-    ...common,
-  }, {
-    type: 'NormalizedSlider',
-    label: 'y',
-    value: y,
-    displayValue: convert(y),
-    update: val => { setY(val); updateTarget(rotation, 'y', val) },
-    ...common,
-  }, {
-    type: 'NormalizedSlider',
-    label: 'z',
-    value: z,
-    displayValue: convert(z),
-    update: val => { setZ(val); updateTarget(rotation, 'z', val) },
-    ...common,
-  }]
+  const rotationFields = [
+    axis(entity, 'x', x, setX),
+    axis(entity, 'y', y, setY),
+    axis(entity, 'z', z, setZ),
+  ]
 
   return <Object label="Rotation" fields={rotationFields} summaryConverter={convert} />
 }

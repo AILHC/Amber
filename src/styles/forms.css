@@ -96,6 +96,19 @@ form .btn.btn-primary:disabled .fa-trash-undo-alt {
   --fa-secondary-opacity: var(--primary-button-secondary-disabled-opacity) !important;
 }
 
+form .save-name {
+  height: 1.6rem;
+  max-height: 1.6rem;
+}
+
+form .save-name .btn.btn-primary {
+  padding-top: 0;
+  padding-bottom: 0;
+  vertical-align: top;
+  padding-left: .5rem;
+  padding-right: 0;
+}
+
 form .row {
   margin-left: 0;
   margin-right: 0;
@@ -347,7 +360,8 @@ form fieldset legend h3 {
 
 form fieldset.collapsed,
 form fieldset.collapsed legend.container,
-form fieldset.collapsed > div:last-of-type {
+form fieldset.collapsed > div:last-of-type,
+form fieldset.expanded > fieldset:last-of-type {
   border-bottom-left-radius: .25rem;
   border-bottom-right-radius: .25rem;
 }
@@ -363,10 +377,13 @@ form fieldset.color .swatch span {
 form fieldset > div:last-of-type,
 form fieldset.color .react-colorful {
   padding-top: 0;
-  padding-bottom: 0;
   width: 100%;
   border-bottom-left-radius: .25rem;
   border-bottom-right-radius: .25rem;
+}
+
+form fieldset.color .react-colorful {
+  padding-bottom: 0;
 }
 
 form fieldset.color .react-colorful .react-colorful__saturation {

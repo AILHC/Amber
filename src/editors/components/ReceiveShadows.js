@@ -11,7 +11,7 @@ const updateTarget = (component, value) => {
   component.update()
 }
 
-const Component = ({ entity, showLabel = true }) => {
+const Component = ({ entity, showLabel = false }) => {
   const { receiveShadows } = World.getEntity(entity).c
 
   let [receive, setReceive] = useState(undefined)

@@ -3,6 +3,7 @@ import Helpers             from './Helpers'
 import Editor              from './Editor'
 import Rotation            from './Rotation'
 import Position            from './Position'
+import Wireframe           from './Wireframe'
 import Intensity           from './Intensity'
 import Visibility          from './Visibility'
 import CastShadows         from './CastShadows'
@@ -17,6 +18,7 @@ export default {
   Helpers,
   Rotation,
   Position,
+  Wireframe,
   Intensity,
   Visibility,
   CastShadows,

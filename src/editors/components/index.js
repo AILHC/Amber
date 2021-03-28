@@ -3,6 +3,7 @@ import ShadowVolume        from './ShadowVolume'
 import ReceiveShadows      from './ReceiveShadows'
 import ShadowMapResolution from './ShadowMapResolution'
 
+import Name       from './Name'
 import Color      from './Color'
 import Position   from './Position'
 import Rotation   from './Rotation'
@@ -14,6 +15,7 @@ export default {
   ReceiveShadows,
   ShadowMapResolution,
 
+  Name,
   Color,
   Position,
   Rotation,
