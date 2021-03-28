@@ -9,7 +9,7 @@ import Light from './Core'
 const Component = ({ type, entity, fields, children }) =>
   <Light type={type} entity={entity}>
     <h3>Shadows</h3>
-    <Wrapper label="Cast Shadows" child={<CastShadows entity={entity} />} />
+    <Wrapper label="Cast" child={<CastShadows entity={entity} />} />
     {fields}
     {children}
   </Light>
