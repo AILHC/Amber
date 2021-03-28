@@ -8,6 +8,14 @@
   --pane-selector-primary-inactive-opacity:   .5;
   --pane-selector-secondary-active-opacity:   .75;
   --pane-selector-secondary-inactive-opacity: .25;
+
+  --pane-selector-shadow: rgba(52, 48, 44, .5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --pane-selector-shadow: rgba(1, 1, 3, .5);
+  }
 }
 
 /* Taken from: https://www.arungudelli.com/tutorial/css/disable-text-selection-in-html-using-user-select-css-property/ */
@@ -44,7 +52,7 @@ body {
 .nav-pills .nav-link.active .fa-plus-square,
 .nav-pills .nav-link.active .fa-books,
 .nav-pills .nav-link.active .fa-cog {
-  filter: drop-shadow(0 2px 3px rgba(52, 48, 44, .5));
+  filter: drop-shadow(0 2px 3px var(--pane-selector-shadow));
 }
 
 .nav-pills .nav-link:not(.active):hover .fa-plus-square,

@@ -16,8 +16,12 @@ const updateTarget = (component, value) => {
   component.update()
 }
 
-const Component = ({ entity }) => {
-  const { color } = World.getEntity(entity).c
+const Component = ({
+  field = 'color',
+  label,
+  entity,
+}) => {
+  const color = World.getEntity(entity).c[field]
 
   let [rgb, setRGB] = useState(undefined)
 
@@ -29,6 +33,7 @@ const Component = ({ entity }) => {
 
   return <Color
     scope={entity}
+    label={label}
     value={rgb}
     update={val => { setRGB(val); updateTarget(color, val) }}
   />

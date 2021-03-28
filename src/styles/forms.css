@@ -25,10 +25,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --form-creator-background-color: #111113;
+    --form-section-background-color: #bec2cb;
     --form-legend-text-background-color: #48474a;
     --form-legend-text-color: #b3acb3;
+    
     --selection-background-color: #bec2cb;
-    --form-section-background-color: #bec2cb;
   }
 }
 
@@ -241,7 +243,6 @@ form fieldset legend.container {
   background-color: var(--form-section-background-color);
   border-top-left-radius: .25rem;
   border-top-right-radius: .25rem;
-  overflow: hidden;
 }
 
 form fieldset legend.container:hover {
@@ -303,7 +304,6 @@ form fieldset .toggle .form-check-input[type=checkbox] {
 
 form > fieldset,
 form > .row {
-  overflow: hidden;
   margin-bottom: 1rem;
 }
 
@@ -323,14 +323,19 @@ form > fieldset.color {
   overflow: visible;
 }
 
-form fieldset.color legend h3 {
+form fieldset legend h3 {
   border-top-left-radius: .25rem;
 }
 
-form fieldset.color.collapsed {
+form fieldset.collapsed,
+form fieldset.collapsed legend.container,
+form fieldset.collapsed > div:last-of-type {
   border-bottom-left-radius: .25rem;
   border-bottom-right-radius: .25rem;
-  overflow: hidden;
+}
+
+form fieldset.collapsed h3 {
+  border-bottom-left-radius: .25rem;
 }
 
 form fieldset.color .swatch span {
@@ -341,6 +346,7 @@ form fieldset.color .swatch span {
   margin-right: 1rem;
 }
 
+form fieldset > div:last-of-type,
 form fieldset.color .react-colorful {
   padding-top: 0;
   padding-bottom: 0;
