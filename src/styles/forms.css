@@ -14,6 +14,7 @@
   --primary-button-secondary-hover-opacity:    .75;
   --primary-button-secondary-disabled-opacity: .25;
 
+  --form-section-heading-text-color: #a9a8aa;
   --form-creator-background-color: #a49189;
   --form-label-text-color: #212123;
   --form-input-field-text-color: #424246;
@@ -25,6 +26,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --form-section-heading-text-color: #a9a8aa;
     --form-creator-background-color: #111113;
     --form-section-background-color: #bec2cb;
     --form-legend-text-background-color: #48474a;
@@ -66,6 +68,13 @@ textarea {
 form.creator,
 form.editor {
   background-color: var(--form-creator-background-color);
+}
+
+form.creator > h3,
+form.editor > h3 {
+  font-weight: 900;
+  letter-spacing: -2px;
+  color: var(--form-section-heading-text-color);
 }
 
 form .btn.btn-primary {
@@ -232,8 +241,17 @@ form fieldset > div {
   padding-bottom: .25rem;
 }
 
+form fieldset h3 {
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
 form fieldset.expanded h3 {
   border-bottom-right-radius: 4px;
+}
+
+form fieldset.collapsed h3 {
+  border-bottom-left-radius: .25rem;
 }
 
 form fieldset legend.container {
@@ -332,10 +350,6 @@ form fieldset.collapsed legend.container,
 form fieldset.collapsed > div:last-of-type {
   border-bottom-left-radius: .25rem;
   border-bottom-right-radius: .25rem;
-}
-
-form fieldset.collapsed h3 {
-  border-bottom-left-radius: .25rem;
 }
 
 form fieldset.color .swatch span {
