@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 
-import World from '../../ecs'
+import World, { autoNameIfPlaceholder } from '../../env'
 
 import InlineNormalizedSlider from '../../ui/InlineNormalizedSlider'
 
@@ -13,7 +13,10 @@ const updateTarget = (component, value) => {
   component.update()
 }
 
-const Component = ({ entity }) => {
+const Component = ({
+  type,
+  entity,
+}) => {
   const clazz = entity.toLowerCase().replace(/\s+/g, '_')
 
   const { intensity } = World.getEntity(entity).c
@@ -32,7 +35,11 @@ const Component = ({ entity }) => {
       scope={clazz}
       label="intensity"
       value={strength}
-      update={val => { setStrength(val); updateTarget(intensity, val) }}
+      update={val => {
+        setStrength(val)
+        updateTarget(intensity, val)
+        autoNameIfPlaceholder(type, entity)
+      }}
     />}
   />
 }

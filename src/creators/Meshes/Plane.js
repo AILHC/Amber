@@ -1,5 +1,6 @@
 import {
   Mesh,
+  Group,
   LineSegments,
   PlaneGeometry,
   WireframeGeometry,
@@ -7,12 +8,12 @@ import {
   MeshStandardMaterial,
 } from 'three'
 
-import World, { RegisterEntity }  from '../../ecs'
+import World, { RegisterEntity }  from '../../env'
 
-import { scene } from '../../Scene'
+import { scene } from '../../env'
 
 const create = () => {
-  const geometry = new PlaneGeometry(50, 50)
+  const geometry = new PlaneGeometry(1, 1)
   const mat      = new MeshStandardMaterial({ color: 0x00ff00 })
   const mesh     = new Mesh(geometry, mat)
 
@@ -20,10 +21,14 @@ const create = () => {
   const wirefameMaterial  = new LineBasicMaterial({ color: 0xffffff })
   const wireframe         = new LineSegments(wireframeGeometry, wirefameMaterial)
 
-  mesh.add(wireframe)
+  const group = new Group()
 
-  mesh.position.set(0, -2, 0)
-  mesh.rotation.set(-(Math.PI / 2), 0, 0)
+  group.add(mesh)
+  group.add(wireframe)
+
+  group.position.set(0, 0, 0)
+  group.rotation.set(0, 0, 0)
+
   mesh.receiveShadow = true
   
   const entity = World.createEntity({
@@ -36,19 +41,31 @@ const create = () => {
         type:  'Wireframe',
         target: wireframe,
       },
+      size: {
+        type: 'PlaneSize',
+        width:  1,
+        height: 1,
+        target: group,
+      },
+      segments: {
+        type: 'PlaneSegments',
+        wide: 1,
+        high: 1,
+        target: group,
+      },
       rotation: {
         type: 'Rotation',
-        x: mesh.rotation.x,
-        y: mesh.rotation.y,
-        z: mesh.rotation.z,
-        target: mesh.rotation,
+        x: group.rotation.x,
+        y: group.rotation.y,
+        z: group.rotation.z,
+        target: group.rotation,
       },
       position: {
         type: 'Position',
-        x: mesh.position.x,
-        y: mesh.position.y,
-        z: mesh.position.z,
-        target: mesh.position,
+        x: group.position.x,
+        y: group.position.y,
+        z: group.position.z,
+        target: group.position,
       },
       color: {
         type: 'Color',
@@ -59,8 +76,8 @@ const create = () => {
       },
       visibility: {
         type: 'Visibility',
-        visible: mesh.visible,
-        target: mesh,
+        visible: group.visible,
+        target: group,
       },
       receiveShadows: {
         type: 'ReceiveShadows',
@@ -70,9 +87,9 @@ const create = () => {
     }
   })
   
-  scene.add(mesh)
+  scene.add(group)
 
-  RegisterEntity({ EcsId: entity.id, EditorId: ':placeholder:' })
+  RegisterEntity({ EcsId: entity.id, SceneId: group.uuid })
 }
 
 export default create

@@ -1,16 +1,26 @@
-import React, { useState, useReducer } from 'react'
+import React, { useState, useReducer, useEffect } from 'react'
 
 import Select from 'react-select'
 
 import World, {
   EntityAdded,
+  RemoveEntity,
   EntityRenamed,
-} from './ecs'
+  EntityRemoved,
+  EditorPlacehodlerId,
+} from './env'
 
 import Creators, { options } from './creators'
 import Editors from './editors/composites'
 
 import Welcome from './Welcome'
+
+const styles = {
+  menu: provided => ({
+    ...provided,
+    zIndex: 5,
+  })
+}
 
 const reducer = (state, action) => {
   const {
@@ -21,12 +31,13 @@ const reducer = (state, action) => {
   switch(action.type) {
     case 'EntityAdded': return [
       ...state,
-      { ecs: EcsId, editor: `Editor:${EditorId}` }
+      { ecs: EcsId, editor: `Editor:${EditorPlacehodlerId}` }
     ]
     case 'EntityRenamed': return [
       ...state.filter(s => s.ecs !== EcsId),
       { ecs: EcsId, editor: `Editor:${EditorId.current}` }
     ]
+    case 'EntityRemoved': return [...state.filter(s => s.ecs !== EcsId)]
   }
 }
 
@@ -34,22 +45,39 @@ const Component = () => {
   const [editable, dispatch   ] = useReducer(reducer, [])
   const [selected, setSelected] = useState(undefined)
 
+  const create = tokens => {
+    if (tokens[0] === 'Creator') {
+      Creators[tokens[1]]()
+  
+      setSelected(`Editor:${EditorPlacehodlerId}`)
+    }
+  }
+
   let allOptions = [...options]
 
-  EntityAdded(({ EcsId, EditorId }) =>
-    dispatch({
-      type: 'EntityAdded',
-      payload: { EcsId, EditorId }
+  useEffect(() => {
+    EntityAdded(({ EcsId, EditorId }) =>
+      dispatch({
+        type: 'EntityAdded',
+        payload: { EcsId, EditorId }
+      })
+    )
+  
+    EntityRenamed(({ EcsId, EditorId }) => {
+      dispatch({
+        type: 'EntityRenamed',
+        payload: { EcsId, EditorId },
+      })
+  
+      setSelected(`Editor:${EditorId.current}`)
     })
-  )
-
-  EntityRenamed(({ EcsId, EditorId }) => {
-    dispatch({
-      type: 'EntityRenamed',
-      payload: { EcsId, EditorId },
-    })
-
-    setSelected(`Editor:${EditorId.current}`)
+  
+    EntityRemoved(({ EcsId, EditorId }) =>
+      dispatch({
+        type: 'EntityRemoved',
+        payload: { EcsId, EditorId },
+      })
+    )
   })
 
   let entity, Comp = Welcome, entities = {
@@ -60,13 +88,15 @@ const Component = () => {
   for (const e of editable) {
     const tokens = e.editor.split(':')
 
-    entities.options.push({
-      label: tokens[1],
-      value: e.editor,
-    })
+    if (tokens[1] !== EditorPlacehodlerId)
+      entities.options.push({
+        label: tokens[1],
+        value: e.editor,
+      })
   }
   
-  allOptions.push(entities)
+  if (entities.options.length > 0)
+    allOptions.push(entities)
 
   let t, current
   
@@ -93,6 +123,7 @@ const Component = () => {
   return <div className="library">
     <div className="type shadow-sm rounded">
       <Select
+        styles={styles}
         name="library"
         isClearable
         isSearchable
@@ -101,16 +132,26 @@ const Component = () => {
           if (meta.action === 'select-option') {
             const tokens = sel.value.split(':')
 
-            if (selected === undefined || tokens[0] === 'Creator') {
-              Creators[tokens[1]]()
+            if (selected === undefined) {
+              if (tokens[0] === 'Editor')
+                setSelected(sel.value)
+              else
+                create(tokens)
+            } else {
+              if (tokens[0] === 'Editor')
+                setSelected(sel.value)
+              else {
+                RemoveEntity({ EditorId: EditorPlacehodlerId })
 
-              setSelected('Editor::placeholder:')
+                create(tokens)
+              }
             }
-            else
-              setSelected(sel.value)
           }
-          else if (meta.action === 'clear')
+          else if (meta.action === 'clear') {
+            RemoveEntity({ EditorId: EditorPlacehodlerId })
+
             setSelected(undefined)
+          }
         }}
       />
     </div> 

@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react'
 
 import Color from '../../ui/Color'
 
-import World from '../../ecs'
+import World, { autoNameIfPlaceholder } from '../../env'
 
 const updateTarget = (component, value) => {
   component.r = value.r
@@ -17,6 +17,7 @@ const updateTarget = (component, value) => {
 }
 
 const Component = ({
+  type,
   field = 'color',
   label,
   entity,
@@ -35,7 +36,11 @@ const Component = ({
     scope={entity}
     label={label}
     value={rgb}
-    update={val => { setRGB(val); updateTarget(color, val) }}
+    update={val => {
+      setRGB(val)
+      updateTarget(color, val)
+      autoNameIfPlaceholder(type, entity)
+    }}
   />
 }
 

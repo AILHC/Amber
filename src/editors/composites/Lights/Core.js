@@ -14,15 +14,18 @@ const Component = ({
   entity,
   children,
   color = {},
+  includeColor = true,
 }) =>
-  <form className={`${cssify(type)}-light editor`} id={`${cssify(entity)}-component-editor`}>
+  <form
+    onSubmit={e => e.preventDefault()}
+    id={`${cssify(entity)}-component-editor`}
+    className={`${cssify(type)}-light editor`}
+  >
+    <h3>General</h3>
     <Name entity={entity} />
-    <Wrapper label="Visible" child={<Visibility entity={entity}  />} />
-
-    <Intensity entity={entity} />
-
-    <Color entity={entity} {...color} />
-
+    <Wrapper label="Visible" child={<Visibility entity={entity} />} />
+    <Intensity entity={entity} type={`${type}Light`} />
+    {includeColor && <Color entity={entity} {...color} type={`${type}Light`} />}
     {children}
   </form>
 

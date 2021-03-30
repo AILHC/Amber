@@ -6,7 +6,7 @@ import './styles/forms.css'
 import PrimaryWindow from './PrimaryWindow'
 import PaneSelector  from './PaneSelector'
 
-import './ecs'
+import './env'
 
 const App = () =>
   <div className="container-fluid">

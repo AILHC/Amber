@@ -3,7 +3,7 @@ import { useRef, useLayoutEffect } from 'react'
 import {
   render,
   initialize,
-} from './Scene'
+} from './env'
 
 const Component = () => {
   const targetRef = useRef()

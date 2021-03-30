@@ -1,21 +1,23 @@
 import {
-  Color,
+  Group,
   Object3D,
   CameraHelper,
   DirectionalLight,
 } from 'three'
 
-import World, { RegisterEntity } from '../../ecs'
+import World, { RegisterEntity } from '../../env'
 
-import { scene } from '../../Scene'
+import { scene } from '../../env'
 
 import { ShadowMapResolutions } from '../helpers'
 
 const create = () => {
   const light = new DirectionalLight(0xffffff, 1)
   const obj   = new Object3D()
+  const group = new Group()
 
   light.position.set(0, 0, 0)
+
   light.castShadow = true
 
   const halfWidth  = 25
@@ -86,19 +88,27 @@ const create = () => {
         z: 50,
         target: obj,
       },
+      position: {
+        type: 'Position',
+        x: group.position.x,
+        y: group.position.y,
+        z: group.position.z,
+        target: group.position,
+      },
       helpers: {
         type: 'Helpers',
         value: [cameraHelper],
       }
     }
   })
+
+  group.add(obj)
+  group.add(light)
+  group.add(cameraHelper)
   
-  scene.add(obj)
-  scene.add(light)
+  scene.add(group)
 
-  scene.add(cameraHelper)
-
-  RegisterEntity({ EcsId: entity.id, EditorId: ':placeholder:' })
+  RegisterEntity({ EcsId: entity.id, SceneId: group.uuid })
 }
 
 export default create

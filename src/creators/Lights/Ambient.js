@@ -1,8 +1,8 @@
 import { AmbientLight } from 'three'
 
-import World, { RegisterEntity } from '../../ecs'
+import World, { RegisterEntity } from '../../env'
 
-import { scene } from '../../Scene'
+import { scene } from '../../env'
 
 const create = () => {
   const light  = new AmbientLight(0xffffff, .5)
@@ -31,13 +31,20 @@ const create = () => {
         g: 255,
         b: 255,
         target: light.color,
-      }
+      },
+      position: {
+        type: 'Position',
+        x: light.position.x,
+        y: light.position.y,
+        z: light.position.z,
+        target: light.position,
+      },
     }
   })
   
   scene.add(light)
 
-  RegisterEntity({ EcsId: entity.id, EditorId: ':placeholder:' })
+  RegisterEntity({ EcsId: entity.id, SceneId: light.uuid })
 }
 
 export default create

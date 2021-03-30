@@ -1,15 +1,17 @@
 import {
+  Group,
   PointLight,
   PointLightHelper,
 } from 'three'
 
-import World, { RegisterEntity } from '../../ecs'
+import World, { RegisterEntity } from '../../env'
 
-import { scene } from '../../Scene'
+import { scene } from '../../env'
 
 const create = () => {
   const light  = new PointLight(0xffffff, 1)
   const helper = new PointLightHelper(light)
+  const group  = new Group()
 
   light.position.set(0, 0, 0)
 
@@ -43,17 +45,26 @@ const create = () => {
         b: 255,
         target: light.color,
       },
+      position: {
+        type: 'Position',
+        x: light.position.x,
+        y: light.position.y,
+        z: light.position.z,
+        target: light.position,
+      },
       helper: {
         type: 'Helpers',
         value: [helper],
       }
     }
   })
-  
-  scene.add(light)
-  scene.add(helper)
 
-  RegisterEntity({ EcsId: entity.id, EditorId: ':placeholder:' })
+  group.add(light)
+  group.add(helper)
+  
+  scene.add(group)
+
+  RegisterEntity({ EcsId: entity.id, SceneId: group.uuid })
 }
 
 export default create

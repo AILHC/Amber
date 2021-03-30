@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 
-import World from '../../ecs'
+import World from '../../env'
 
 import Toggle from '../../ui/Toggle'
 
@@ -26,7 +26,10 @@ const Component = ({ entity, showLabel = false }) => {
     scope="Wireframe"
     label="visible"
     value={visible}
-    update={() => { setVisible(!visible); updateTarget(wireframe, !visible) }}
+    update={() => {
+      setVisible(!visible)
+      updateTarget(wireframe, !visible)
+    }}
   />
 }
 

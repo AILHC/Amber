@@ -4,7 +4,7 @@ import Select from 'react-select'
 
 import { ShadowMapResolutions } from '../../creators/helpers'
 
-import World from '../../ecs'
+import World, { autoNameIfPlaceholder } from '../../env'
 
 import UIWrapper from '../../helpers/FieldsetWrapper'
 
@@ -42,7 +42,10 @@ const updateTarget = (component, value) => {
   component.update()
 }
 
-const Component = ({ entity }) => {
+const Component = ({
+  type,
+  entity,
+}) => {
   const { shadowMapResolution } = World.getEntity(entity).c
 
   let [resolution, setResolution] = useState(undefined)
@@ -68,6 +71,8 @@ const Component = ({ entity }) => {
         setResolution(0)
         updateTarget(shadowMapResolution, 0)
       }
+
+      autoNameIfPlaceholder(`${type}Light`, entity)
     }}
   />
 

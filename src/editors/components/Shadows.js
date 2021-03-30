@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import World from '../../ecs'
+import World from '../../env'
 
 import { classes } from '../../ui/helpers'
 

@@ -14,7 +14,7 @@ export const initialize = (width, height) => {
   const canvas = document.getElementById('primary-window')
 
   camera   = new PerspectiveCamera(75, width / height, 0.1, 1000)
-  renderer = new WebGLRenderer({ canvas })
+  renderer = new WebGLRenderer({ canvas, antialias: true })
 
   const controls = new OrbitControls(camera, canvas)
 

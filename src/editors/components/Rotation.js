@@ -1,10 +1,12 @@
 import React, { useState, useMemo } from 'react'
 
-import World from '../../ecs'
+import World, { autoNameIfPlaceholder } from '../../env'
 
 import Object from '../../ui/Object'
 
-const updateTarget = (entity, axis, value) => {
+import { axis } from './helpers'
+
+const doUpdateTarget = (entity, axis, value) => {
   const { rotation } = World.getEntity(entity).c
 
   const denormalized = ((value - 50) * .02) * Math.PI
@@ -17,22 +19,26 @@ const updateTarget = (entity, axis, value) => {
 
 const convert = val => `${Math.round(((val - 50) * 2) * 1.8)}°`
 
-const axis = (entity, label, value, fn) => ({
-  label,
-  value,
+const common = (val, type) => ({
   max:  Math.PI,
   min: -Math.PI,
-  type: 'NormalizedSlider',
+
+  type:  'NormalizedSlider',
   scope: 'Rotation',
+
   displayLabel: true,
-  displayValue: convert(value),
-  update: val => {
-    fn(val)
-    updateTarget(entity, label, val)
+  displayValue: convert(val),
+
+  updateTarget: (entity, axis, value) => {
+    doUpdateTarget(entity, axis, value)
+    autoNameIfPlaceholder(type, entity)
   },
 })
 
-const Component = ({ entity }) => {
+const Component = ({
+  type,
+  entity,
+}) => {
   const { rotation } = World.getEntity(entity).c
 
   let [x, setX] = useState(50)
@@ -49,13 +55,15 @@ const Component = ({ entity }) => {
     setZ(z)
   }, [entity, x, y, z])
 
-  const rotationFields = [
-    axis(entity, 'x', x, setX),
-    axis(entity, 'y', y, setY),
-    axis(entity, 'z', z, setZ),
-  ]
-
-  return <Object label="Rotation" fields={rotationFields} summaryConverter={convert} />
+  return <Object
+    label="Rotation"
+    summaryConverter={convert}
+    fields={[
+      axis(entity, 'x', x, setX, common(x, type)),
+      axis(entity, 'y', y, setY, common(y, type)),
+      axis(entity, 'z', z, setZ, common(z, type)),
+    ]}
+  />
 }
 
 export default Component

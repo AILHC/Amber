@@ -1,23 +1,37 @@
 import React, { useState, useMemo } from 'react'
 
-import World from '../../ecs'
+import World, { autoNameIfPlaceholder } from '../../env'
 
 import Object from '../../ui/Object'
 
-const common = {
-  scope: 'Position',
-  min: -5,
+import { axis } from './helpers'
+
+const doUpdateTarget = (entity, axis, value) => {
+  const { position } = World.getEntity(entity).c
+
+  position[axis]        = value
+  position.target[axis] = value
+
+  position.update()
+}
+
+const common = type => ({
   max:  5,
-}
+  min: -5,
 
-const updateTarget = (component, axis, value) => {
-  component[axis] = value
-  component.target[axis] = value
+  type:  'Slider',
+  scope: 'Position',
 
-  component.update()
-}
+  updateTarget: (entity, axis, value) => {
+    doUpdateTarget(entity, axis, value)
+    autoNameIfPlaceholder(type, entity)
+  },
+})
 
-const Component = ({ entity }) => {
+const Component = ({
+  type,
+  entity,
+}) => {
   const { position } = World.getEntity(entity).c
 
   let [x, setX] = useState(undefined)
@@ -34,27 +48,14 @@ const Component = ({ entity }) => {
     setZ(z)
   }, [entity, x, y, z])
 
-  const positionFields = [{
-    type: 'Slider',
-    label: 'x',
-    value: x,
-    update: val => { setX(val); updateTarget(position, 'x', val) },
-    ...common,
-  }, {
-    type: 'Slider',
-    label: 'y',
-    value: y,
-    update: val => { setY(val); updateTarget(position, 'y', val) },
-    ...common,
-  }, {
-    type: 'Slider',
-    label: 'z',
-    value: z,
-    update: val => { setZ(val); updateTarget(position, 'z', val) },
-    ...common,
-  }]
-
-  return <Object label="Position" fields={positionFields} />
+  return <Object
+    label="Position"
+    fields={[
+      axis(entity, 'x', x, setX, common(type)),
+      axis(entity, 'y', y, setY, common(type)),
+      axis(entity, 'z', z, setZ, common(type)),
+    ]}
+  />
 }
 
 export default Component

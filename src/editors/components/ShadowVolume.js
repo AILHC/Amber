@@ -1,18 +1,12 @@
 import React, { useState, useMemo } from 'react'
 
-import World from '../../ecs'
+import World, { autoNameIfPlaceholder } from '../../env'
 
 import Object from '../../ui/Object'
 
-const common = {
-  min:      4,
-  max:    500,
-  step:     2,
-  type:  'Slider',
-  scope: 'ShadowVolume',
-}
+import { axis } from './helpers'
 
-const updateTarget = (entity, axis, value) => {
+const doUpdateTarget = (entity, axis, value) => {
   const {
     helpers,
     shadowVolume,
@@ -45,7 +39,23 @@ const updateTarget = (entity, axis, value) => {
     h.update()
 }
 
-const Component = ({ entity }) => {
+const common = type => ({
+  max: 500,
+  min:   4,
+
+  type:  'Slider',
+  scope: 'ShadowVolume',
+
+  updateTarget: (entity, axis, value) => {
+    doUpdateTarget(entity, axis, value)
+    autoNameIfPlaceholder(`${type}Light`, entity)
+  },
+})
+
+const Component = ({
+  type,
+  entity,
+}) => {
   const { shadowVolume } = World.getEntity(entity).c
 
   let [width,  setWidth ] = useState(undefined)
@@ -62,34 +72,19 @@ const Component = ({ entity }) => {
     setDepth  (depth )
   }, [entity, width, height])
 
-  const volumeFields = [{
-    ...common,
-    label: 'width',
-    value:  width,
-    update: val => {
-      setWidth(val)
-      updateTarget(entity, 'width', val)
-    },
-  }, {
-    ...common,
-    label: 'height',
-    value:  height,
-    update: val => {
-      setHeight(val)
-      updateTarget(entity, 'height', val)
-    },
-  }, {
-    ...common,
-    step:   1,
-    label: 'depth',
-    value:  depth,
-    update: val => {
-      setDepth(val)
-      updateTarget(entity, 'depth', val)
-    },
-  }]
-
-  return <Object label="Volume" fields={volumeFields} />
+  return <Object
+    label="Volume"
+    fields={[{
+      ...axis(entity, 'width', width, setWidth, common(type)),
+      step: 2,
+    }, {
+      ...axis(entity, 'height', height, setHeight, common(type)),
+      step: 2,
+    }, {
+      ...axis(entity, 'depth', depth, setDepth, common(type)),
+      step: 1,
+    }]}
+  />
 }
 
 export default Component

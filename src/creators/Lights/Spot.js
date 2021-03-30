@@ -1,17 +1,19 @@
 import {
+  Group,
   Object3D,
   SpotLight,
   SpotLightHelper,
 } from 'three'
 
-import World, { RegisterEntity } from '../../ecs'
+import World, { RegisterEntity } from '../../env'
 
-import { scene } from '../../Scene'
+import { scene } from '../../env'
 
 const create = () => {
   const light  = new SpotLight(0xffffff, 1)
   const obj    = new Object3D()
   const helper = new SpotLightHelper(light)
+  const group  = new Group()
 
   light.position.set(0, 0, 0)
   light.castShadow = true
@@ -54,6 +56,13 @@ const create = () => {
         z: 50,
         target: obj,
       },
+      position: {
+        type: 'Position',
+        x: light.position.x,
+        y: light.position.y,
+        z: light.position.z,
+        target: light.position,
+      },
       helper: {
         type: 'Helpers',
         value: [helper],
@@ -61,11 +70,13 @@ const create = () => {
     }
   })
   
-  scene.add(obj)
-  scene.add(light)
-  scene.add(helper)
+  group.add(obj)
+  group.add(light)
+  group.add(helper)
 
-  RegisterEntity({ EcsId: entity.id, EditorId: ':placeholder:' })
+  scene.add(group)
+
+  RegisterEntity({ EcsId: entity.id, SceneId: group.uuid })
 }
 
 export default create

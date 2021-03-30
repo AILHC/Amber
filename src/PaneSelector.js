@@ -46,7 +46,7 @@ const Tab = ({ pane, active, children }) =>
     {children}
   </div>
 
-const Component = () => {
+const Component = ({ editingStateManager }) => {
   const [mode, setMode] = useState('library')
 
   return <div className="selector pane col-2 g-0">
@@ -70,7 +70,7 @@ const Component = () => {
     </ul>
     <div className="tab-content" id="nav-tab-content">
       <Tab pane="library" active={mode === 'library'}>
-        <Library />
+        <Library editingStateManager={editingStateManager} />
       </Tab>
       <Tab pane="settings" active={mode === 'settings'}>
         <h3>Settings</h3>

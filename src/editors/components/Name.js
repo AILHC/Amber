@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useMemo, useEffect, useReducer } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSave          } from '@fortawesome/pro-duotone-svg-icons'
 
 import {
   RenameEntity,
+  EntityRenamed,
   EntitiesByEcsId,
-} from '../../ecs'
+  EditorPlacehodlerId,
+} from '../../env'
 
 import Text from '../../ui/Text'
 
@@ -19,15 +21,42 @@ const styles = {
   '--fa-secondary-opacity': 'var(--primary-button-secondary-opacity)'
 }
 
-const Component = ({ entity }) => {
-  const [id, setId] = useState(EntitiesByEcsId[entity])
+const reducer = (_, action) => {
+  switch(action.type) {
+    case 'EntityRenamed': return action.payload.EditorId.current
+  }
+}
 
-  const value = id === ':placeholder:' ? '' : id
+const Component = ({ entity }) => {
+  let [id, dispatch] = useReducer(reducer, undefined)
+
+  useEffect(() =>
+    EntityRenamed(({ EcsId, EditorId }) => {
+      if (EcsId === entity)
+        dispatch({
+          type: 'EntityRenamed',
+          payload: { EditorId },
+        })
+    })
+  )
+
+  useMemo(() => id = EntitiesByEcsId[entity], [entity])
+
+  const value = id === EditorPlacehodlerId ? '' : id
 
   return <Wrapper label="Name" child={
       <div className="col g-0">
         <div className="row">
-          <Text columns={10} scope={entity} label="name" value={value} update={setId} />
+          <Text
+            columns={10}
+            scope={entity}
+            label="name"
+            value={value}
+            update={val => dispatch({
+              type: 'EntityRenamed',
+              payload: { EditorId: { current: val } },
+            })}
+          />
           <div className="col-2 g-0 save-name">
             <button
               type="button"

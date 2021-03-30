@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 
-import World from '../../ecs'
+import World, { autoNameIfPlaceholder } from '../../env'
 
 import Toggle from '../../ui/Toggle'
 
@@ -11,7 +11,11 @@ const updateTarget = (component, value) => {
   component.update()
 }
 
-const Component = ({ entity, showLabel = false }) => {
+const Component = ({
+  type,
+  entity,
+  showLabel = false,
+}) => {
   const { receiveShadows } = World.getEntity(entity).c
 
   let [receive, setReceive] = useState(undefined)
@@ -27,7 +31,11 @@ const Component = ({ entity, showLabel = false }) => {
     scope="Shadows"
     label="receive"
     value={receive}
-    update={() => { setReceive(!receive); updateTarget(receiveShadows, !receive) }}
+    update={() => {
+      setReceive(!receive)
+      updateTarget(receiveShadows, !receive)
+      autoNameIfPlaceholder(type, entity)
+    }}
   />
 }
 

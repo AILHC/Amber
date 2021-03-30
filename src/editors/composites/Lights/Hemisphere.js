@@ -6,11 +6,14 @@ import Light from './Core'
 
 const Component = ({ entity }) =>
   <Light
-    type="directional"
+    type="Directional"
     entity={entity}
-    color={{ field: 'skyColor', label: 'Sky' }}
+    includeColor={false}
   >
-    <Color entity={entity} field="groundColor" label="Ground" />
+    <div className="section-boundary" />
+    <h3>Colors</h3>
+    <Color entity={entity} field="skyColor"    label="Sky"    type="HemisphereLight" />
+    <Color entity={entity} field="groundColor" label="Ground" type="HemisphereLight" />
   </Light>
 
 export default Component

@@ -5,21 +5,32 @@ import {
   Quaternion,
 } from 'three'
 
-import World from '../../ecs'
+import World, { autoNameIfPlaceholder } from '../../env'
 
 import Object from '../../ui/Object'
 
-const common = {
-  type:        'NormalizedSlider',
-  scope:       'Rotation',
+import { axis } from './helpers'
+
+const common = (val, type) => ({
+  type:  'NormalizedSlider',
+  scope: 'Rotation',
+
   displayLabel: true,
-}
+  displayValue: convert(val),
+
+  updateTarget: (entity, axis, value) => {
+    doUpdateTarget(entity, axis, value)
+    autoNameIfPlaceholder(`${type}Light`, entity)
+  },
+})
 
 const toDegrees = val => (val - 50) * 3.6
 const toRadians = val => val * (Math.PI / 180)
 
-const updateTarget = (component, axis, value) => {
-  const current = toDegrees(component[axis])
+const doUpdateTarget = (entity, axis, value) => {
+  const { rotation } = World.getEntity(entity).c
+
+  const current = toDegrees(rotation[axis])
   const next    = toDegrees(value)
   const radians = toRadians(current - next)
 
@@ -30,33 +41,21 @@ const updateTarget = (component, axis, value) => {
   const quaternion = new Quaternion()
   quaternion.setFromAxisAngle(rotateAround, radians)
 
-  component.target.position.applyQuaternion(quaternion)
+  rotation.target.position.applyQuaternion(quaternion)
 
-  component[axis] = value
+  rotation[axis] = value
 
-  component.target.updateMatrixWorld()
+  rotation.target.updateMatrixWorld()
 
-  component.update()
+  rotation.update()
 }
-
-const doUpdate = (entity, fn, axis) => val => {
-  const { rotation } = World.getEntity(entity).c
-
-  fn(val)
-  updateTarget(rotation, axis, val)
-}
-
-const axis = (entity, label, value, fn) => ({
-  ...common,
-  label,
-  value,
-  displayValue: convert(value),
-  update: doUpdate(entity, fn, label),
-})
 
 const convert = val => `${Math.round(toDegrees(val))}°`
 
-const Component = ({ entity }) => {
+const Component = ({
+  type,
+  entity,
+}) => {
   const { rotation } = World.getEntity(entity).c
 
   let [x, setX] = useState(50)
@@ -74,12 +73,16 @@ const Component = ({ entity }) => {
   }, [entity, x, y, z])
 
   const rotationFields = [
-    axis(entity, 'x', x, setX),
-    axis(entity, 'y', y, setY),
-    axis(entity, 'z', z, setZ)
+    axis(entity, 'x', x, setX, common(x, type)),
+    axis(entity, 'y', y, setY, common(y, type)),
+    axis(entity, 'z', z, setZ, common(z, type))
   ]
 
-  return <Object label="Rotation" fields={rotationFields} summaryConverter={convert} />
+  return <Object
+    label="Rotation"
+    fields={rotationFields}
+    summaryConverter={convert}
+  />
 }
 
 export default Component

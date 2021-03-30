@@ -2,6 +2,12 @@ import React from 'react'
 
 import ShadowCaster from './CanCastShadows'
 
-const Component = ({ entity }) => <ShadowCaster type="point" entity={entity} />
+import Position from '../../components/Position'
+
+const Component = ({ entity }) =>
+  <ShadowCaster type="Point" entity={entity}>
+    <h3>Geometry</h3>
+    <Position entity={entity} type="PointLight" />
+  </ShadowCaster>
 
 export default Component

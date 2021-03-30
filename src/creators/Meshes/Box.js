@@ -1,5 +1,6 @@
 import {
   Mesh,
+  Group,
   BoxGeometry,
   LineSegments,
   WireframeGeometry,
@@ -7,9 +8,9 @@ import {
   MeshStandardMaterial,
 } from 'three'
 
-import World, { RegisterEntity } from '../../ecs'
+import World, { RegisterEntity } from '../../env'
 
-import { scene } from '../../Scene'
+import { scene } from '../../env'
 
 const create = () => {
   const geometry = new BoxGeometry(1, 1, 1)
@@ -20,9 +21,12 @@ const create = () => {
   const wirefameMaterial  = new LineBasicMaterial({ color: 0xffffff })
   const wireframe         = new LineSegments(wireframeGeometry, wirefameMaterial)
 
-  mesh.add(wireframe)
+  const group = new Group()
 
-  mesh.position.set(0, 0, 0)
+  group.add(mesh)
+  group.add(wireframe)
+
+  group.position.set(0, 0, 0)
 
   mesh.castShadow    = true
   mesh.receiveShadow = false
@@ -37,19 +41,33 @@ const create = () => {
         type:  'Wireframe',
         target: wireframe,
       },
+      size: {
+        type: 'BoxSize',
+        width:  1,
+        height: 1,
+        depth:  1,
+        target: group,
+      },
+      segments: {
+        type: 'BoxSegments',
+        wide: 1,
+        high: 1,
+        deep: 1,
+        target: group,
+      },
       rotation: {
         type: 'Rotation',
-        x: mesh.rotation.x,
-        y: mesh.rotation.y,
-        z: mesh.rotation.z,
-        target: mesh.rotation,
+        x: group.rotation.x,
+        y: group.rotation.y,
+        z: group.rotation.z,
+        target: group.rotation,
       },
       position: {
         type: 'Position',
-        x: mesh.position.x,
-        y: mesh.position.y,
-        z: mesh.position.z,
-        target: mesh.position,
+        x: group.position.x,
+        y: group.position.y,
+        z: group.position.z,
+        target: group.position,
       },
       color: {
         type: 'Color',
@@ -60,8 +78,8 @@ const create = () => {
       },
       visibility: {
         type:   'Visibility',
-        visible: mesh.visible,
-        target:  mesh,
+        visible: group.visible,
+        target:  group,
       },
       receiveShadows: {
         type:  'ReceiveShadows',
@@ -78,9 +96,9 @@ const create = () => {
 
   wireframe.name = entity.id
   
-  scene.add(mesh)
+  scene.add(group)
 
-  RegisterEntity({ EcsId: entity.id, EditorId: ':placeholder:' })
+  RegisterEntity({ EcsId: entity.id, SceneId: group.uuid })
 }
 
 export default create

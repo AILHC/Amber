@@ -3,9 +3,9 @@ import {
   HemisphereLight,
 } from 'three'
 
-import World, { RegisterEntity } from '../../ecs'
+import World, { RegisterEntity } from '../../env'
 
-import { scene } from '../../Scene'
+import { scene } from '../../env'
 
 const create = () => {
   const skyColor    = new Color(.5, .5,  1)
@@ -49,7 +49,7 @@ const create = () => {
   
   scene.add(light)
 
-  RegisterEntity({ EcsId: entity.id, EditorId: ':placeholder:' })
+  RegisterEntity({ EcsId: entity.id, SceneId: light.uuid })
 }
 
 export default create
