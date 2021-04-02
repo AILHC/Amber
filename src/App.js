@@ -3,17 +3,15 @@ import React from 'react'
 import './styles/app.css'
 import './styles/forms.css'
 
-import PrimaryWindow from './PrimaryWindow'
-import PaneSelector  from './PaneSelector'
+import PaneSelector                 from './PaneSelector'
+import TransformControlModeSelector from './TransformControlModeSelector'
 
 import './env'
 
 const App = () =>
-  <div className="container-fluid">
-    <div className="row">
-      <PaneSelector />
-      <PrimaryWindow />
-    </div>
+  <div id="amber">
+    <PaneSelector />
+    <TransformControlModeSelector />
   </div>
 
 export default App

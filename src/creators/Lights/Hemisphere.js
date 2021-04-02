@@ -43,7 +43,14 @@ const create = () => {
         g: 255,
         b: 127,
         target: light.groundColor,
-      }
+      },
+      position: {
+        type: 'Position',
+        x: light.position.x,
+        y: light.position.y,
+        z: light.position.z,
+        target: light.position,
+      },
     }
   })
   

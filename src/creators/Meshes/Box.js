@@ -8,9 +8,10 @@ import {
   MeshStandardMaterial,
 } from 'three'
 
-import World, { RegisterEntity } from '../../env'
-
-import { scene } from '../../env'
+import World, {
+  scene,
+  RegisterEntity,
+} from '../../env'
 
 const create = () => {
   const geometry = new BoxGeometry(1, 1, 1)

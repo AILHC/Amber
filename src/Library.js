@@ -1,13 +1,17 @@
 import React, { useState, useReducer, useEffect } from 'react'
 
-import Select from 'react-select'
+import Select, { SetValueAction } from 'react-select'
 
 import World, {
+  scene,
+  helpers,
   EntityAdded,
   RemoveEntity,
   EntityRenamed,
   EntityRemoved,
+  EntitiesByEditorId,
   EditorPlacehodlerId,
+  SceneElementsByEditorId,
 } from './env'
 
 import Creators, { options } from './creators'
@@ -41,7 +45,11 @@ const reducer = (state, action) => {
   }
 }
 
-const Component = () => {
+let registeredForEntityActivity = false
+
+let registeredForEntityRename = {}
+
+const Library = () => {
   const [editable, dispatch   ] = useReducer(reducer, [])
   const [selected, setSelected] = useState(undefined)
 
@@ -49,35 +57,30 @@ const Component = () => {
     if (tokens[0] === 'Creator') {
       Creators[tokens[1]]()
   
-      setSelected(`Editor:${EditorPlacehodlerId}`)
+      setSelected({ label: tokens[1], value: `Editor:${EditorPlacehodlerId}` })
     }
   }
 
   let allOptions = [...options]
 
   useEffect(() => {
-    EntityAdded(({ EcsId, EditorId }) =>
-      dispatch({
-        type: 'EntityAdded',
-        payload: { EcsId, EditorId }
-      })
-    )
+    if (registeredForEntityActivity === false) {
+      EntityAdded(({ EcsId, EditorId }) =>
+        dispatch({
+          type: 'EntityAdded',
+          payload: { EcsId, EditorId }
+        })
+      )
   
-    EntityRenamed(({ EcsId, EditorId }) => {
-      dispatch({
-        type: 'EntityRenamed',
-        payload: { EcsId, EditorId },
-      })
-  
-      setSelected(`Editor:${EditorId.current}`)
-    })
-  
-    EntityRemoved(({ EcsId, EditorId }) =>
-      dispatch({
-        type: 'EntityRemoved',
-        payload: { EcsId, EditorId },
-      })
-    )
+      EntityRemoved(({ EcsId, EditorId }) =>
+        dispatch({
+          type: 'EntityRemoved',
+          payload: { EcsId, EditorId },
+        })
+      )
+
+      registeredForEntityActivity = true
+    }
   })
 
   let entity, Comp = Welcome, entities = {
@@ -101,7 +104,7 @@ const Component = () => {
   let t, current
   
   if (selected) {
-    t       = selected.split(':')
+    t       = selected.value.split(':')
     current = t[1]
     
     if (t[0] === 'Editor') {
@@ -123,6 +126,7 @@ const Component = () => {
   return <div className="library">
     <div className="type shadow-sm rounded">
       <Select
+        value={selected}
         styles={styles}
         name="library"
         isClearable
@@ -132,22 +136,45 @@ const Component = () => {
           if (meta.action === 'select-option') {
             const tokens = sel.value.split(':')
 
-            if (selected === undefined) {
-              if (tokens[0] === 'Editor')
-                setSelected(sel.value)
-              else
-                create(tokens)
+            let uuid
+
+            if (tokens[0] === 'Editor') {
+              setSelected(sel)
+
+              uuid = SceneElementsByEditorId[tokens[1]]
             } else {
-              if (tokens[0] === 'Editor')
-                setSelected(sel.value)
-              else {
+              if (selected !== undefined)
                 RemoveEntity({ EditorId: EditorPlacehodlerId })
 
-                create(tokens)
+              create(tokens)
+
+              const ecsId = EntitiesByEditorId[EditorPlacehodlerId]
+
+              if (!registeredForEntityRename[ecsId]) {
+                EntityRenamed(ecsId, ({ EcsId, EditorId }) => {
+                  dispatch({
+                    type: 'EntityRenamed',
+                    payload: { EcsId, EditorId },
+                  })
+              
+                  setSelected({ label: EditorId.current, value: `Editor:${EditorId.current}` })
+                })
+
+                registeredForEntityRename[ecsId] = true
               }
+
+              uuid = SceneElementsByEditorId[EditorPlacehodlerId]
             }
+
+            const obj = scene.getObjectByProperty('uuid', uuid)
+
+            helpers.transform.enabled = true
+            helpers.transform.attach(obj)
           }
           else if (meta.action === 'clear') {
+            helpers.transform.enabled = false
+            helpers.transform.detach()
+
             RemoveEntity({ EditorId: EditorPlacehodlerId })
 
             setSelected(undefined)
@@ -159,4 +186,4 @@ const Component = () => {
   </div>
 }
 
-export default Component
+export default Library

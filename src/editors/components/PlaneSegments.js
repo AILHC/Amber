@@ -11,11 +11,8 @@ import Object from '../../ui/Object'
 
 import { axis } from './helpers'
 
-const doUpdateTarget = (entity, axis, value) => {
-  const {
-    size,
-    segments,
-  } = World.getEntity(entity).c
+const doUpdateTarget = (entity, segments, axis, value) => {
+  const { size } = World.getEntity(entity).c
 
   let resized = { ...segments }
 
@@ -24,6 +21,7 @@ const doUpdateTarget = (entity, axis, value) => {
   const updated = new PlaneGeometry(
     size.width,
     size.height,
+
     resized.wide,
     resized.high,
   )
@@ -39,7 +37,7 @@ const doUpdateTarget = (entity, axis, value) => {
   segments.update()
 }
 
-const common = {
+const common = (entity, segments) => ({
   max: 10,
   min:  1,
   step: 1,
@@ -47,13 +45,13 @@ const common = {
   type:  'Slider',
   scope: 'Segments',
 
-  updateTarget: (entity, axis, value) => {
-    doUpdateTarget(entity, axis, value)
+  updateTarget: (axis, value) => {
+    doUpdateTarget(entity, segments, axis, value)
     autoNameIfPlaceholder('Plane', entity)
   },
-}
+})
 
-const Component = ({ entity }) => {
+const PlaneSegments = ({ entity }) => {
   const { segments } = World.getEntity(entity).c
 
   let [wide, setWide] = useState(undefined)
@@ -70,10 +68,10 @@ const Component = ({ entity }) => {
   return <Object
     label="Segments"
     fields={[
-      axis(entity, 'wide', wide, setWide, common),
-      axis(entity, 'high', high, setHigh, common),
+      axis('wide', wide, setWide, common(entity, segments)),
+      axis('high', high, setHigh, common(entity, segments)),
     ]}
   />
 }
 
-export default Component
+export default PlaneSegments

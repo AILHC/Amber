@@ -4,7 +4,8 @@ import {
   PerspectiveCamera,
 } from 'three'
 
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { OrbitControls     } from 'three/examples/jsm/controls/OrbitControls'
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls'
 
 import World from './Ape'
 
@@ -12,8 +13,6 @@ import C from './components'
 import S from './systems'
 
 import Editors from '../editors/composites'
-
-let renderer, camera
 
 export default World
 
@@ -26,6 +25,15 @@ const uniqueName = type => `${type} ${instances[type.replace(/\s+/g, '')]++}`
 const autoName = (type, entity) =>
   RenameEntity({ EcsId: entity, EditorId: uniqueName(type) })
 
+const width  = window.innerWidth - 280
+const height = window.innerHeight
+
+const canvas    = document.getElementById('graphics-context')
+const camera    = new PerspectiveCamera(75, width / height, 0.1, 1000)
+const renderer  = new WebGLRenderer({ canvas, antialias: true })
+const orbit     = new OrbitControls(camera, canvas)
+const transform = new TransformControls(camera, canvas)
+
 export const autoNameIfPlaceholder = (type, entity) => {
   if (EntitiesByEcsId[entity] === EditorPlacehodlerId)
     autoName(type, entity)
@@ -34,31 +42,41 @@ export const autoNameIfPlaceholder = (type, entity) => {
 export const Components = C
 export const Systems    = S
 
-export const scene = new Scene()
-
-export const initialize = (width, height) => {
-  const canvas = document.getElementById('primary-window')
-
-  camera   = new PerspectiveCamera(75, width / height, 0.1, 1000)
-  renderer = new WebGLRenderer({ canvas, antialias: true })
-
-  const controls = new OrbitControls(camera, canvas)
-
-  controls.target.set(0, 0, 0)
-  controls.update()
-
-  renderer.shadowMap.enabled = true
-
-  camera.position.z = 5
-
-  renderer.setSize(width, height)
+export const scene     = new Scene()
+export const helpers = {
+  transform,
+  orbit,
 }
 
-export const render = () => {
-  renderer.render(scene, camera)
+let translateCallback, rotateCallback
 
-  requestAnimationFrame(render)
-}
+export const onTranslate = cb => translateCallback = cb
+export const onRotate    = cb => rotateCallback    = cb
+
+transform.enabled = false
+
+transform.addEventListener('dragging-changed', e =>
+  orbit.enabled = !e.value
+)
+
+transform.addEventListener('dragging-changed', e => {
+  if (e.value === false)
+    switch (e.target.mode) {
+      case 'translate': return translateCallback  (e.target.object.position)
+      case 'rotate':    return rotateCallback     (e.target.object.rotation)
+    }
+})
+
+scene.add(helpers.transform)
+
+orbit.target.set(0, 0, 0)
+orbit.update()
+
+renderer.shadowMap.enabled = true
+
+camera.position.z = 5
+
+renderer.setSize(width, height)
 
 export const EntitiesByEcsId = {
   // Key: Ecs Id
@@ -77,11 +95,16 @@ export const SceneElementsByEditorId = {
 
 let entityAddedCallback    = () => {}
 let entityRemovedCallback  = () => {}
-let entityRenamedCallbacks = []
+let entityRenamedCallbacks = {}
 
 export const EntityAdded   = cb => entityAddedCallback   = cb
 export const EntityRemoved = cb => entityRemovedCallback = cb
-export const EntityRenamed = cb => entityRenamedCallbacks.push(cb)
+export const EntityRenamed = (id, cb) => {
+  if (Array.isArray(entityRenamedCallbacks[id]))
+    entityRenamedCallbacks[id].push(cb)
+  else
+    entityRenamedCallbacks[id] = [cb]
+}
 
 export const EditorPlacehodlerId = '__PLACEHOLDER__'
 
@@ -104,7 +127,7 @@ export const RenameEntity = ({ EcsId, EditorId }) => {
   EntitiesByEditorId      [EditorId] = EcsId
   SceneElementsByEditorId [EditorId] = sceneId
 
-  for (const cb of entityRenamedCallbacks)
+  for (const cb of entityRenamedCallbacks[EcsId])
     cb({ EcsId, SceneId: sceneId, EditorId: { old: oldEditorId, current: EditorId }})
 }
 
@@ -182,8 +205,27 @@ const loop = t => {
   World.runSystems('frame')
 
   lastFrame = t
-
-  requestAnimationFrame(loop)
 }
 
-loop(lastFrame)
+export const render = () => {
+  loop()
+
+  renderer.render(scene, camera)
+
+  requestAnimationFrame(render)
+}
+
+const onWindowResize = () => {
+  const width  = window.innerWidth - 280
+  const height = window.innerHeight
+  const aspect = width / height
+
+  camera.aspect = aspect
+  camera.updateProjectionMatrix()
+
+  renderer.setSize(width, height)
+}
+
+window.addEventListener('resize', onWindowResize)
+
+render()

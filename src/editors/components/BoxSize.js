@@ -11,11 +11,8 @@ import Object from '../../ui/Object'
 
 import { axis } from './helpers'
 
-const doUpdateTarget = (entity, axis, value) => {
-  const {
-    size,
-    segments,
-  } = World.getEntity(entity).c
+const doUpdateTarget = (entity, size, axis, value) => {
+  const { segments } = World.getEntity(entity).c
 
   let resized = { ...size }
 
@@ -25,6 +22,7 @@ const doUpdateTarget = (entity, axis, value) => {
     resized.width,
     resized.height,
     resized.depth,
+
     segments.wide,
     segments.high,
     segments.deep,
@@ -41,20 +39,20 @@ const doUpdateTarget = (entity, axis, value) => {
   size.update()
 }
 
-const common = {
+const common = (entity, size) => ({
   max: 10,
   min:  1,
 
   type:  'Slider',
   scope: 'Size',
 
-  updateTarget: (entity, axis, value) => {
-    doUpdateTarget(entity, axis, value)
+  updateTarget: (axis, value) => {
+    doUpdateTarget(entity, size, axis, value)
     autoNameIfPlaceholder('Box', entity)
   },
-}
+})
 
-const Component = ({ entity }) => {
+const BoxSize = ({ entity }) => {
   const { size } = World.getEntity(entity).c
 
   let [width,  setWidth ] = useState(undefined)
@@ -69,16 +67,16 @@ const Component = ({ entity }) => {
     setWidth  (width )
     setHeight (height)
     setDepth  (depth )
-  }, [entity, width, height, depth])
+  }, [entity])
 
   return <Object
     label="Size"
     fields={[
-      axis(entity, 'width',  width,  setWidth,  common),
-      axis(entity, 'height', height, setHeight, common),
-      axis(entity, 'depth',  depth,  setDepth,  common),
+      axis('width',  width,  setWidth,  common(entity, size)),
+      axis('height', height, setHeight, common(entity, size)),
+      axis('depth',  depth,  setDepth,  common(entity, size)),
     ]}
   />
 }
 
-export default Component
+export default BoxSize

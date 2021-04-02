@@ -6,11 +6,8 @@ import Object from '../../ui/Object'
 
 import { axis } from './helpers'
 
-const doUpdateTarget = (entity, axis, value) => {
-  const {
-    helpers,
-    shadowVolume,
-  } = World.getEntity(entity).c
+const doUpdateTarget = (entity, shadowVolume, axis, value) => {
+  const { helpers } = World.getEntity(entity).c
 
   const half = value * .5
 
@@ -39,20 +36,20 @@ const doUpdateTarget = (entity, axis, value) => {
     h.update()
 }
 
-const common = type => ({
+const common = (entity, shadowVolume, type) => ({
   max: 500,
   min:   4,
 
   type:  'Slider',
   scope: 'ShadowVolume',
 
-  updateTarget: (entity, axis, value) => {
-    doUpdateTarget(entity, axis, value)
+  updateTarget: (axis, value) => {
+    doUpdateTarget(entity, shadowVolume, axis, value)
     autoNameIfPlaceholder(`${type}Light`, entity)
   },
 })
 
-const Component = ({
+const ShadowVOlume = ({
   type,
   entity,
 }) => {
@@ -75,16 +72,16 @@ const Component = ({
   return <Object
     label="Volume"
     fields={[{
-      ...axis(entity, 'width', width, setWidth, common(type)),
+      ...axis('width', width, setWidth, common(entity, shadowVolume, type)),
       step: 2,
     }, {
-      ...axis(entity, 'height', height, setHeight, common(type)),
+      ...axis('height', height, setHeight, common(entity, shadowVolume, type)),
       step: 2,
     }, {
-      ...axis(entity, 'depth', depth, setDepth, common(type)),
+      ...axis('depth', depth, setDepth, common(entity, shadowVolume, type)),
       step: 1,
     }]}
   />
 }
 
-export default Component
+export default ShadowVOlume

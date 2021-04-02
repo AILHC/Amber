@@ -11,11 +11,8 @@ import Object from '../../ui/Object'
 
 import { axis } from './helpers'
 
-const doUpdateTarget = (entity, axis, value) => {
-  const {
-    size,
-    segments,
-  } = World.getEntity(entity).c
+const doUpdateTarget = (entity, segments, axis, value) => {
+  const { size } = World.getEntity(entity).c
 
   let resized = { ...segments }
 
@@ -25,6 +22,7 @@ const doUpdateTarget = (entity, axis, value) => {
     size.width,
     size.height,
     size.depth,
+
     resized.wide,
     resized.high,
     resized.deep,
@@ -41,7 +39,7 @@ const doUpdateTarget = (entity, axis, value) => {
   segments.update()
 }
 
-const common = {
+const common = (entity, segments) => ({
   max: 10,
   min:  1,
   step: 1,
@@ -49,13 +47,13 @@ const common = {
   type:  'Slider',
   scope: 'Segments',
 
-  updateTarget: (entity, axis, value) => {
-    doUpdateTarget(entity, axis, value)
+  updateTarget: (axis, value) => {
+    doUpdateTarget(entity, segments, axis, value)
     autoNameIfPlaceholder('Box', entity)
   },
-}
+})
 
-const Component = ({ entity }) => {
+const BoxSegments = ({ entity }) => {
   const { segments } = World.getEntity(entity).c
 
   let [wide, setWide] = useState(undefined)
@@ -70,16 +68,16 @@ const Component = ({ entity }) => {
     setWide(wide)
     setHigh(high)
     setDeep(deep)
-  }, [entity, wide, high, deep])
+  }, [entity])
 
   return <Object
     label="Segments"
     fields={[
-      axis(entity, 'wide', wide, setWide, common),
-      axis(entity, 'high', high, setHigh, common),
-      axis(entity, 'deep', deep, setDeep, common),
+      axis('wide', wide, setWide, common(entity, segments)),
+      axis('high', high, setHigh, common(entity, segments)),
+      axis('deep', deep, setDeep, common(entity, segments)),
     ]}
   />
 }
 
-export default Component
+export default BoxSegments

@@ -4,16 +4,19 @@ import { cssify } from '../../../ui/helpers'
 
 import Wrapper from '../../../helpers/FieldsetWrapper'
 
-import Name       from '../../components/Name'
-import Color      from '../../components/Color'
-import Intensity  from '../../components/Intensity'
-import Visibility from '../../components/Visibility'
+import Name          from '../../components/Name'
+import Color         from '../../components/Color'
+import Position      from '../../components/Position'
+import Intensity     from '../../components/Intensity'
+import Visibility    from '../../components/Visibility'
+import LightRotation from '../../components/LightRotation'
 
 const Component = ({
   type,
   entity,
   children,
   color = {},
+  rotates = true,
   includeColor = true,
 }) =>
   <form
@@ -26,6 +29,10 @@ const Component = ({
     <Wrapper label="Visible" child={<Visibility entity={entity} />} />
     <Intensity entity={entity} type={`${type}Light`} />
     {includeColor && <Color entity={entity} {...color} type={`${type}Light`} />}
+    <div className="section-boundary" />
+    <h3>Coords</h3>
+    <Position entity={entity} type={`${type}Light`} />
+    {rotates && <LightRotation entity={entity} type={type} />}
     {children}
   </form>
 

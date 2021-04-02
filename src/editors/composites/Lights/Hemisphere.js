@@ -6,8 +6,9 @@ import Light from './Core'
 
 const Component = ({ entity }) =>
   <Light
-    type="Directional"
+    type="Hemisphere"
     entity={entity}
+    rotates={false}
     includeColor={false}
   >
     <div className="section-boundary" />

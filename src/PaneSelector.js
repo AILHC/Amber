@@ -49,7 +49,7 @@ const Tab = ({ pane, active, children }) =>
 const Component = ({ editingStateManager }) => {
   const [mode, setMode] = useState('library')
 
-  return <div className="selector pane col-2 g-0">
+  return <div className="selector pane">
     <ul className="nav flex-sm-row justify-content-center nav-pills" role="tablist">
       <Item>
         <Button

@@ -30,6 +30,8 @@
 body {
   color: #212123;
   overflow: hidden;
+  display: flex;
+  flex-direction: row;
 }
 
 .center.pane {
@@ -42,6 +44,9 @@ body {
 
 .selector.pane {
   margin-top: 1rem;
+  width:     280px;
+  max-width: 280px;
+  min-width: 280px;
 }
 
 .nav-pills .nav-link.active {
@@ -72,10 +77,41 @@ body {
   padding-top:    1rem;
   position: absolute;
   bottom:   0;
-  right:    calc(100vw - 16.6666666667%);
+  width:    280px;
   left:     0;
   top:      9.25rem;
   box-shadow: inset 0 .125rem .25rem rgba(var(--pane-selector-primary-color-rgb), .25);
+}
+
+#transform-control-mode {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#transform-control-mode.list-group {
+  border-top: none;
+  border-right: none;
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+#transform-control-mode.list-group .list-group-item {
+  border: none;
+  background-color: rgba(0, 0, 0, 0.125);
+  padding: 0;
+  padding-top: .25rem;
+}
+
+#transform-control-mode.list-group-horizontal > .list-group-item:last-child {
+  border-top-right-radius: 0;
+}
+
+#transform-control-mode .btn-primary,
+#transform-control-mode .btn-primary:disabled {
+  color: transparent;
+  background-color: transparent;
+  border: none;
 }
 
 @media (prefers-color-scheme: light) {

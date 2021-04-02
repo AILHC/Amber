@@ -1,34 +1,43 @@
-import React, { useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 
-import World, { autoNameIfPlaceholder } from '../../env'
+import World, {
+  onTranslate,
+  autoNameIfPlaceholder,
+} from '../../env'
 
 import Object from '../../ui/Object'
 
 import { axis } from './helpers'
 
-const doUpdateTarget = (entity, axis, value) => {
-  const { position } = World.getEntity(entity).c
+const updateECS = (position, value) => {
+  position.x = value.x
+  position.y = value.y
+  position.z = value.z
 
+  position.update()
+}
+
+const doUpdateTarget = (position, axis, value) => {
   position[axis]        = value
   position.target[axis] = value
 
   position.update()
 }
 
-const common = type => ({
+const common = (entity, position, type) => ({
   max:  5,
   min: -5,
 
   type:  'Slider',
   scope: 'Position',
 
-  updateTarget: (entity, axis, value) => {
-    doUpdateTarget(entity, axis, value)
+  updateTarget: (axis, value) => {
+    doUpdateTarget(position, axis, value)
     autoNameIfPlaceholder(type, entity)
   },
 })
 
-const Component = ({
+const Position = ({
   type,
   entity,
 }) => {
@@ -38,6 +47,18 @@ const Component = ({
   let [y, setY] = useState(undefined)
   let [z, setZ] = useState(undefined)
 
+  useEffect(() => {
+    onTranslate(val => {
+      setX(val.x)
+      setY(val.y)
+      setZ(val.z)
+
+      updateECS(position, val)
+
+      autoNameIfPlaceholder(type, entity)
+    })
+  }, [entity])
+
   useMemo(() => {
     x = position.x
     y = position.y
@@ -46,16 +67,16 @@ const Component = ({
     setX(x)
     setY(y)
     setZ(z)
-  }, [entity, x, y, z])
+  }, [entity])
 
   return <Object
     label="Position"
     fields={[
-      axis(entity, 'x', x, setX, common(type)),
-      axis(entity, 'y', y, setY, common(type)),
-      axis(entity, 'z', z, setZ, common(type)),
+      axis('x', x, setX, common(entity, position, type)),
+      axis('y', y, setY, common(entity, position, type)),
+      axis('z', z, setZ, common(entity, position, type)),
     ]}
   />
 }
 
-export default Component
+export default Position

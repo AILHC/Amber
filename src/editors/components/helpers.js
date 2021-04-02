@@ -1,5 +1,4 @@
 export const axis = (
-  entity,
   label,
   value,
   fn,
@@ -12,6 +11,6 @@ export const axis = (
   value,
   update: val => {
     fn(val)
-    common.updateTarget(entity, label, val)
+    common.updateTarget(label, val)
   },
 })

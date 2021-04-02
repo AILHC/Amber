@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useReducer } from 'react'
+import React, { useMemo, useReducer } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSave          } from '@fortawesome/pro-duotone-svg-icons'
@@ -27,20 +27,26 @@ const reducer = (_, action) => {
   }
 }
 
+let registered = {}
+
 const Component = ({ entity }) => {
   let [id, dispatch] = useReducer(reducer, undefined)
 
-  useEffect(() =>
-    EntityRenamed(({ EcsId, EditorId }) => {
-      if (EcsId === entity)
-        dispatch({
-          type: 'EntityRenamed',
-          payload: { EditorId },
-        })
-    })
-  )
+  useMemo(() => {
+    id = EntitiesByEcsId[entity]
 
-  useMemo(() => id = EntitiesByEcsId[entity], [entity])
+    if (!registered[entity]) {
+      EntityRenamed(entity, ({ EcsId, EditorId }) => {
+        if (EcsId === entity)
+          dispatch({
+            type: 'EntityRenamed',
+            payload: { EditorId },
+          })
+      })
+
+      registered[entity] = true
+    }
+  }, [entity])
 
   const value = id === EditorPlacehodlerId ? '' : id
 
@@ -60,7 +66,7 @@ const Component = ({ entity }) => {
           <div className="col-2 g-0 save-name">
             <button
               type="button"
-              disabled={value.length <= 1}
+              disabled={value?.length <= 1}
               className="btn btn-primary"
               onClick={e => {
                 RenameEntity({ EcsId: entity, EditorId: id })
