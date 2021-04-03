@@ -83,10 +83,10 @@ const create = () => {
       },
       rotation: {
         type: 'Rotation',
-        x: 97,
-        y: 50,
-        z: 50,
-        target: obj,
+        x: group.rotation.x,
+        y: group.rotation.y,
+        z: group.rotation.z,
+        target: group.rotation,
       },
       position: {
         type: 'Position',

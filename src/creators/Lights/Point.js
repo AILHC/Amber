@@ -47,10 +47,10 @@ const create = () => {
       },
       position: {
         type: 'Position',
-        x: light.position.x,
-        y: light.position.y,
-        z: light.position.z,
-        target: light.position,
+        x: group.position.x,
+        y: group.position.y,
+        z: group.position.z,
+        target: group.position,
       },
       helper: {
         type: 'Helpers',

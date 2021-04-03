@@ -9,7 +9,7 @@ import Color         from '../../components/Color'
 import Position      from '../../components/Position'
 import Intensity     from '../../components/Intensity'
 import Visibility    from '../../components/Visibility'
-import LightRotation from '../../components/LightRotation'
+import Rotation from '../../components/Rotation'
 
 const Component = ({
   type,
@@ -32,7 +32,7 @@ const Component = ({
     <div className="section-boundary" />
     <h3>Coords</h3>
     <Position entity={entity} type={`${type}Light`} />
-    {rotates && <LightRotation entity={entity} type={type} />}
+    {rotates && <Rotation entity={entity} type={`${type}Light`} />}
     {children}
   </form>
 
