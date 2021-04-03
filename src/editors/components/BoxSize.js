@@ -1,15 +1,26 @@
-import React, { useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 
 import {
   BoxGeometry,
   WireframeGeometry,
 } from 'three'
 
-import World, { autoNameIfPlaceholder } from '../../env'
+import World, {
+  onScale,
+  autoNameIfPlaceholder,
+} from '../../env'
 
 import Object from '../../ui/Object'
 
 import { axis } from './helpers'
+
+const updateECS = (size, value) => {
+  size.x = value.x
+  size.y = value.y
+  size.z = value.z
+
+  size.update()
+}
 
 const doUpdateTarget = (entity, size, axis, value) => {
   const { segments } = World.getEntity(entity).c
@@ -58,6 +69,18 @@ const BoxSize = ({ entity }) => {
   let [width,  setWidth ] = useState(undefined)
   let [height, setHeight] = useState(undefined)
   let [depth,  setDepth ] = useState(undefined)
+
+  useEffect(() => {
+    onScale(val => {
+      setWidth  (val.x)
+      setHeight (val.y)
+      setDepth  (val.z)
+
+      updateECS(size, val)
+
+      autoNameIfPlaceholder('Box', entity)
+    })
+  }, [entity])
 
   useMemo(() => {
     width  = size.width

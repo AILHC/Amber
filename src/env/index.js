@@ -48,10 +48,11 @@ export const helpers = {
   orbit,
 }
 
-let translateCallback, rotateCallback
+let translateCallback, rotateCallback, scaleCallback
 
 export const onTranslate = cb => translateCallback = cb
 export const onRotate    = cb => rotateCallback    = cb
+export const onScale     = cb => scaleCallback     = cb
 
 transform.enabled = false
 
@@ -62,8 +63,9 @@ transform.addEventListener('dragging-changed', e =>
 transform.addEventListener('dragging-changed', e => {
   if (e.value === false)
     switch (e.target.mode) {
-      case 'translate': return translateCallback  (e.target.object.position)
-      case 'rotate':    return rotateCallback     (e.target.object.rotation)
+      case 'translate': return translateCallback (e.target.object.position)
+      case 'rotate':    return rotateCallback    (e.target.object.rotation)
+      case 'scale':     return scaleCallback     (e.target.object.scale   )
     }
 })
 
