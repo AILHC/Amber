@@ -11,7 +11,7 @@ const updateTarget = (component, value) => {
   component.update()
 }
 
-const Component = ({
+const ReceiveShadows = ({
   type,
   entity,
   showLabel = false,
@@ -39,4 +39,4 @@ const Component = ({
   />
 }
 
-export default Component
+export default ReceiveShadows

@@ -1,15 +1,25 @@
-import React, { useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 
 import {
   PlaneGeometry,
   WireframeGeometry,
 } from 'three'
 
-import World, { autoNameIfPlaceholder } from '../../env'
+import World, {
+  onScale,
+  autoNameIfPlaceholder,
+} from '../../env'
 
 import Object from '../../ui/Object'
 
 import { axis } from './helpers'
+
+const updateECS = (size, value) => {
+  size.x = value.x
+  size.y = value.y
+
+  size.update()
+}
 
 const doUpdateTarget = (entity, size, axis, value) => {
   const { segments } = World.getEntity(entity).c
@@ -56,13 +66,24 @@ const PlaneSize = ({ entity }) => {
   let [width,  setWidth ] = useState(undefined)
   let [height, setHeight] = useState(undefined)
 
+  useEffect(() => {
+    onScale(val => {
+      setWidth  (val.x)
+      setHeight (val.y)
+
+      updateECS(size, val)
+
+      autoNameIfPlaceholder('Plane', entity)
+    })
+  }, [entity])
+
   useMemo(() => {
     width  = size.width
     height = size.height
 
     setWidth  (width )
     setHeight (height)
-  }, [entity, width, height])
+  }, [entity])
 
   return <Object
     label="Size"

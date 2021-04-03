@@ -42,7 +42,7 @@ const updateTarget = (component, value) => {
   component.update()
 }
 
-const Component = ({
+const ShadowMapResolution = ({
   type,
   entity,
 }) => {
@@ -79,4 +79,4 @@ const Component = ({
   return <UIWrapper label="Resolution" child={ResolutionSelector} />
 }
 
-export default Component
+export default ShadowMapResolution

@@ -1,8 +1,8 @@
 import React from 'react'
 
-import ShadowCaster from './CanCastShadows'
+import ShadowCaster from './ShadowCaster'
 
-const Component = ({ entity }) =>
+const PointLight = ({ entity }) =>
   <ShadowCaster type="Point" entity={entity} rotates={false} />
 
-export default Component
+export default PointLight

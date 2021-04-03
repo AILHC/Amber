@@ -1,25 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+
+import { reset } from '../../../env'
 
 import { cssify } from '../../../ui/helpers'
 
 import Wrapper from '../../../helpers/FieldsetWrapper'
 
-import Name          from '../../components/Name'
-import Color         from '../../components/Color'
-import Position      from '../../components/Position'
-import Intensity     from '../../components/Intensity'
-import Visibility    from '../../components/Visibility'
-import Rotation from '../../components/Rotation'
+import Name       from '../../components/Name'
+import Color      from '../../components/Color'
+import Position   from '../../components/Position'
+import Rotation   from '../../components/Rotation'
+import Intensity  from '../../components/Intensity'
+import Visibility from '../../components/Visibility'
 
-const Component = ({
+const CoreLight = ({
   type,
   entity,
   children,
   color = {},
   rotates = true,
   includeColor = true,
-}) =>
-  <form
+}) => {
+  useEffect(() => reset())
+
+  return <form
     onSubmit={e => e.preventDefault()}
     id={`${cssify(entity)}-component-editor`}
     className={`${cssify(type)}-light editor`}
@@ -35,5 +39,6 @@ const Component = ({
     {rotates && <Rotation entity={entity} type={`${type}Light`} />}
     {children}
   </form>
+}
 
-export default Component
+export default CoreLight

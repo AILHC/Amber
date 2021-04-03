@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+
+import { reset } from '../../../env' 
 
 import Wrapper from '../../../helpers/FieldsetWrapper'
 
@@ -13,8 +15,10 @@ import CastShadows    from '../../components/CastShadows'
 import BoxSegments    from '../../components/BoxSegments'
 import ReceiveShadows from '../../components/ReceiveShadows'
 
-const Component = ({ entity }) =>
-  <form
+const MeshBox = ({ entity }) => {
+  useEffect(() => reset())
+
+  return <form
     className="box editor"
     id={`${entity}-component-editor`}
     onSubmit={e => e.preventDefault()}
@@ -37,5 +41,6 @@ const Component = ({ entity }) =>
     <Position    entity={entity} type="Box" />
     <Rotation    entity={entity} type="Box" />
   </form>
+}
 
-export default Component
+export default MeshBox

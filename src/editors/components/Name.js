@@ -29,7 +29,7 @@ const reducer = (_, action) => {
 
 let registered = {}
 
-const Component = ({ entity }) => {
+const Name = ({ entity }) => {
   let [id, dispatch] = useReducer(reducer, undefined)
 
   useMemo(() => {
@@ -81,4 +81,4 @@ const Component = ({ entity }) => {
     } />
 }
 
-export default Component
+export default Name

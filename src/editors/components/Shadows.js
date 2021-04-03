@@ -12,7 +12,7 @@ const fields = [
   ReceiveShadows,
 ]
 
-const Component = ({ entity }) => {
+const Shadows = ({ entity }) => {
   const {
     castShadows,
     receiveShadows,
@@ -46,4 +46,4 @@ const Component = ({ entity }) => {
   </fieldset>
 }
 
-export default Component
+export default Shadows

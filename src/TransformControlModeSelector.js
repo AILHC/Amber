@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useEffect, useReducer } from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -7,7 +7,12 @@ import {
   faExpandArrowsAlt,
 } from '@fortawesome/pro-duotone-svg-icons'
 
-import { helpers } from './env'
+import {
+  modes,
+  helpers,
+  onReset,
+  onModeChange,
+} from './env'
 
 const style = active => ({
   '--fa-primary-color':     'var(--pane-selector-secondary-color)',
@@ -15,6 +20,14 @@ const style = active => ({
   '--fa-primary-opacity':   `var(--pane-selector-primary-${active ? 'active' : 'inactive'}-opacity)`,
   '--fa-secondary-opacity': `var(--pane-selector-secondary-${active ? 'active' : 'inactive'}-opacity)`,
 })
+
+const process = (mode, modes) =>
+  Object.keys(modes).forEach(m => {
+    if (m === mode)
+      Object.keys(modes[m]).forEach(
+        o => helpers.transform[`show${o}`] = modes[m][o]
+      )
+  })
 
 const reducer = (_, action) => {
   switch(action.type) {
@@ -41,6 +54,13 @@ const TransformControlModeSelector = () => {
   const { enabled } = helpers.transform
 
   const setMode = mode => dispatch({ type: 'SetMode', payload: mode })
+
+  useEffect(() => {
+    onModeChange(m => setMode(m))
+    onReset(modes => process(mode, modes))
+  })
+
+  process(mode, modes)
 
   return <ul id="transform-control-mode" className="list-group list-group-horizontal">
     <Item icon={faArrowsAlt}       active={mode === 'translate'} enabled={enabled} clickHandler={() => setMode('translate')} />

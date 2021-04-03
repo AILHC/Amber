@@ -48,13 +48,50 @@ export const helpers = {
   orbit,
 }
 
-let translateCallback, rotateCallback, scaleCallback
+let scaleCallback,
+    resetCallback,
+    rotateCallback,
+    translateCallback,
+    modeChangeCallback
 
-export const onTranslate = cb => translateCallback = cb
-export const onRotate    = cb => rotateCallback    = cb
-export const onScale     = cb => scaleCallback     = cb
+export const onScale      = cb => scaleCallback      = cb
+export const onReset      = cb => resetCallback      = cb
+export const onRotate     = cb => rotateCallback     = cb
+export const onTranslate  = cb => translateCallback  = cb
+export const onModeChange = cb => modeChangeCallback = cb
 
-transform.enabled = false
+export const modes = {
+  translate: {
+    X: true,
+    Y: true,
+    Z: true,
+  },
+  rotate: {
+    X: true,
+    Y: true,
+    Z: true,
+  },
+  scale: {
+    X: true,
+    Y: true,
+    Z: true,
+  }
+}
+
+export const disable = (mode, axis) => modes[mode][axis.toUpperCase()] = false
+export const reset = () => {
+  Object.keys(modes).
+    forEach(m =>
+      Object.keys(modes[m]).forEach(o =>
+        modes[m][o] = true
+      )
+    )
+
+  resetCallback(modes)
+}
+
+transform.enabled =  false
+transform.space   = 'global'
 
 transform.addEventListener('dragging-changed', e =>
   orbit.enabled = !e.value
@@ -181,6 +218,70 @@ export const RemoveEntity = ({ EcsId, EditorId }) => {
   }
 }
 
+const updateTransform = e => {
+  switch (e.code) {
+    // case 'KeyY':
+    //   transform.setSpace(transform.space === 'local' ? 'world' : 'local')
+    //   break
+
+    // case 16: // Shift
+    //   transform.setTranslationSnap( 100 )
+    //   transform.setRotationSnap( THREE.MathUtils.degToRad( 15 ) )
+    //   transform.setScaleSnap( 0.25 )
+    //   break
+
+    case 'KeyU':
+      transform.setMode('translate')
+      modeChangeCallback('translate')
+      break
+
+    case 'KeyI':
+      transform.setMode('rotate')
+      modeChangeCallback('rotate')
+      break
+
+    case 'KeyO':
+      transform.setMode('scale')
+      modeChangeCallback('scale')
+      break
+
+    case 'KeyJ':
+      transform.showX = ! transform.showX
+      break
+
+    case 'KeyK':
+      transform.showY = ! transform.showY
+      break
+
+    case 'KeyL':
+      transform.showZ = ! transform.showZ
+      break
+
+    case 'Equal':
+      transform.setSize(transform.size + 0.1)
+      break
+
+    case 'Minus':
+      transform.setSize(Math.max(transform.size - 0.1, 0.1))
+      break
+
+    case 'Digit0':
+      transform.setSize(1)
+      break
+  }
+}
+
+const onWindowResize = () => {
+  const width  = window.innerWidth - 280
+  const height = window.innerHeight
+  const aspect = width / height
+
+  camera.aspect = aspect
+  camera.updateProjectionMatrix()
+
+  renderer.setSize(width, height)
+}
+
 const frame = World.createEntity({
   id: 'frame',
   c: {
@@ -217,17 +318,7 @@ export const render = () => {
   requestAnimationFrame(render)
 }
 
-const onWindowResize = () => {
-  const width  = window.innerWidth - 280
-  const height = window.innerHeight
-  const aspect = width / height
-
-  camera.aspect = aspect
-  camera.updateProjectionMatrix()
-
-  renderer.setSize(width, height)
-}
-
-window.addEventListener('resize', onWindowResize)
-
 render()
+
+window.addEventListener('keydown', updateTransform)
+window.addEventListener('resize',  onWindowResize )

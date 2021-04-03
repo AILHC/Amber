@@ -2,7 +2,7 @@ import React from 'react'
 
 import ShadowCaster from './Core'
 
-const Component = ({ entity }) =>
+const SpotLight = ({ entity }) =>
   <ShadowCaster type="Spot" entity={entity} />
 
-export default Component
+export default SpotLight

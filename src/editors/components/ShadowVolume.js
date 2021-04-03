@@ -1,10 +1,21 @@
-import React, { useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 
-import World, { autoNameIfPlaceholder } from '../../env'
+import World, {
+  onScale,
+  autoNameIfPlaceholder,
+} from '../../env'
 
 import Object from '../../ui/Object'
 
 import { axis } from './helpers'
+
+const updateECS = (shadowVolume, value) => {
+  shadowVolume.width  = value.x * 50
+  shadowVolume.height = value.z * 50
+  shadowVolume.depth  = value.y * 50
+
+  shadowVolume.update()
+}
 
 const doUpdateTarget = (entity, shadowVolume, axis, value) => {
   const { helpers } = World.getEntity(entity).c
@@ -49,7 +60,7 @@ const common = (entity, shadowVolume, type) => ({
   },
 })
 
-const ShadowVOlume = ({
+const ShadowVolume = ({
   type,
   entity,
 }) => {
@@ -59,6 +70,18 @@ const ShadowVOlume = ({
   let [height, setHeight] = useState(undefined)
   let [depth,  setDepth ] = useState(undefined)
 
+  useEffect(() => {
+    onScale(val => {
+      setWidth  (val.x * 50)
+      setHeight (val.z * 50)
+      setDepth  (val.y * 50)
+
+      updateECS(shadowVolume, val)
+
+      autoNameIfPlaceholder(`${type}Light`, entity)
+    })
+  }, [entity])
+
   useMemo(() => {
     width  = shadowVolume.width
     height = shadowVolume.height
@@ -67,7 +90,7 @@ const ShadowVOlume = ({
     setWidth  (width )
     setHeight (height)
     setDepth  (depth )
-  }, [entity, width, height])
+  }, [entity])
 
   return <Object
     label="Volume"
@@ -84,4 +107,4 @@ const ShadowVOlume = ({
   />
 }
 
-export default ShadowVOlume
+export default ShadowVolume

@@ -10,7 +10,7 @@ const updateTarget = (component, value) => {
   component.update()
 }
 
-const Component = ({ entity, showLabel = false }) => {
+const Wireframe = ({ entity, showLabel = false }) => {
   const { wireframe } = World.getEntity(entity).c
 
   let [visible, setVisible] = useState(undefined)
@@ -33,4 +33,4 @@ const Component = ({ entity, showLabel = false }) => {
   />
 }
 
-export default Component
+export default Wireframe

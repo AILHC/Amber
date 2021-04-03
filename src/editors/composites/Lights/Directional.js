@@ -3,9 +3,9 @@ import React from 'react'
 import ShadowVolume        from '../../components/ShadowVolume'
 import ShadowMapResolution from '../../components/ShadowMapResolution'
 
-import ShadowCaster from './CanCastShadows'
+import ShadowCaster from './ShadowCaster'
 
-const Component = ({ entity }) => {
+const DirectionalLight = ({ entity }) => {
   const shadowFields = [
     <ShadowMapResolution entity={entity} type="Directional" />,
     <ShadowVolume        entity={entity} type="Directional" />,
@@ -14,4 +14,4 @@ const Component = ({ entity }) => {
   return <ShadowCaster type="Directional" entity={entity} fields={shadowFields} />
 }
 
-export default Component
+export default DirectionalLight

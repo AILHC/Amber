@@ -13,7 +13,7 @@ const updateTarget = (component, value) => {
   component.update()
 }
 
-const Component = ({
+const Intensity = ({
   type,
   entity,
 }) => {
@@ -44,4 +44,4 @@ const Component = ({
   />
 }
 
-export default Component
+export default Intensity

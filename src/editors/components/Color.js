@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react'
 
-import Color from '../../ui/Color'
+import UIColor from '../../ui/Color'
 
 import World, { autoNameIfPlaceholder } from '../../env'
 
@@ -16,7 +16,7 @@ const updateTarget = (component, value) => {
   component.update()
 }
 
-const Component = ({
+const Color = ({
   type,
   field = 'color',
   label,
@@ -32,7 +32,7 @@ const Component = ({
     setRGB(rgb)
   }, [entity, rgb])
 
-  return <Color
+  return <UIColor
     scope={entity}
     label={label}
     value={rgb}
@@ -44,4 +44,4 @@ const Component = ({
   />
 }
 
-export default Component
+export default Color

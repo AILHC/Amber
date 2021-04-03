@@ -2,6 +2,7 @@ import React from 'react'
 
 import Light from './Core'
 
-const Component = ({ entity }) => <Light type="Ambient" entity={entity} />
+const AmbientLight = ({ entity }) =>
+  <Light type="Ambient" entity={entity} rotates={false} />
 
-export default Component
+export default AmbientLight

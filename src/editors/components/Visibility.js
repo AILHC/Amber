@@ -11,7 +11,7 @@ const updateTarget = (component, value) => {
   component.update()
 }
 
-const Component = ({ entity }) => {
+const Visibility = ({ entity }) => {
   const { visibility } = World.getEntity(entity).c
 
   let [visible, setVisible] = useState(undefined)
@@ -33,4 +33,4 @@ const Component = ({ entity }) => {
   />
 }
 
-export default Component
+export default Visibility

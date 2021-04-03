@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+
+import { disable } from '../../../env'
 
 import Wrapper from '../../../helpers/FieldsetWrapper'
 
@@ -12,8 +14,10 @@ import Visibility     from '../../components/Visibility'
 import PlaneSegments  from '../../components/PlaneSegments'
 import ReceiveShadows from '../../components/ReceiveShadows'
 
-const Component = ({ entity }) =>
-  <form className="plane editor" id={`${entity}-component-editor`} onSubmit={e => e.preventDefault()}>
+const MeshPlane = ({ entity }) => {
+  useEffect(() => disable('scale', 'z'))
+
+  return <form className="plane editor" id={`${entity}-component-editor`} onSubmit={e => e.preventDefault()}>
     <h3>General</h3>
     <Name entity={entity} />
     <Wrapper label="Visible"   child={<Visibility entity={entity} />} />
@@ -31,5 +35,6 @@ const Component = ({ entity }) =>
     <Position      entity={entity} type="Plane" />
     <Rotation      entity={entity} type="Plane" />
   </form>
+}
 
-export default Component
+export default MeshPlane

@@ -4,7 +4,7 @@ import Color from '../../components/Color'
 
 import Light from './Core'
 
-const Component = ({ entity }) =>
+const HemisphereLight = ({ entity }) =>
   <Light
     type="Hemisphere"
     entity={entity}
@@ -17,4 +17,4 @@ const Component = ({ entity }) =>
     <Color entity={entity} field="groundColor" label="Ground" type="HemisphereLight" />
   </Light>
 
-export default Component
+export default HemisphereLight

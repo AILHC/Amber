@@ -6,7 +6,7 @@ import CastShadows from '../../components/CastShadows'
 
 import Light from './Core'
 
-const Component = ({
+const ShadowCastingLight = ({
   type,
   entity,
   fields,
@@ -22,4 +22,4 @@ const Component = ({
     {children}
   </Light>
 
-export default Component
+export default ShadowCastingLight
