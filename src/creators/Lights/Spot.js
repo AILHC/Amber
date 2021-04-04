@@ -72,9 +72,9 @@ const create = () => {
   
   group.add(obj)
   group.add(light)
-  group.add(helper)
 
   scene.add(group)
+  scene.add(helper)
 
   RegisterEntity({ EcsId: entity.id, SceneId: group.uuid })
 }

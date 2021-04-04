@@ -1,6 +1,6 @@
 import React, { useState, useReducer, useEffect } from 'react'
 
-import Select, { SetValueAction } from 'react-select'
+import Select from 'react-select'
 
 import World, {
   scene,

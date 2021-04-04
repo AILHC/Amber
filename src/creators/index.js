@@ -7,6 +7,8 @@ import AmbientLight     from './Lights/Ambient'
 import HemisphereLight  from './Lights/Hemisphere'
 import DirectionalLight from './Lights/Directional'
 
+import BitField from './Fields/Bit'
+
 const Creators = {
   MeshBox,
   MeshPlane,
@@ -16,6 +18,8 @@ const Creators = {
   AmbientLight,
   HemisphereLight,
   DirectionalLight,
+
+  BitField,
 }
 
 export default Creators
@@ -46,5 +50,11 @@ export const options = [{
   }, {
     label: 'Plane',
     value: 'Creator:MeshPlane',
+  }]
+}, {
+  label: 'Fields',
+  options: [{
+    label: 'Bit',
+    value: 'Creator:BitField',
   }]
 }]

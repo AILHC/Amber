@@ -18,12 +18,10 @@ const updateECS = (rotation, value) => {
 }
 
 const doUpdateTarget = (rotation, axis, value) => {
-  const denormalized = ((value - 50) * .02) * Math.PI
+  const denormalized = (((value - 50) * .02) * Math.PI)
 
   rotation[axis]        = denormalized
   rotation.target[axis] = denormalized
-
-  rotation.update()
 }
 
 const convert = val => `${Math.round(((val - 50) * 2) * 1.8)}°`

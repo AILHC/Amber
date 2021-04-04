@@ -1,5 +1,6 @@
 import {
   Mesh,
+  Color,
   Group,
   BoxGeometry,
   LineSegments,
@@ -13,9 +14,9 @@ import World, {
   RegisterEntity,
 } from '../../env'
 
-const create = () => {
-  const geometry = new BoxGeometry(1, 1, 1)
-  const mat      = new MeshStandardMaterial({ color: 0x00ffff })
+export const createMeshBox = ({ width, height, depth, x, y, z, cast, receive, color }) => {
+  const geometry = new BoxGeometry(width, height, depth)
+  const mat      = new MeshStandardMaterial({ color })
   const mesh     = new Mesh(geometry, mat)
   
   const wireframeGeometry = new WireframeGeometry(geometry)
@@ -27,10 +28,10 @@ const create = () => {
   group.add(mesh)
   group.add(wireframe)
 
-  group.position.set(0, 0, 0)
+  group.position.set(x, y, z)
 
-  mesh.castShadow    = true
-  mesh.receiveShadow = false
+  mesh.castShadow    = cast
+  mesh.receiveShadow = receive
   
   const entity = World.createEntity({
     c: {
@@ -44,9 +45,9 @@ const create = () => {
       },
       size: {
         type: 'BoxSize',
-        width:  1,
-        height: 1,
-        depth:  1,
+        width,
+        height,
+        depth,
         target: group,
       },
       segments: {
@@ -72,9 +73,9 @@ const create = () => {
       },
       color: {
         type: 'Color',
-        r: 0,
-        g: 255,
-        b: 255,
+        r: color.r * 255,
+        g: color.g * 255,
+        b: color.b * 255,
         target: mesh.material.color,
       },
       visibility: {
@@ -102,4 +103,19 @@ const create = () => {
   RegisterEntity({ EcsId: entity.id, SceneId: group.uuid })
 }
 
-export default create
+const defaultMeshBoxCreator = () => createMeshBox({
+  width:  1,
+  height: 1,
+  depth:  1,
+
+  x: 0,
+  y: 0,
+  z: 0,
+
+  cast:    true,
+  receive: false,
+
+  color: new Color(0, 1, 1),
+})
+
+export default defaultMeshBoxCreator

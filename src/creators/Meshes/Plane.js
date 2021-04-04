@@ -1,5 +1,6 @@
 import {
   Mesh,
+  Color,
   Group,
   LineSegments,
   PlaneGeometry,
@@ -12,9 +13,15 @@ import World, { RegisterEntity }  from '../../env'
 
 import { scene } from '../../env'
 
-const create = () => {
-  const geometry = new PlaneGeometry(1, 1)
-  const mat      = new MeshStandardMaterial({ color: 0x00ff00 })
+export const createMeshPlane = ({
+  width, height,
+   x,  y,  z,
+  rx, ry, rz,
+  color,
+  receive
+}) => {
+  const geometry = new PlaneGeometry(width, height)
+  const mat      = new MeshStandardMaterial({ color })
   const mesh     = new Mesh(geometry, mat)
 
   const wireframeGeometry = new WireframeGeometry(geometry)
@@ -26,10 +33,10 @@ const create = () => {
   group.add(mesh)
   group.add(wireframe)
 
-  group.position.set(0, 0, 0)
-  group.rotation.set(0, 0, 0)
+  group.position.set( x,  y,  z)
+  group.rotation.set(rx, ry, rz)
 
-  mesh.receiveShadow = true
+  mesh.receiveShadow = receive
   
   const entity = World.createEntity({
     c: {
@@ -43,8 +50,8 @@ const create = () => {
       },
       size: {
         type: 'PlaneSize',
-        width:  1,
-        height: 1,
+        width,
+        height,
         target: group,
       },
       segments: {
@@ -69,9 +76,9 @@ const create = () => {
       },
       color: {
         type: 'Color',
-        r:   0,
-        g: 255,
-        b:   0,
+        r: color.r * 255,
+        g: color.g * 255,
+        b: color.b * 255,
         target: mesh.material.color,
       },
       visibility: {
@@ -92,4 +99,21 @@ const create = () => {
   RegisterEntity({ EcsId: entity.id, SceneId: group.uuid })
 }
 
-export default create
+const defaultMeshPlaneCreator = () => createMeshPlane({
+  width:  1,
+  height: 1,
+
+  x: 0,
+  y: 0,
+  z: 0,
+
+  rx: 0,
+  ry: 0,
+  rz: 0,
+
+  receive: true,
+
+  color: new Color(0, 1, 0),
+})
+
+export default defaultMeshPlaneCreator

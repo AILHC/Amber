@@ -16,12 +16,14 @@ const create = () => {
   const obj   = new Object3D()
   const group = new Group()
 
-  light.position.set(0, 0, 0)
+  light.position.set(0, 1, 0)
 
   light.castShadow = true
 
   const halfWidth  = 25
   const halfHeight = 25
+
+  light.shadow.bias = .0001
 
   light.shadow.camera.near = 1
   light.shadow.camera.far  = 50
@@ -29,14 +31,14 @@ const create = () => {
   light.shadow.camera.left   = halfWidth - (halfWidth * 2)
   light.shadow.camera.right  = halfWidth
   light.shadow.camera.top    = halfHeight
-  light.shadow.camera.bottom = halfHeight - ( halfHeight * 2)
+  light.shadow.camera.bottom = halfHeight - (halfHeight * 2)
 
   light.shadow.mapSize.width  = ShadowMapResolutions.Medium
   light.shadow.mapSize.height = ShadowMapResolutions.Medium
 
   light.target = obj
   
-  obj.position.set(0, -1, 0)
+  obj.position.set(0, 0, 0)
 
   const cameraHelper = new CameraHelper(light.shadow.camera)
 
@@ -63,8 +65,8 @@ const create = () => {
       },
       shadowVolume: {
         type:  'ShadowVolume',
-        width:  light.shadow.camera.far,
-        height: light.shadow.camera.far,
+        width:  Math.abs(light.shadow.camera.left * 2),
+        height: Math.abs(light.shadow.camera.top * 2),
         depth:  light.shadow.camera.far,
         target: light.shadow.camera,
       },
@@ -104,9 +106,9 @@ const create = () => {
 
   group.add(obj)
   group.add(light)
-  group.add(cameraHelper)
   
   scene.add(group)
+  scene.add(cameraHelper)
 
   RegisterEntity({ EcsId: entity.id, SceneId: group.uuid })
 }

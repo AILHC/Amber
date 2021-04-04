@@ -11,7 +11,6 @@ import { scene } from '../../env'
 const create = () => {
   const light  = new PointLight(0xffffff, 1)
   const helper = new PointLightHelper(light)
-  const group  = new Group()
 
   light.position.set(0, 0, 0)
 
@@ -47,24 +46,22 @@ const create = () => {
       },
       position: {
         type: 'Position',
-        x: group.position.x,
-        y: group.position.y,
-        z: group.position.z,
-        target: group.position,
+        x: light.position.x,
+        y: light.position.y,
+        z: light.position.z,
+        target: light.position,
       },
-      helper: {
+      helpers: {
         type: 'Helpers',
         value: [helper],
       }
     }
   })
-
-  group.add(light)
-  group.add(helper)
   
-  scene.add(group)
+  scene.add(light)
+  scene.add(helper)
 
-  RegisterEntity({ EcsId: entity.id, SceneId: group.uuid })
+  RegisterEntity({ EcsId: entity.id, SceneId: light.uuid })
 }
 
 export default create

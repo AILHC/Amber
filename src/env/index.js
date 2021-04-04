@@ -91,7 +91,7 @@ export const reset = () => {
 }
 
 transform.enabled =  false
-transform.space   = 'global'
+transform.space   = 'local'
 
 transform.addEventListener('dragging-changed', e =>
   orbit.enabled = !e.value
