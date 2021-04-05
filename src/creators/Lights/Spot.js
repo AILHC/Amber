@@ -9,6 +9,8 @@ import World, { RegisterEntity } from '../../env'
 
 import { scene } from '../../env'
 
+import { ShadowMapResolutions } from '../helpers'
+
 const create = () => {
   const light  = new SpotLight(0xffffff, 1)
   const obj    = new Object3D()
@@ -18,6 +20,11 @@ const create = () => {
   light.position.set(0, 0, 0)
   light.castShadow = true
   light.target = obj
+
+  light.shadow.mapSize.width  = ShadowMapResolutions.Medium
+  light.shadow.mapSize.height = ShadowMapResolutions.Medium
+  light.shadow.camera.near    = 0.5
+  light.shadow.camera.far     = 500
   
   obj.position.set(0, -1, 0)
 
@@ -41,6 +48,32 @@ const create = () => {
         type: 'CastShadows',
         value: light.castShadow,
         target: light,
+      },
+      distance: {
+        type: 'Distance',
+        value: light.distance,
+        target: light,
+      },
+      angle: {
+        type: 'Angle',
+        value: light.angle,
+        target: light,
+      },
+      penumbra: {
+        type: 'Penumbra',
+        value: light.penumbra,
+        target: light,
+      },
+      decay: {
+        type: 'Decay',
+        value: light.decay,
+        target: light,
+      },
+      shadowMapResolution: {
+        type:  'ShadowMapResolution',
+        width:  light.shadow.mapSize.width,
+        height: light.shadow.mapSize.height,
+        target: light.shadow,
       },
       color: {
         type: 'Color',

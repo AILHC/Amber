@@ -1,7 +1,11 @@
 import Color               from './Color'
+import Angle               from './Angle'
+import Decay               from './Decay'
 import Editor              from './Editor'
 import BoxSize             from './BoxSize'
 import Helpers             from './Helpers'
+import Distance            from './Distance'
+import Penumbra            from './Penumbra'
 import Rotation            from './Rotation'
 import Position            from './Position'
 import PlaneSize           from './PlaneSize'
@@ -18,9 +22,13 @@ import ShadowMapResolution from './ShadowMapResolution'
 
 export default {
   Color,
+  Angle,
+  Decay,
   Editor,
   BoxSize,
   Helpers,
+  Distance,
+  Penumbra,
   Rotation,
   Position,
   PlaneSize,
