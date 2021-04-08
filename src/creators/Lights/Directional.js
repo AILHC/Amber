@@ -104,6 +104,8 @@ const create = () => {
     }
   })
 
+  cameraHelper.name = `${entity.id}-camera-helper`
+
   group.add(obj)
   group.add(light)
   

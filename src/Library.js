@@ -133,6 +133,9 @@ const Library = () => {
         isSearchable
         options={allOptions}
         onChange={(sel, meta) => {
+          helpers.transform.enabled = false
+          helpers.transform.detach()
+
           if (meta.action === 'select-option') {
             const tokens = sel.value.split(':')
 
@@ -172,9 +175,6 @@ const Library = () => {
             helpers.transform.attach(obj)
           }
           else if (meta.action === 'clear') {
-            helpers.transform.enabled = false
-            helpers.transform.detach()
-
             RemoveEntity({ EditorId: EditorPlacehodlerId })
 
             setSelected(undefined)

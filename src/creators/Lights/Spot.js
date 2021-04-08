@@ -96,12 +96,14 @@ const create = () => {
         z: group.position.z,
         target: group.position,
       },
-      helper: {
+      helpers: {
         type: 'Helpers',
         value: [helper],
       }
     }
   })
+
+  helper.name = `${entity.id}-light-helper`
   
   group.add(obj)
   group.add(light)

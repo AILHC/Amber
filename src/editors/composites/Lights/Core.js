@@ -13,6 +13,8 @@ import Rotation   from '../../components/Rotation'
 import Intensity  from '../../components/Intensity'
 import Visibility from '../../components/Visibility'
 
+import { manageHelperVisibility } from './helpers'
+
 const CoreLight = ({
   type,
   entity,
@@ -22,6 +24,7 @@ const CoreLight = ({
   includeColor = true,
 }) => {
   useEffect(() => reset())
+  useEffect(manageHelperVisibility(entity))
 
   return <form
     onSubmit={e => e.preventDefault()}

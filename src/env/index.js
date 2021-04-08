@@ -185,12 +185,25 @@ const removeFromScene = uuid => {
   }
 }
 
+const removeHelpersFromScene = ecsId => {
+  const cameraHelper = scene.getObjectByName(`${ecsId}-camera-helper`)
+
+  if (cameraHelper)
+    scene.remove(cameraHelper)
+
+  const lightHelper = scene.getObjectByName(`${ecsId}-light-helper`)
+
+  if (lightHelper)
+    scene.remove(lightHelper)
+}
+
 export const RemoveEntity = ({ EcsId, EditorId }) => {
   if (EcsId) {
     const edId = EntitiesByEcsId         [EcsId]
     const uuid = SceneElementsByEditorId [edId]
 
     removeFromScene(uuid)
+    removeHelpersFromScene(EcsId)
 
     EntitiesByEcsId         [EcsId] = undefined
     EntitiesByEditorId      [edId]  = undefined
@@ -206,6 +219,7 @@ export const RemoveEntity = ({ EcsId, EditorId }) => {
     
     if (ecsId) {
       removeFromScene(uuid)
+      removeHelpersFromScene(ecsId)
 
       EntitiesByEcsId         [ecsId]    = undefined
       EntitiesByEditorId      [EditorId] = undefined

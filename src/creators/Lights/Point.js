@@ -57,6 +57,8 @@ const create = () => {
       }
     }
   })
+
+  helper.name = `${entity.id}-light-helper`
   
   scene.add(light)
   scene.add(helper)
