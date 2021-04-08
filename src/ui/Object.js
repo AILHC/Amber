@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import Components from './index'
 
 import { classes } from './helpers'
+
+const entities = {}
 
 const generateSummary = (value, converter) => {
   if (converter)
@@ -13,14 +15,27 @@ const generateSummary = (value, converter) => {
 
 const Component = ({
   label,
+  entity,
   fields,
   summaryConverter,
   fullLabels = false,
 }) => {
-  const [expanded, setExpanded] = useState(true)
+  let [expanded, setExpanded] = useState(entities[`${entity}-${label}`])
+
+  useEffect(() => {
+    setExpanded(entities[`${entity}-${label}`])
+
+    expanded = entities[`${entity}-${label}`]
+  }, [entity])
+
+  const updateExpanded = () => {
+    setExpanded(!expanded)
+
+    entities[`${entity}-${label}`] = !expanded
+  }
 
   return <fieldset className={classes({ label, expanded })}>
-    <legend className="container" onClick={() => setExpanded(!expanded)}>
+    <legend className="container" onClick={updateExpanded}>
       <div className="row">
         <h3 className="col-auto g-0 disable-select">{label}</h3>
         {!expanded &&

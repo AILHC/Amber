@@ -67,6 +67,7 @@ const PlaneSegments = ({ entity }) => {
 
   return <Object
     label="Segments"
+    entity={entity}
     fields={[
       axis('wide', wide, setWide, common(entity, segments)),
       axis('high', high, setHigh, common(entity, segments)),

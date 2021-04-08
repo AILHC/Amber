@@ -87,6 +87,7 @@ const PlaneSize = ({ entity }) => {
 
   return <Object
     label="Size"
+    entity={entity}
     fields={[
       axis('width',  width,  setWidth,  common(entity, size)),
       axis('height', height, setHeight, common(entity, size)),

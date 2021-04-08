@@ -71,6 +71,7 @@ const Position = ({
 
   return <Object
     label="Position"
+    entity={entity}
     fields={[
       axis('x', x, setX, common(entity, position, type)),
       axis('y', y, setY, common(entity, position, type)),

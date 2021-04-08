@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import { RgbColorPicker } from 'react-colorful'
 
@@ -7,19 +7,35 @@ import {
   cssify,
 } from './helpers'
 
+const entities = {}
+
 const Component = ({
   scope,
   value,
   label,
+  entity,
   update,
 }) => {
-  const [expanded, setExpanded] = useState(true)
+  let [expanded, setExpanded] = useState(entities[`${entity}-${label}`])
+
+  useEffect(() => {
+    setExpanded(entities[`${entity}-${label}`])
+
+    expanded = entities[`${entity}-${label}`]
+  }, [entity])
+
+  const updateExpanded = () => {
+    setExpanded(!expanded)
+
+    entities[`${entity}-${label}`] = !expanded
+  }
+
   const id = `${label ? idFor({ scope, label }) : cssify(scope)}-color`
 
   return <fieldset
     className={`color ${expanded ? 'expanded' : 'collapsed'} shadow-sm rounded`}
   >
-    <legend className="container" onClick={() => setExpanded(!expanded)}>
+    <legend className="container" onClick={updateExpanded}>
       <div className="row">
         <h3 className="col-auto g-0 disable-select">{label ? label : 'Color'}</h3>
         {!expanded &&

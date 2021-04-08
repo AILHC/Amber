@@ -23,6 +23,45 @@ const styles = {
   menu: provided => ({
     ...provided,
     zIndex: 5,
+  }),
+  control: provided => ({
+    ...provided,
+    backgroundColor: '#4e504d',
+    border: 'none',
+    boxShadow: 'none',
+    ':hover': {
+      borderColor: 'transparent',
+      boxShadow: 'none',
+    }
+  }),
+  singleValue: provided => ({
+    ...provided,
+    color: '#fffffd',
+  }),
+  menu: provided => ({
+    ...provided,
+    backgroundColor: '#4e504d',
+    border: 'none',
+    color: '#fffffd',
+    zIndex: 100,
+  }),
+  groupHeading: provided => ({
+    ...provided,
+    fontWeight: 900,
+    paddingLeft: '.75rem',
+    color: '#f1692b',
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isSelected ? '#919db7' : 'transparent',
+    ':hover': {
+      ...provided,
+      backgroundColor: '#5b627e',
+    }
+  }),
+  input: provided => ({
+    ...provided,
+    color: '#fffffd',
   })
 }
 

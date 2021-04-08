@@ -76,6 +76,7 @@ const Rotation = ({
 
   return <Object
     label="Rotation"
+    entity={entity}
     summaryConverter={convert}
     fields={[
       axis('x', x, setX, common(entity, rotation, x, type)),

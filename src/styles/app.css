@@ -1,15 +1,15 @@
 :root {
-  --pane-selector-primary-color:   #372214;
-  --pane-selector-secondary-color: #b8733a;
+  --pane-selector-primary-color:   #441014;
+  --pane-selector-secondary-color: #4e504d;
 
-  --pane-selector-primary-color-rgb: 55, 34, 20;
+  --pane-selector-primary-color-rgb: 0, 0, 0;
 
   --pane-selector-primary-active-opacity:    1;
   --pane-selector-primary-inactive-opacity:   .5;
   --pane-selector-secondary-active-opacity:   .75;
   --pane-selector-secondary-inactive-opacity: .25;
 
-  --pane-selector-shadow: rgba(52, 48, 44, .5);
+  --pane-selector-shadow: rgba(0, 0, 0, .5);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -123,6 +123,6 @@ body {
 
 @media (prefers-color-scheme: dark) {
   body {
-    background: #212123;
+    background: #040404;
   }
 }

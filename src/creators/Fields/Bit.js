@@ -82,7 +82,7 @@ export const createBitField = ({ width, depth, formula }) => {
         x: group.rotation.x,
         y: group.rotation.y,
         z: group.rotation.z,
-        target: group,
+        target: group.rotation,
       },
       position: {
         type: 'Position',

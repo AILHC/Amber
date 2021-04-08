@@ -94,6 +94,7 @@ const ShadowVolume = ({
 
   return <Object
     label="Volume"
+    entity={entity}
     fields={[{
       ...axis('width', width, setWidth, common(entity, shadowVolume, type)),
       step: 2,
