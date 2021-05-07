@@ -12,7 +12,7 @@ import {
   helpers,
   onReset,
   onModeChange,
-} from './env'
+} from '../env'
 
 const style = active => ({
   '--fa-primary-color':     'var(--pane-selector-secondary-color)',

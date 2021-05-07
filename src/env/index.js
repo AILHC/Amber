@@ -87,7 +87,8 @@ export const reset = () => {
       )
     )
 
-  resetCallback(modes)
+  if (typeof resetCallback === 'function')
+    resetCallback(modes)
 }
 
 transform.enabled =  false
@@ -233,56 +234,60 @@ export const RemoveEntity = ({ EcsId, EditorId }) => {
 }
 
 const updateTransform = e => {
-  switch (e.code) {
-    // case 'KeyY':
-    //   transform.setSpace(transform.space === 'local' ? 'world' : 'local')
-    //   break
+  if (e.metaKey && e.ctrlKey)
+    switch (e.code) {
+      // case 'KeyY':
+      //   transform.setSpace(transform.space === 'local' ? 'world' : 'local')
+      //   break
 
-    // case 16: // Shift
-    //   transform.setTranslationSnap( 100 )
-    //   transform.setRotationSnap( THREE.MathUtils.degToRad( 15 ) )
-    //   transform.setScaleSnap( 0.25 )
-    //   break
+      // case 16: // Shift
+      //   transform.setTranslationSnap( 100 )
+      //   transform.setRotationSnap( THREE.MathUtils.degToRad( 15 ) )
+      //   transform.setScaleSnap( 0.25 )
+      //   break
 
-    case 'KeyU':
-      transform.setMode('translate')
-      modeChangeCallback('translate')
-      break
+      case 'KeyU':
+        transform.setMode('translate')
+        if (typeof modeChangeCallback === 'function')
+          modeChangeCallback('translate')
+        break
 
-    case 'KeyI':
-      transform.setMode('rotate')
-      modeChangeCallback('rotate')
-      break
+      case 'KeyI':
+        transform.setMode('rotate')
+        if (typeof modeChangeCallback === 'function')
+          modeChangeCallback('rotate')
+        break
 
-    case 'KeyO':
-      transform.setMode('scale')
-      modeChangeCallback('scale')
-      break
+      case 'KeyO':
+        transform.setMode('scale')
+        if (typeof modeChangeCallback === 'function')
+          modeChangeCallback('scale')
+        break
 
-    case 'KeyJ':
-      transform.showX = ! transform.showX
-      break
+      case 'KeyJ':
+        transform.showX = ! transform.showX
+        break
 
-    case 'KeyK':
-      transform.showY = ! transform.showY
-      break
+      case 'KeyK':
+        transform.showY = ! transform.showY
+        break
 
-    case 'KeyL':
-      transform.showZ = ! transform.showZ
-      break
+      case 'KeyL':
+        transform.showZ = ! transform.showZ
+        break
 
-    case 'Equal':
-      transform.setSize(transform.size + 0.1)
-      break
+      case 'Equal':
+        transform.setSize(transform.size + 0.1)
+        break
 
-    case 'Minus':
-      transform.setSize(Math.max(transform.size - 0.1, 0.1))
-      break
+      case 'Minus':
+        transform.setSize(Math.max(transform.size - 0.1, 0.1))
+        break
 
-    case 'Digit0':
-      transform.setSize(1)
-      break
-  }
+      case 'Digit0':
+        transform.setSize(1)
+        break
+    }
 }
 
 const onWindowResize = () => {

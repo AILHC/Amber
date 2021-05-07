@@ -12,21 +12,17 @@ import World, {
   EntitiesByEditorId,
   EditorPlacehodlerId,
   SceneElementsByEditorId,
-} from './env'
+} from '../env'
 
-import Creators, { options } from './creators'
-import Editors from './editors/composites'
+import Creators, { options } from '../creators'
+import Editors from '../editors/composites'
 
 import Welcome from './Welcome'
 
 const styles = {
-  menu: provided => ({
-    ...provided,
-    zIndex: 5,
-  }),
   control: provided => ({
     ...provided,
-    backgroundColor: '#4e504d',
+    backgroundColor: 'var(--library-background-color)',
     border: 'none',
     boxShadow: 'none',
     ':hover': {
@@ -36,32 +32,35 @@ const styles = {
   }),
   singleValue: provided => ({
     ...provided,
-    color: '#fffffd',
+    color: 'var(--library-text-color)',
   }),
   menu: provided => ({
     ...provided,
-    backgroundColor: '#4e504d',
+    backgroundColor: 'var(--library-background-color)',
     border: 'none',
-    color: '#fffffd',
+    color: 'var(--library-text-color)',
     zIndex: 100,
+    boxShadow: 'none',
   }),
   groupHeading: provided => ({
     ...provided,
     fontWeight: 900,
     paddingLeft: '.75rem',
-    color: '#f1692b',
+    color: 'var(--library-group-heading-text-color)',
   }),
   option: (provided, state) => ({
     ...provided,
-    backgroundColor: state.isSelected ? '#919db7' : 'transparent',
+    color: `var(--library-text-color${state.isSelected ? '-inverted' : ''})`,
+    backgroundColor: state.isSelected ? 'var(--library-option-hover-background-color)' : 'transparent',
     ':hover': {
       ...provided,
-      backgroundColor: '#5b627e',
+      backgroundColor: 'var(--library-option-hover-background-color)',
+      color: 'var(--library-text-color-inverted)',
     }
   }),
   input: provided => ({
     ...provided,
-    color: '#fffffd',
+    color: 'var(--library-text-color)',
   })
 }
 
@@ -163,7 +162,7 @@ const Library = () => {
   }
 
   return <div className="library">
-    <div className="type shadow-sm rounded">
+    <div className="type rounded">
       <Select
         value={selected}
         styles={styles}

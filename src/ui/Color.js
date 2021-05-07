@@ -33,7 +33,7 @@ const Component = ({
   const id = `${label ? idFor({ scope, label }) : cssify(scope)}-color`
 
   return <fieldset
-    className={`color ${expanded ? 'expanded' : 'collapsed'} shadow-sm rounded`}
+    className={`color ${expanded ? 'expanded' : 'collapsed'} rounded`}
   >
     <legend className="container" onClick={updateExpanded}>
       <div className="row">
