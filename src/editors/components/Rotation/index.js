@@ -1,46 +1,21 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, {
+  useMemo,
+  useState,
+  useEffect,
+} from 'react'
 
 import World, {
   onRotate,
   autoNameIfPlaceholder,
-} from '../../env'
+} from '../../../env'
 
-import Object from '../../ui/Object'
+import Object from '../../../ui/Object'
 
-import { axis } from './helpers'
+import { axis } from '../helpers'
 
-const updateECS = (rotation, value) => {
-  rotation.x = value._x
-  rotation.y = value._y
-  rotation.z = value._z
-
-  rotation.update()
-}
-
-const doUpdateTarget = (rotation, axis, value) => {
-  const denormalized = (((value - 50) * .02) * Math.PI)
-
-  rotation[axis]        = denormalized
-  rotation.target[axis] = denormalized
-}
-
-const convert = val => `${Math.round(((val - 50) * 2) * 1.8)}°`
-
-const common = (entity, rotation, val, type) => ({
-  max:  Math.PI,
-  min: -Math.PI,
-
-  type:  'NormalizedSlider',
-  scope: 'Rotation',
-
-  displayLabel: true,
-  displayValue: convert(val),
-
-  updateTarget: (axis, value) => {
-    doUpdateTarget(rotation, axis, value)
-    autoNameIfPlaceholder(type, entity)
-  },
-})
+import updateECS from './updateECS'
+import convert   from './convert'
+import common    from './common'
 
 const Rotation = ({
   type,

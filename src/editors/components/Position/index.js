@@ -3,39 +3,14 @@ import React, { useEffect, useState, useMemo } from 'react'
 import World, {
   onTranslate,
   autoNameIfPlaceholder,
-} from '../../env'
+} from '../../../env'
 
-import Object from '../../ui/Object'
+import Object from '../../../ui/Object'
 
-import { axis } from './helpers'
+import { axis } from '../helpers'
 
-const updateECS = (position, value) => {
-  position.x = value.x
-  position.y = value.y
-  position.z = value.z
-
-  position.update()
-}
-
-const doUpdateTarget = (position, axis, value) => {
-  position[axis]        = value
-  position.target[axis] = value
-
-  position.update()
-}
-
-const common = (entity, position, type) => ({
-  max:  5,
-  min: -5,
-
-  type:  'Slider',
-  scope: 'Position',
-
-  updateTarget: (axis, value) => {
-    doUpdateTarget(position, axis, value)
-    autoNameIfPlaceholder(type, entity)
-  },
-})
+import updateECS from './updateECS'
+import common    from './common'
 
 const Position = ({
   type,
