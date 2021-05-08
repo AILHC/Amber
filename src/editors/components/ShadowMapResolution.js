@@ -26,6 +26,43 @@ const styles = {
   control: () => ({
     display: 'flex',
     flex:     1,
+    backgroundColor: 'var(--library-background-color)',
+    border: 'none',
+    boxShadow: 'none',
+    borderTopRightRadius: '.25rem',
+    borderBottomRightRadius: '.25rem',
+    ':hover': {
+      borderColor: 'transparent',
+      boxShadow: 'none',
+    }
+  }),
+  menu: provided => ({
+    ...provided,
+    backgroundColor: 'var(--library-background-color)',
+    border: 'none',
+    color: 'var(--library-text-color)',
+    zIndex: 100,
+    boxShadow: 'none',
+  }),
+  groupHeading: provided => ({
+    ...provided,
+    fontWeight: 900,
+    paddingLeft: '.75rem',
+    color: 'var(--library-group-heading-text-color)',
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    color: `var(--library-text-color${state.isSelected ? '-inverted' : ''})`,
+    backgroundColor: state.isSelected ? 'var(--library-option-hover-background-color)' : 'transparent',
+    ':hover': {
+      ...provided,
+      backgroundColor: 'var(--library-option-hover-background-color)',
+      color: 'var(--library-text-color-inverted)',
+    }
+  }),
+  input: provided => ({
+    ...provided,
+    color: 'var(--library-text-color)',
   })
 }
 
